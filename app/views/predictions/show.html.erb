@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>User:</strong>
+  <%= @prediction.user_id %>
+</p>
+
+<p>
+  <strong>Text:</strong>
+  <%= @prediction.text %>
+</p>
+
+<p>
+  <strong>Expires at:</strong>
+  <%= @prediction.expires_at %>
+</p>
+
+<p>
+  <strong>Closed:</strong>
+  <%= @prediction.closed %>
+</p>
+
+<p>
+  <strong>Closed at:</strong>
+  <%= @prediction.closed_at %>
+</p>
+
+<p>
+  <strong>Closed as:</strong>
+  <%= @prediction.closed_as %>
+</p>
+
+<%= link_to 'Edit', edit_prediction_path(@prediction) %> |
+<%= link_to 'Back', predictions_path %>
