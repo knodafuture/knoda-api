@@ -13,4 +13,17 @@
 
 # Ignore all logfiles and tempfiles.
 /log/*.log
+/spec/tmp/*
+/.rvmrc
+/.rspec
+/*.rbc
+/*.sassc
+/.sass-cache
 /tmp
+/config/database.yml
+/config/environments/production.rb
+/config/environments/development.rb
+/config/environments/test.rb
+/config/deploy/development.rb
+/config/deploy/staging.rb
+
