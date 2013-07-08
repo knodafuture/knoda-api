@@ -4,7 +4,7 @@ source 'https://rubygems.org'
 gem 'rails', '4.0.0'
 
 # Use postgresql as the database for Active Record
-gem 'pg'
+gem 'pg', '0.15.1'
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.0'
@@ -19,10 +19,10 @@ gem 'coffee-rails', '~> 4.0.0'
 # gem 'therubyracer', platforms: :ruby
 
 # Use jquery as the JavaScript library
-gem 'jquery-rails'
+gem 'jquery-rails', '3.0.2'
 
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
-gem 'turbolinks'
+gem 'turbolinks', '1.2.0'
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 1.2'
@@ -39,22 +39,22 @@ gem 'bcrypt-ruby', '~> 3.0.0'
 # gem 'unicorn'
 
 # Use Capistrano for deployment
-gem 'capistrano', group: :development
+gem 'capistrano', '2.15.5', group: :development
 
 # Use debugger
 # gem 'debugger', group: [:development, :test]
 
 # Devise
 gem 'devise', '3.0.0.rc'
-gem 'authority'
-gem 'active_model_serializers'
-gem 'formtastic'
-gem 'paperclip'
+gem 'authority', '2.6.0'
+gem 'active_model_serializers', '0.8.1'
+gem 'formtastic', '2.2.1'
+gem 'paperclip', '3.4.2'
 
-group :development do
+group :development, :test do
   gem 'rspec-rails', '~> 2.12'
-  gem 'factory_girl'
-  gem 'faker'
+  gem 'factory_girl', '4.2.0'
+  gem 'faker', '1.1.2'
 end
 
 

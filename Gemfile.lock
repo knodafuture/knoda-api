@@ -165,22 +165,22 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  active_model_serializers
-  authority
+  active_model_serializers (= 0.8.1)
+  authority (= 2.6.0)
   bcrypt-ruby (~> 3.0.0)
-  capistrano
+  capistrano (= 2.15.5)
   coffee-rails (~> 4.0.0)
   devise (= 3.0.0.rc)
-  factory_girl
-  faker
-  formtastic
+  factory_girl (= 4.2.0)
+  faker (= 1.1.2)
+  formtastic (= 2.2.1)
   jbuilder (~> 1.2)
-  jquery-rails
-  paperclip
-  pg
+  jquery-rails (= 3.0.2)
+  paperclip (= 3.4.2)
+  pg (= 0.15.1)
   rails (= 4.0.0)
   rspec-rails (~> 2.12)
   sass-rails (~> 4.0.0)
   sdoc
-  turbolinks
+  turbolinks (= 1.2.0)
   uglifier (>= 1.3.0)
