@@ -1,4 +1,8 @@
 Knoda::Application.routes.draw do
+  get "pages/index"
+  get "pages/about"
+  get "pages/terms"
+  get "pages/blog"
   root 'pages#index'
   
   resources :predictions
