@@ -1,4 +1,6 @@
 Knoda::Application.routes.draw do
+  root 'static_controller#index'
+  
   resources :predictions
 
   devise_for :users
