@@ -44,7 +44,7 @@ gem 'capistrano', '2.15.5', group: :development
 # Use debugger
 # gem 'debugger', group: [:development, :test]
 
-# Devise
+# Other required modules
 gem 'devise', '3.0.0.rc'
 gem 'authority', '2.6.0'
 gem 'active_model_serializers', '0.8.1'
