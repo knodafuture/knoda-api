@@ -1,5 +1,5 @@
 Knoda::Application.routes.draw do
-  root 'static_controller#index'
+  root 'pages#index'
   
   resources :predictions
 
