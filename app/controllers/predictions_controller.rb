@@ -6,9 +6,9 @@ class PredictionsController < ApplicationController
   # GET /predictions.json
   def index
     if params[:tag]
-      @predictions = Prediction.tagged_with(params[:tag])
+      @predictions = current_user.predictions.tagged_with(params[:tag])
     else
-      @predictions = Prediction.all
+      @predictions = current_user.predictions.all
     end
   end
 
@@ -29,8 +29,7 @@ class PredictionsController < ApplicationController
   # POST /predictions
   # POST /predictions.json
   def create
-    @prediction = Prediction.new(prediction_params)
-    @prediction.user_id = current_user.id
+    @prediction = current_user.predictions.new(prediction_params)
 
     respond_to do |format|
       if @prediction.save
@@ -46,7 +45,6 @@ class PredictionsController < ApplicationController
   # PATCH/PUT /predictions/1
   # PATCH/PUT /predictions/1.json
   def update
-    @prediction.user_id = current_user.id
     respond_to do |format|
       if @prediction.update(prediction_params)
         format.html { redirect_to @prediction, notice: 'Prediction was successfully updated.' }
