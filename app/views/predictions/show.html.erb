@@ -6,6 +6,11 @@
 </p>
 
 <p>
+  <strong>Title:</strong>
+  <%= @prediction.title %>
+</p>
+
+<p>
   <strong>Text:</strong>
   <%= @prediction.text %>
 </p>
@@ -28,6 +33,11 @@
 <p>
   <strong>Closed as:</strong>
   <%= @prediction.closed_as %>
+</p>
+
+<p>
+  <strong>Tags:</strong>
+  <%= raw @prediction.tag_list.map { |t| link_to t, tag_path(t) }.join(', ') %>
 </p>
 
 <%= link_to 'Edit', edit_prediction_path(@prediction) %> |

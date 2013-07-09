@@ -1,4 +1,5 @@
 Knoda::Application.routes.draw do
+  get 'tags/:tag', to: 'predictions#index', as: :tag
   resources :predictions
 
   devise_for :users

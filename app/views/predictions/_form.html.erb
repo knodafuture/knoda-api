@@ -12,8 +12,8 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :user_id %><br>
-    <%= f.number_field :user_id %>
+    <%= f.label :title %><br>
+    <%= f.text_field :title %>
   </div>
   <div class="field">
     <%= f.label :text %><br>
@@ -34,6 +34,10 @@
   <div class="field">
     <%= f.label :closed_as %><br>
     <%= f.check_box :closed_as %>
+  </div>
+  <div class="field">
+    <%= f.label :tag_list, "Tags" %><br />
+    <%= f.text_field :tag_list %>
   </div>
   <div class="actions">
     <%= f.submit %>

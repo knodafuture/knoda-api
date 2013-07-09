@@ -1,10 +1,15 @@
 class PredictionsController < ApplicationController
+  before_filter :require_login
   before_action :set_prediction, only: [:show, :edit, :update, :destroy]
 
   # GET /predictions
   # GET /predictions.json
   def index
-    @predictions = Prediction.all
+    if params[:tag]
+      @predictions = Prediction.tagged_with(params[:tag])
+    else
+      @predictions = Prediction.all
+    end
   end
 
   # GET /predictions/1
@@ -25,6 +30,7 @@ class PredictionsController < ApplicationController
   # POST /predictions.json
   def create
     @prediction = Prediction.new(prediction_params)
+    @prediction.user_id = current_user.id
 
     respond_to do |format|
       if @prediction.save
@@ -40,6 +46,7 @@ class PredictionsController < ApplicationController
   # PATCH/PUT /predictions/1
   # PATCH/PUT /predictions/1.json
   def update
+    @prediction.user_id = current_user.id
     respond_to do |format|
       if @prediction.update(prediction_params)
         format.html { redirect_to @prediction, notice: 'Prediction was successfully updated.' }
@@ -69,6 +76,14 @@ class PredictionsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def prediction_params
-      params.require(:prediction).permit(:user_id, :text, :expires_at, :closed, :closed_at, :closed_as)
+      params.require(:prediction).permit(:user_id, :title, :text, :expires_at, :closed, :closed_at, :closed_as, :tag_list)
     end
+
+    def require_login
+      unless current_user
+        flash[:error] = "You must be logged in to access this section"
+        redirect_to new_user_session_url # Prevents the current action from running
+      end
+    end
+
 end

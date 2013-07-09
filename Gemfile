@@ -57,4 +57,6 @@ group :development, :test do
   gem 'faker', '1.1.2'
 end
 
+gem 'acts-as-taggable-on', '2.4.1'
+
 
