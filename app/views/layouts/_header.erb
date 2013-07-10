@@ -6,4 +6,7 @@ Knoda
 	<%= link_to "Predictions", predictions_path %> |
 	<%= link_to "Edit profile", edit_user_registration_path %> |
 	<%= link_to "Sign out", destroy_user_session_path, :method => :delete %>
+    <div class="right">
+      <%= link_to 'Predict', new_prediction_path %>
+    </div>
 <% end %>

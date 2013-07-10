@@ -1,44 +1,16 @@
-<p id="notice"><%= notice %></p>
+<div id="container">
+  <div id="menu-panel">Menu Panel</div>
 
-<p>
-  <strong>User:</strong>
-  <%= @prediction.user_id %>
-</p>
+  <div class="prediction-panel" style="">
 
-<p>
-  <strong>Title:</strong>
-  <%= @prediction.title %>
-</p>
+    <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Text:</strong>
-  <%= @prediction.text %>
-</p>
+    <%= render partial: 'prediction',:locals => { :prediction => @prediction } %>
 
-<p>
-  <strong>Expires at:</strong>
-  <%= @prediction.expires_at %>
-</p>
+    <%= link_to 'Edit', edit_prediction_path(@prediction) %> |
+    <%= link_to 'Back', predictions_path %>
 
-<p>
-  <strong>Closed:</strong>
-  <%= @prediction.closed %>
-</p>
+  </div>
+</div>
 
-<p>
-  <strong>Closed at:</strong>
-  <%= @prediction.closed_at %>
-</p>
 
-<p>
-  <strong>Closed as:</strong>
-  <%= @prediction.closed_as %>
-</p>
-
-<p>
-  <strong>Tags:</strong>
-  <%= raw @prediction.tag_list.map { |t| link_to t, tag_path(t) }.join(', ') %>
-</p>
-
-<%= link_to 'Edit', edit_prediction_path(@prediction) %> |
-<%= link_to 'Back', predictions_path %>
