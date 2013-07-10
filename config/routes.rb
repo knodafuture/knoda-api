@@ -9,8 +9,11 @@ Knoda::Application.routes.draw do
   
   # for iOS API 
   get 'profile/show'
-
   
+  namespace :api do
+    resources :registrations, :only => [:create]
+  end
+
   devise_for :users, skip: :registrations
   devise_scope :user do
     resource :registration,
@@ -32,6 +35,7 @@ Knoda::Application.routes.draw do
     resources :users
     resources :predictions
   end
+
   
   
 
