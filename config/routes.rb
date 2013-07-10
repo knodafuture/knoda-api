@@ -13,9 +13,13 @@ Knoda::Application.routes.draw do
   namespace :api do
     resources :registrations, :only => [:create]
   end
-
+  
   devise_for :users, skip: :registrations
   devise_scope :user do
+    namespace :api do
+      resources :sessions, :only => [:create, :destroy]
+    end
+    
     resource :registration,
       only: [:new, :create, :edit, :update],
       path: 'users',
