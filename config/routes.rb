@@ -1,11 +1,9 @@
 Knoda::Application.routes.draw do
 
   get 'tags/:tag', to: 'predictions#index', as: :tag
+  
+  
 
-  get "pages/index"
-  get "pages/about"
-  get "pages/terms"
-  get "pages/blog"
   root 'pages#index'
 
   resources :predictions
@@ -21,6 +19,13 @@ Knoda::Application.routes.draw do
         get :cancel
       end
   end
+  
+  # pages
+  get 'terms' => 'pages#terms'
+  get 'about' => 'pages#about'
+  
+  
+
   
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
