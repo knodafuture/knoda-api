@@ -1,13 +1,13 @@
 Knoda::Application.routes.draw do
 
   get 'tags/:tag', to: 'predictions#index', as: :tag
-  
-  
 
   root 'pages#index'
 
   resources :predictions
 
+
+  
   devise_for :users, skip: :registrations
   devise_scope :user do
     resource :registration,
@@ -23,6 +23,12 @@ Knoda::Application.routes.draw do
   # pages
   get 'terms' => 'pages#terms'
   get 'about' => 'pages#about'
+  
+  # admin namespace
+  namespace :admin do
+    resources :users
+    resources :predictions
+  end
   
   
 
