@@ -2,6 +2,8 @@ class PredictionsController < ApplicationController
   before_filter :require_login
   before_action :set_prediction, only: [:show, :edit, :update, :destroy]
 
+  respond_to :html, :json
+
   # GET /predictions
   # GET /predictions.json
   def index
@@ -10,18 +12,16 @@ class PredictionsController < ApplicationController
     else
       @predictions = current_user.predictions.all
     end
-    respond_to do |format|
-      format.html { render 'index' }
-      format.json { render json: @predictions, each_serializer: PredictionSerializer, root: false }
+    respond_with(@predictions) do |format|
+      format.json { render json: @predictions}
     end
   end
 
   # GET /predictions/1
   # GET /predictions/1.json
   def show
-    respond_to do |format|
-      format.html { render 'show'}
-      format.json { render json: @prediction, serializer: PredictionSerializer, root: false }
+    respond_with(@prediction) do |format|
+      format.json { render json: @prediction}
     end
   end
 
