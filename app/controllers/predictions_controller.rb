@@ -10,11 +10,19 @@ class PredictionsController < ApplicationController
     else
       @predictions = current_user.predictions.all
     end
+    respond_to do |format|
+      format.html { render 'index' }
+      format.json { render json: @predictions, each_serializer: PredictionSerializer, root: false }
+    end
   end
 
   # GET /predictions/1
   # GET /predictions/1.json
   def show
+    respond_to do |format|
+      format.html { render 'show'}
+      format.json { render json: @prediction, serializer: PredictionSerializer, root: false }
+    end
   end
 
   # GET /predictions/new
