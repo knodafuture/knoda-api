@@ -1,0 +1,23 @@
+<table>
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Username</th>
+      <th>Email</th>
+      <th>Points</th>
+    </tr>
+  </thead>
+
+  <tbody>
+      <tr>
+        <td><%= @user.id %></td>
+        <td><%= @user.username %></td>
+				<td><%= @user.email %><br>Edit email</td>
+        <td><%= @user.points %></td>
+      </tr>
+  </tbody>
+</table>
+
+<br/>
+
+<%= link_to 'Delete user', [:admin, @user], method: :delete, data: { confirm: 'Are you sure?' } %>
