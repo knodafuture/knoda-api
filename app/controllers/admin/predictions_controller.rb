@@ -1,2 +1,2 @@
-class Admin::PredictionsController < ApplicationController
+class Admin::PredictionsController < Admin::AdminController
 end
