@@ -22,4 +22,8 @@ class User < ActiveRecord::Base
       where(conditions).first
     end
   end
+  
+  def points
+    0
+  end
 end
