@@ -6,6 +6,9 @@ Knoda::Application.routes.draw do
 
   resources :predictions
 
+  
+  # for iOS API 
+  get 'profile/show'
 
   
   devise_for :users, skip: :registrations
