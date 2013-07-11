@@ -1,6 +1,9 @@
 Knoda::Application.routes.draw do
 
+  get '/challenges', to: 'challenges#index'
+  get '/challenges/:id', to: 'challenges#show'
   get 'tags/:tag', to: 'predictions#index', as: :tag
+
 
   root 'pages#index'
 

@@ -1,0 +1,14 @@
+<li id="<%= challenge.id %>">
+  <span class="title"><%= challenge.prediction.title %></span>
+  <span class="content"><%= challenge.prediction.text %></span>
+  <span class="date">
+    exp <%= distance_of_time_in_words(Time.now, challenge.prediction.expires_at) %> |
+  </span>
+  <span class="date">
+    made <%= time_ago_in_words(challenge.prediction.created_at) %> ago |
+  </span>
+  <span class="date">
+    <%= challenge.prediction.voters.any? ? challenge.prediction.voters.count : 0 %>
+  </span>
+  <span class="taglist">Tags: <%= raw challenge.prediction.tag_list.map { |t| link_to t, tag_path(t) }.join(', ') %></span>
+</li>

@@ -1,0 +1,13 @@
+<div id="container">
+  <div id="menu-panel">Menu Panel</div>
+
+  <div class="challenge-panel" style="">
+
+    <p id="notice"><%= notice %></p>
+
+    <%= render partial: 'challenge',:locals => { :challenge => @challenge } %>
+ |
+    <%= link_to 'Back', challenges_path %>
+
+  </div>
+</div>

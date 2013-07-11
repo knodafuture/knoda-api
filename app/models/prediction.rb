@@ -3,6 +3,8 @@ class Prediction < ActiveRecord::Base
 acts_as_taggable
 
 belongs_to :user
+has_many :challenges, :dependent => :destroy
+has_many :voters, through: :challenges, class_name: "User", source: 'user'
 
 validates :title, presence: true
 validates :text, presence: true
