@@ -1,0 +1,9 @@
+<h1>Listing predictions</h1>
+<%= link_to "Expiring", admin_predictions_path(:list => 'expiring') %>
+<%= link_to "New", admin_predictions_path(:list => 'new') %>
+<%= link_to "Top", admin_predictions_path(:list => 'top') %>
+<br/>
+
+<ol class="prediction-list">
+	<%= render @predictions %>
+</ol>
