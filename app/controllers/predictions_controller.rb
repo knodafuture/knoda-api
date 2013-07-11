@@ -88,7 +88,11 @@ class PredictionsController < ApplicationController
     def require_login
       unless current_user
         flash[:error] = "You must be logged in to access this section"
-        redirect_to new_user_session_url # Prevents the current action from running
+
+        respond_to do |format|
+          format.html { redirect_to new_user_session_url }
+          format.json { render json: {success: false}, :status => 403 }
+        end
       end
     end
 

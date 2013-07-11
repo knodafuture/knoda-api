@@ -27,3 +27,5 @@
 /config/deploy/development.rb
 /config/deploy/staging.rb
 
+/.idea/*
+

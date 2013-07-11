@@ -1,0 +1,5 @@
+<% if current_user.predictions.any? %>
+    <ol class="predictions_list">
+      <%= render partial: 'challenge', collection: @challenges %>
+    </ol>
+<% end %>

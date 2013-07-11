@@ -16,6 +16,18 @@ ActiveRecord::Schema.define(version: 20130711161502) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "challenges", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "prediction_id"
+    t.boolean  "is_positive"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "challenges", ["prediction_id"], name: "index_challenges_on_prediction_id", using: :btree
+  add_index "challenges", ["user_id", "prediction_id"], name: "index_challenges_on_user_id_and_prediction_id", unique: true, using: :btree
+  add_index "challenges", ["user_id"], name: "index_challenges_on_user_id", using: :btree
+
   create_table "predictions", force: true do |t|
     t.integer  "user_id"
     t.string   "text"
