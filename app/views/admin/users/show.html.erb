@@ -5,6 +5,9 @@
       <th>Username</th>
       <th>Email</th>
       <th>Points</th>
+      <th>Predictions count</th>
+      <th>Created at</th>
+      <th>Last signed at</th>
     </tr>
   </thead>
 
@@ -12,8 +15,11 @@
       <tr>
         <td><%= @user.id %></td>
         <td><%= @user.username %></td>
-				<td><%= @user.email %><br>Edit email</td>
+        <td><%= @user.email %><br>Edit email</td>
         <td><%= @user.points %></td>
+        <td><%= @user.predictions.count %></td>
+        <td><%= @user.created_at %></td>
+        <td><%= @user.last_sign_in_at %></td>
       </tr>
   </tbody>
 </table>
