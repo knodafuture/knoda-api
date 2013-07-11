@@ -5,7 +5,6 @@ class Api::PredictionsController < ApplicationController
 
   respond_to :json
 
-  # GET /predictions.json
   def index
     if params[:tag]
       @predictions = current_user.predictions.tagged_with(params[:tag])
@@ -17,14 +16,12 @@ class Api::PredictionsController < ApplicationController
     end
   end
 
-  # GET /predictions/1.json
   def show
     respond_with(@prediction) do |format|
       format.json { render json: @prediction}
     end
   end
 
-  # POST /predictions.json
   def create
     @prediction = current_user.predictions.new(prediction_params)
 
@@ -37,7 +34,6 @@ class Api::PredictionsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /predictions/1.json
   def update
     respond_with(@prediction) do |format|
       if @prediction.update(prediction_params)
@@ -48,7 +44,6 @@ class Api::PredictionsController < ApplicationController
     end
   end
 
-  # DELETE /predictions/1.json
   def destroy
     @prediction.destroy
     respond_with(@prediction) do |format|
@@ -57,12 +52,11 @@ class Api::PredictionsController < ApplicationController
   end
 
   private
-  # Use callbacks to share common setup or constraints between actions.
+
   def set_prediction
     @prediction = Prediction.find(params[:id])
   end
 
-  # Never trust parameters from the scary internet, only allow the white list through.
   def prediction_params
     params.require(:prediction).permit(:user_id, :title, :text, :expires_at, :closed, :closed_at, :closed_as, :tag_list)
   end
@@ -77,5 +71,4 @@ class Api::PredictionsController < ApplicationController
       end
     end
   end
-
 end

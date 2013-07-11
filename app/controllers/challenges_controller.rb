@@ -4,25 +4,19 @@ class ChallengesController < ApplicationController
   respond_to :html, :json
 
   def index
-    #@response = {:challenges => current_user.voted_predictions, :}
-    #@challenges = current_user.voted_predictions
     @challenges = current_user.challenges
-    respond_with(@challenges) do |format|
-      format.json { render json: @challenges}
-    end
+    respond_with(@challenges)
   end
 
   def show
-    respond_with(@challenge) do |format|
-      format.json { render json: @challenge}
-    end
+    respond_with(@challenge)
   end
 
   private
-    #Use callbacks to share common setup or constraints between actions.
-    def set_challenge
-      @challenge = Challenge.find_by_prediction_id(params[:id])
-    end
+
+  def set_challenge
+    @challenge = Challenge.find_by_prediction_id(params[:id])
+  end
 
   def prediction_params
     params.require(:prediction).permit(:user_id, :prediction_id, :is_positive)
@@ -38,5 +32,4 @@ class ChallengesController < ApplicationController
       end
     end
   end
-
 end

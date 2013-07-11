@@ -1,7 +1,7 @@
 class Api::RegistrationsController < ApplicationController
   skip_before_filter :verify_authenticity_token
   respond_to :json
-  
+
   def create
     user = User.new(user_params)
     if user.save
@@ -12,9 +12,10 @@ class Api::RegistrationsController < ApplicationController
       render :json=> user.errors, :status => 422
     end
   end
-  
+
   private
-    def user_params
-      params.require(:user).permit(:username, :email, :password)
-    end
+
+  def user_params
+    params.require(:user).permit(:username, :email, :password)
+  end
 end

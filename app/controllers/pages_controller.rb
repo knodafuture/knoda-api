@@ -7,7 +7,4 @@ class PagesController < ApplicationController
 
   def terms
   end
-
-  def blog
-  end
 end

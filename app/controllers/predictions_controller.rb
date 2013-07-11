@@ -4,7 +4,6 @@ class PredictionsController < ApplicationController
 
   respond_to :html
 
-  # GET /predictions
   def index
     if params[:tag]
       @predictions = current_user.predictions.tagged_with(params[:tag])
@@ -14,21 +13,17 @@ class PredictionsController < ApplicationController
     respond_with(@predictions)
   end
 
-  # GET /predictions/1
   def show
     respond_with(@prediction)
   end
 
-  # GET /predictions/new
   def new
     @prediction = Prediction.new
   end
 
-  # GET /predictions/1/edit
   def edit
   end
 
-  # POST /predictions
   def create
     @prediction = current_user.predictions.new(prediction_params)
 
@@ -41,7 +36,6 @@ class PredictionsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /predictions/1
   def update
     respond_to do |format|
       if @prediction.update(prediction_params)
@@ -61,25 +55,23 @@ class PredictionsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_prediction
-      @prediction = Prediction.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def prediction_params
-      params.require(:prediction).permit(:user_id, :title, :text, :expires_at, :closed, :closed_at, :closed_as, :tag_list)
-    end
+  def set_prediction
+    @prediction = Prediction.find(params[:id])
+  end
 
-    def require_login
-      unless current_user
-        flash[:error] = "You must be logged in to access this section"
+  def prediction_params
+    params.require(:prediction).permit(:user_id, :title, :text, :expires_at, :closed, :closed_at, :closed_as, :tag_list)
+  end
 
-        respond_to do |format|
-          format.html { redirect_to new_user_session_url }
-          format.json { render json: {success: false}, :status => 403 }
-        end
+  def require_login
+    unless current_user
+      flash[:error] = "You must be logged in to access this section"
+
+      respond_to do |format|
+        format.html { redirect_to new_user_session_url }
+        format.json { render json: {success: false}, :status => 403 }
       end
     end
-
+  end
 end
