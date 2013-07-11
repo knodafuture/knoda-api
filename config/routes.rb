@@ -8,7 +8,8 @@ Knoda::Application.routes.draw do
 
   
   # for iOS API 
-  get 'profile/show'
+  get 'api/profile/show'
+  put 'api/profile/changepassword'
   
   namespace :api do
     resources :registrations, :only => [:create]
