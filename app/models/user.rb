@@ -6,6 +6,7 @@ class User < ActiveRecord::Base
   # :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable,
+         :token_authenticatable,
          :authentication_keys => [:login]
          
   validates_presence_of   :username
