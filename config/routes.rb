@@ -16,6 +16,7 @@ Knoda::Application.routes.draw do
   
   namespace :api do
     resources :registrations, :only => [:create]
+    resources :predictions, :only => [:index, :show, :create, :update, :destroy]
   end
   
   devise_for :users, skip: :registrations
