@@ -1,6 +1,14 @@
 class Admin::AdminController < ApplicationController
   layout 'admin/layout'
-  before_filter :require_admin
+  before_filter :require_admin, :except => [:sign_in, :sign_out]
+  
+  def sign_in
+    
+  end
+  
+  def sign_out
+    
+  end
   
   private
     def require_admin
