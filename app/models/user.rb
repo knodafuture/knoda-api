@@ -15,6 +15,8 @@ class User < ActiveRecord::Base
   validates_uniqueness_of :username
   validates_format_of     :username, :with => /\A[a-zA-Z0-9_]{1,15}\z/
   
+  has_attached_file :avatar, :styles => { :medium => "300x300>", :thumb => "100x100>" }
+  
   attr_accessor :login
   
   def self.find_first_by_auth_conditions(warden_conditions)
