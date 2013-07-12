@@ -1,4 +1,7 @@
 class User < ActiveRecord::Base
+  # Adds `can_create?(resource)`, etc
+  include Authority::UserAbilities
+  
   has_many :predictions, :dependent => :destroy
   has_many :challenges, :dependent => :destroy
   has_many :voted_predictions, through: :challenges, class_name: "Prediction", source: 'prediction'
