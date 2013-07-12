@@ -1,52 +1,22 @@
 class Api::SessionsController < Devise::SessionsController
   skip_before_filter :verify_authenticity_token
   prepend_before_filter :require_no_authentication, :only => [:create]
-  #include Devise::Controllers::InternalHelpers
-
-  before_filter :ensure_params_exist
+  include Devise::Controllers::Helpers
 
   respond_to :json
 
   def create
-    #build_resource
-    user = User.find_for_database_authentication(:login=>params[:user_login][:login])
-    return invalid_login_attempt unless user
-
-    if user.valid_password?(params[:user_login][:password])
-      sign_in("user", user)
-      user.reset_authentication_token!
-      render :json => {:success=>true, :username => user.username, :email => user.email, :auth_token=>user.authentication_token}
-      #render :json=> {:success=>true, :auth_token=>resource.authentication_token, :login=>resource.login, :email=>resource.email}
-      return
-    end
-    invalid_login_attempt
+    self.resource = warden.authenticate!({:scope => :user})
+    sign_in(resource_name, resource)
+    resource.reset_authentication_token!
+    resource.save!
+    render json: { auth_token: resource.authentication_token,
+      login: resource.username,
+      email: resource.email,
+    }
   end
 
   def destroy
     sign_out(resource_name)
-  end
-
-  protected
-  
-  def ensure_params_exist
-    return unless params[:user_login].blank?
-    render :json=>{:success=>false, :message=>"missing user_login parameter"}, :status=>422
-  end
-
-  def invalid_login_attempt
-    warden.custom_failure!
-    render :json=> {:success=>false, :message=>"Error with your login or password"}, :status=>401
-  end
-
-  def resource_name
-    :user
-  end
-
-  def resource
-    @resource ||= User.new
-  end
-
-  def devise_mapping
-    @devise_mapping ||= Devise.mappings[:user]
   end
 end
