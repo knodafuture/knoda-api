@@ -6,8 +6,7 @@ belongs_to :user
 has_many :challenges, :dependent => :destroy
 has_many :voters, through: :challenges, class_name: "User", source: 'user'
 
-validates :title, presence: true
-validates :text, presence: true
+validates :body, presence: true
 validates :expires_at, presence: true
 validates :tag_list, presence: true
 
