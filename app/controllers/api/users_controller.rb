@@ -1,4 +1,4 @@
-class Api::ProfilesController < ApplicationController
+class Api::UsersController < ApplicationController
   skip_before_filter :verify_authenticity_token
   before_filter :require_login
   before_action :set_user, :only => [:show, :edit, :update, :changepassword]
