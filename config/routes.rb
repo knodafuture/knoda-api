@@ -18,6 +18,7 @@ Knoda::Application.routes.draw do
   devise_scope :user do
     namespace :api do
       resources :sessions, :only => [:create, :destroy]
+      resource :registration, :only => [:create]
     end
 
     resource :registration,
