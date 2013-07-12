@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe ChallengeController do
+describe ChallengesController do
 
   describe "GET 'index'" do
     it "returns http success" do
