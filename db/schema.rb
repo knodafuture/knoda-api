@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130711161502) do
+ActiveRecord::Schema.define(version: 20130712115119) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -19,7 +19,7 @@ ActiveRecord::Schema.define(version: 20130711161502) do
   create_table "challenges", force: true do |t|
     t.integer  "user_id"
     t.integer  "prediction_id"
-    t.boolean  "is_positive"
+    t.boolean  "agree"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -30,14 +30,11 @@ ActiveRecord::Schema.define(version: 20130711161502) do
 
   create_table "predictions", force: true do |t|
     t.integer  "user_id"
-    t.string   "text"
+    t.string   "body"
     t.date     "expires_at"
-    t.boolean  "closed"
-    t.date     "closed_at"
-    t.boolean  "closed_as"
+    t.boolean  "outcome"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "title"
   end
 
   create_table "taggings", force: true do |t|
@@ -74,6 +71,10 @@ ActiveRecord::Schema.define(version: 20130711161502) do
     t.string   "username"
     t.boolean  "notifications"
     t.string   "authentication_token"
+    t.string   "avatar_file_name"
+    t.string   "avatar_content_type"
+    t.integer  "avatar_file_size"
+    t.datetime "avatar_updated_at"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
