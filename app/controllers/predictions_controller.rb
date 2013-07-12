@@ -61,7 +61,7 @@ class PredictionsController < ApplicationController
   end
 
   def prediction_params
-    params.require(:prediction).permit(:user_id, :title, :text, :expires_at, :closed, :closed_at, :closed_as, :tag_list)
+    params.require(:prediction).permit(:user_id, :body, :expires_at, :outcome, :closed_as, :tag_list)
   end
 
   def require_login

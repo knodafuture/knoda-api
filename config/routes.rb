@@ -9,10 +9,14 @@ Knoda::Application.routes.draw do
   # for iOS API
   get 'api/profile/show'
   patch 'api/profile/changepassword'
+  get 'api/profile/edit'
+  patch 'api/profile/update'
 
   namespace :api do
     resources :registrations, :only => [:create]
     resources :predictions, :only => [:index, :show, :create, :update, :destroy]
+    
+    
   end
 
   devise_for :users, skip: :registrations

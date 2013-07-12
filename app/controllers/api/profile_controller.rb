@@ -1,7 +1,7 @@
 class Api::ProfileController < ApplicationController
   skip_before_filter :verify_authenticity_token
   before_filter :require_login
-  before_action :set_user, :only => [:show, :changepassword]
+  before_action :set_user, :only => [:show, :edit, :update, :changepassword]
 
   def show
     respond_to do |format|
@@ -11,9 +11,35 @@ class Api::ProfileController < ApplicationController
           "username"    => @user.username,
           "email"       => @user.email,
           "points"      => @user.points,
-          "created_at"  => @user.created_at
+          "created_at"  => @user.created_at,
+          "avatar"      => @user.avatar.url,
+          "avatar_medium" => @user.avatar.url(:medium),
+          "avatar_thumb"  => @user.avatar.url(:thumb)
         }
       end
+    end
+  end
+  
+  def edit
+    
+  end
+  
+  def update
+    respond_to do |format|
+      if (@user.update(user_params))
+        format.html do
+          raise @user.avatar.url
+        end
+
+        format.json do
+          render json: {
+            ok: "hello"
+          }
+        end
+      else
+        raise "error in updating"
+      end
+
     end
   end
 
@@ -39,6 +65,10 @@ class Api::ProfileController < ApplicationController
 
   def set_user
     @user = current_user
+  end
+  
+  def user_params
+    params.require(:user).permit(:avatar)
   end
 
   def change_password_params

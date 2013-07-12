@@ -11,10 +11,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+<<<<<<< HEAD
 ActiveRecord::Schema.define(version: 20130712115119) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+=======
+ActiveRecord::Schema.define(version: 20130712111520) do
+>>>>>>> 6a92fafe38f9c7c5f88dab9745cc43e607154313
 
   create_table "challenges", force: true do |t|
     t.integer  "user_id"
