@@ -1,6 +1,5 @@
 <li id="<%= prediction.id %>">
-  <span class="title"><%= prediction.title %></span>
-  <span class="content"><%= prediction.text %></span>
+  <span class="content"><%= prediction.body %></span>
   <span class="date">
     exp <%= distance_of_time_in_words(Time.now, prediction.expires_at) %> |
   </span>

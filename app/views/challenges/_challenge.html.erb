@@ -1,6 +1,5 @@
 <li id="<%= challenge.id %>">
-  <span class="title"><%= challenge.prediction.title %></span>
-  <span class="content"><%= challenge.prediction.text %></span>
+  <span class="content"><%= challenge.prediction.body %></span>
   <span class="date">
     exp <%= distance_of_time_in_words(Time.now, challenge.prediction.expires_at) %> |
   </span>
