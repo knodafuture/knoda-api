@@ -1,45 +1,23 @@
-class Api::ProfileController < ApplicationController
+class Api::ProfilesController < ApplicationController
   skip_before_filter :verify_authenticity_token
   before_filter :require_login
   before_action :set_user, :only => [:show, :edit, :update, :changepassword]
+  
+  respond_to :json
 
   def show
-    respond_to do |format|
-      format.json do
-        render json: {
-          "id"          => @user.id,
-          "username"    => @user.username,
-          "email"       => @user.email,
-          "points"      => @user.points,
-          "created_at"  => @user.created_at,
-          "avatar"      => @user.avatar.url,
-          "avatar_medium" => @user.avatar.url(:medium),
-          "avatar_thumb"  => @user.avatar.url(:thumb)
-        }
-      end
+    respond_with(@user) do |format|
+      format.json { render json: @user }
     end
   end
   
-  def edit
-    
-  end
-  
   def update
-    respond_to do |format|
-      if (@user.update(user_params))
-        format.html do
-          raise @user.avatar.url
-        end
-
-        format.json do
-          render json: {
-            ok: "hello"
-          }
-        end
+    respond_with(@user) do |format|
+      if @user.update(user_params)
+        format.json { head :no_content }
       else
-        raise "error in updating"
+        format.json { render json: @user.errors, status: 422 }
       end
-
     end
   end
 
