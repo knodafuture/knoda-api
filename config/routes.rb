@@ -7,16 +7,12 @@ Knoda::Application.routes.draw do
   get 'tags/:tag', to: 'predictions#index', as: :tag
 
   # for iOS API
-  get 'api/profile/show'
   patch 'api/profile/changepassword'
-  get 'api/profile/edit'
-  patch 'api/profile/update'
 
   namespace :api do
     resources :registrations, :only => [:create]
     resources :predictions, :only => [:index, :show, :create, :update, :destroy]
-    
-    
+    resource :profile, :only => [:show, :update]
   end
 
   devise_for :users, skip: :registrations
