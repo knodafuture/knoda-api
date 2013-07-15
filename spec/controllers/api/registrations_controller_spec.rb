@@ -4,8 +4,6 @@ describe Api::RegistrationsController do
   describe "POST registration.json" do
     it "should sign up using registration.json" do
       @request.env["devise.mapping"] = Devise.mappings[:user]
-      @request.env['CONTENT_TYPE'] = 'application/json'
-      @request.env['ACCEPT'] = 'application/json'
       
       @user = FactoryGirl.build :user
       

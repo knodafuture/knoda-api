@@ -4,8 +4,6 @@ describe Api::PasswordsController do
   describe "Change password using password.json" do
     it "should change password" do
       @request.env["devise.mapping"] = Devise.mappings[:user]
-      @request.env['CONTENT_TYPE'] = 'application/json'
-      @request.env['ACCEPT'] = 'application/json'
       
       # FactoryGirl.find_definitions
       @user = FactoryGirl.build :user
