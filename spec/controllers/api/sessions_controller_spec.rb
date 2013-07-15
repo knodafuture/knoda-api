@@ -5,8 +5,6 @@ describe Api::SessionsController do
     
     it "should login using session.json" do
       @request.env["devise.mapping"] = Devise.mappings[:user]
-      @request.env['CONTENT_TYPE'] = 'application/json'
-      @request.env['ACCEPT'] = 'application/json'
           
       @user = FactoryGirl.build :user
       @user.password              = "hello123456"
