@@ -7,15 +7,10 @@ describe Api::RegistrationsController do
       
       @user = FactoryGirl.build :user
       
-      Rails.logger.info "USER"
-      Rails.logger.info @user.username
-      Rails.logger.info @user.password
-      Rails.logger.info @user.email
-      
       post :create, {:user => {
         :username   => @user.username,
         :email      => @user.email,
-        :password   => @user.password
+        :password   => @user.password_confirmation
       }}, :format => :json
       
       response.status.should eq(200)
