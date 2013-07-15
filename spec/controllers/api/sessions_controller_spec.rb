@@ -6,19 +6,11 @@ describe Api::SessionsController do
     it "should login using session.json" do
       @request.env["devise.mapping"] = Devise.mappings[:user]
           
-      @user = FactoryGirl.build :user
-      @user.password              = "hello123456"
-      @user.password_confirmation = "hello123456"
-      @user.save!
-      
-      Rails.logger.info "USER"
-      Rails.logger.info @user.username
-      Rails.logger.info @user.password
-      Rails.logger.info @user.email
+      @user = FactoryGirl.create :user
       
       post :create, {:user => {
-        :login   => @user.username,
-        :password   => "hello123456"
+        :login      => @user.username,
+        :password   => "password"
       }}, :format => :json
       
       Rails.logger.info "BODY"
@@ -41,13 +33,9 @@ describe Api::SessionsController do
   describe "DELETE session.json" do
     it "should destroy session" do
       @request.env["devise.mapping"] = Devise.mappings[:user]
-      @request.env['CONTENT_TYPE'] = 'application/json'
-      @request.env['ACCEPT'] = 'application/json'
       
       # FactoryGirl.find_definitions
-      @user = FactoryGirl.build :user
-      @user.password = 'password123'
-      @user.password_confirmation = 'password123'
+      @user = FactoryGirl.create :user
       @user.reset_authentication_token!
       @user.save!
       
