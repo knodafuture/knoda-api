@@ -43,7 +43,5 @@ RSpec.configure do |config|
   
   # Device related
   config.include Devise::TestHelpers, :type => :controller  
-  config.after do
-    FactoryGirl.reload
-  end
+  FactoryGirl.find_definitions
 end
