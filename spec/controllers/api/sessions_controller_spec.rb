@@ -10,12 +10,9 @@ describe Api::SessionsController do
       
       post :create, {:user => {
         :login      => @user.username,
-        :password   => "password"
+        :password   => @user.password_confirmation
       }}, :format => :json
-      
-      Rails.logger.info "BODY"
-      Rails.logger.info response.body
-      
+
       response.status.should eq(200)
       json = JSON.parse(response.body)
       json["email"].should eq(@user.email);
@@ -33,8 +30,7 @@ describe Api::SessionsController do
   describe "DELETE session.json" do
     it "should destroy session" do
       @request.env["devise.mapping"] = Devise.mappings[:user]
-      
-      # FactoryGirl.find_definitions
+
       @user = FactoryGirl.create :user
       @user.reset_authentication_token!
       @user.save!
