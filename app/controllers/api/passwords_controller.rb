@@ -11,11 +11,11 @@ class Api::PasswordsController < ApplicationController
       @user.password_confirmation = password_params[:new_password]
       if @user.save
         respond_to do |format|
-          format.json { head :no_content }
+          format.any { head :no_content }
         end
       else
         respond_to do |format|
-          format.json { render json: @user.errors, status: :unprocessable_entity }
+          format.any { render json: @user.errors, status: :unprocessable_entity }
         end
       end
     end
