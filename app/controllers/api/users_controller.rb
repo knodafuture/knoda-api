@@ -6,9 +6,7 @@ class Api::UsersController < ApplicationController
   respond_to :json
 
   def show
-    respond_with(@user) do |format|
-      format.json { render json: @user }
-    end
+    respond_with @user
   end
   
   def update
