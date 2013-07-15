@@ -26,7 +26,7 @@ class Api::UsersController < ApplicationController
   end
   
   def user_params
-    params.require(:user).permit(:avatar)
+    params.require(:user).permit(:avatar, :notifications)
   end
   
   def require_login
