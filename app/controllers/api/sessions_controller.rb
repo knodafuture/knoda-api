@@ -17,6 +17,10 @@ class Api::SessionsController < Devise::SessionsController
   end
 
   def destroy
+    resource = User.find_by_authentication_token(params[:auth_token]||request.headers["X-AUTH-TOKEN"])
+    resource.authentication_token = nil
+    resource.save
     sign_out(resource_name)
+    render :json => {}.to_json, :status => :ok
   end
 end
