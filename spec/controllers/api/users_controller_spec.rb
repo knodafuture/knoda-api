@@ -4,8 +4,6 @@ describe Api::UsersController do
   describe "GET user.json" do
     it "should return user information" do
       @user = FactoryGirl.build :user
-      @user.password = 'password123'
-      @user.password_confirmation = 'password123'
       @user.reset_authentication_token!
       @user.save!
       
@@ -21,8 +19,6 @@ describe Api::UsersController do
   describe "PUT user.json" do    
     it "should update notifications" do      
       @user = FactoryGirl.build :user
-      @user.password = 'password123'
-      @user.password_confirmation = 'password123'
       @user.reset_authentication_token!
       @user.save!
       
