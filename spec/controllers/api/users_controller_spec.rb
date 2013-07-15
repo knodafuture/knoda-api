@@ -18,17 +18,19 @@ describe Api::UsersController do
     end
   end
   
-  #describe "PUT user.json" do
-  #  it "should update avatar" do
-  #    @user = FactoryGirl.build :user
-  #    @user.password = 'password123'
-  #    @user.password_confirmation = 'password123'
-  #    @user.reset_authentication_token!
-  #    @user.save!
-  #    
-  #    put :update, auth_token: @user.authentication_token, :user => {}, :format => :json
-  #    
-  #    response.status.should eq(200)
-  #  end
-  #end
+  describe "PUT user.json" do    
+    it "should update avatar" do
+      pending "testing avatar"
+      
+      @user = FactoryGirl.build :user
+      @user.password = 'password123'
+      @user.password_confirmation = 'password123'
+      @user.reset_authentication_token!
+      @user.save!
+      
+      put :update, auth_token: @user.authentication_token, :user => {}, :format => :json
+      
+      response.status.should eq(200)
+    end
+  end
 end
