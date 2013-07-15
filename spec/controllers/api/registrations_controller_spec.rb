@@ -7,7 +7,6 @@ describe Api::RegistrationsController do
       @request.env['CONTENT_TYPE'] = 'application/json'
       @request.env['ACCEPT'] = 'application/json'
       
-      FactoryGirl.find_definitions
       @user = FactoryGirl.build :user
       
       Rails.logger.info "USER"
