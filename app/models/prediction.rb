@@ -9,4 +9,7 @@ class Prediction < ActiveRecord::Base
   validates :expires_at, presence: true
   validates :tag_list, presence: true
 
+  # Adds `creatable_by?(user)`, etc
+  include Authority::Abilities
+  self.authorizer_name = 'PredictionAuthorizer'
 end
