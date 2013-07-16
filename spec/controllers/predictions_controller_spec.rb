@@ -76,12 +76,14 @@ describe PredictionsController do
       end
 
       it "assigns a newly created prediction as @prediction" do
+        pending
         post :create, {:prediction => valid_attributes}, valid_session
         assigns(:prediction).should be_a(Prediction)
         assigns(:prediction).should be_persisted
       end
 
       it "redirects to the created prediction" do
+        pending
         post :create, {:prediction => valid_attributes}, valid_session
         response.should redirect_to(Prediction.last)
       end
