@@ -37,16 +37,7 @@ describe PredictionsController do
   let(:valid_session) { {:auth_token => "2iZHiNipXUywoacpyW7R"} }
 
   describe "GET index" do
-    it "assigns all predictions as @predictions" do            it "assigns a newly created prediction as @prediction" do
-        post :create, {:prediction => valid_attributes}, valid_session
-        assigns(:prediction).should be_a(Prediction)
-        assigns(:prediction).should be_persisted
-      end
-
-      it "redirects to the created prediction" do
-        post :create, {:prediction => valid_attributes}, valid_session
-        response.should redirect_to(Prediction.last)
-      end
+    it "assigns all predictions as @predictions" do
       prediction = user.predictions.create(valid_attributes)
       get :index, {}, valid_session
       assigns(:predictions).should eq([prediction])

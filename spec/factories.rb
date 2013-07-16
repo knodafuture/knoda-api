@@ -1,9 +1,5 @@
 FactoryGirl.define do
 
-  sequence :email do |n|
-    "test#{n}@example.com"
-  end
-
   sequence :prediction_id do |n|
     n
   end
@@ -34,6 +30,5 @@ FactoryGirl.define do
   factory :challenge do
     user_id 1
     prediction_id
->>>>>>> Fixes Prediction and Challenge tests files
   end
 end

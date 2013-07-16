@@ -42,8 +42,6 @@ RSpec.configure do |config|
   #     --seed 1234
   config.order = "random"
 
-  FactoryGirl.find_definitions
-
   config.include Devise::TestHelpers, :type => :controller
   config.extend DeviseLogins, type: :controller
   config.include DeviseRequestHelper, :type => :request
