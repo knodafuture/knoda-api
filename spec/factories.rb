@@ -1,5 +1,9 @@
 FactoryGirl.define do
 
+  sequence :email do |n|
+    "test#{n}@example.com"
+  end
+
   sequence :prediction_id do |n|
     n
   end
@@ -14,7 +18,7 @@ FactoryGirl.define do
 
   factory :user do
     username
-    email { Faker::Internet.email }
+    email { FactoryGirl.generate(:email) }
     password 'password'
     password_confirmation { 'password' }
   end
