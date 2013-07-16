@@ -2,6 +2,8 @@ class ChallengesController < ApplicationController
   before_filter :require_login
   before_action :set_challenge, only: [:show]
   respond_to :html, :json
+  
+  authorize_actions_for Challenge
 
   def index
     @challenges = current_user.challenges
