@@ -20,19 +20,34 @@ require 'spec_helper'
 
 describe PredictionsController do
 
+  user = login_as_user
+
+  let(:prediction) { FactoryGirl.create(:prediction) }
+  #let(:user) {FactoryGirl.create(:user)}
+
   # This should return the minimal set of attributes required to create a valid
   # Prediction. As you add validations to Prediction, be sure to
   # adjust the attributes here as well.
-  let(:valid_attributes) { { "user_id" => "1" } }
+  let(:valid_attributes) { {"user_id" => prediction.user_id, "body" => prediction.body, "expires_at" => prediction.expires_at,
+                            "outcome" => prediction.outcome, "tag_list" => prediction.tag_list} }
 
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
   # PredictionsController. Be sure to keep this updated too.
-  let(:valid_session) { {} }
+  let(:valid_session) { {:auth_token => "2iZHiNipXUywoacpyW7R"} }
 
   describe "GET index" do
-    it "assigns all predictions as @predictions" do
-      prediction = Prediction.create! valid_attributes
+    it "assigns all predictions as @predictions" do            it "assigns a newly created prediction as @prediction" do
+        post :create, {:prediction => valid_attributes}, valid_session
+        assigns(:prediction).should be_a(Prediction)
+        assigns(:prediction).should be_persisted
+      end
+
+      it "redirects to the created prediction" do
+        post :create, {:prediction => valid_attributes}, valid_session
+        response.should redirect_to(Prediction.last)
+      end
+      prediction = user.predictions.create(valid_attributes)
       get :index, {}, valid_session
       assigns(:predictions).should eq([prediction])
     end
@@ -40,7 +55,7 @@ describe PredictionsController do
 
   describe "GET show" do
     it "assigns the requested prediction as @prediction" do
-      prediction = Prediction.create! valid_attributes
+      prediction = user.predictions.create(valid_attributes)
       get :show, {:id => prediction.to_param}, valid_session
       assigns(:prediction).should eq(prediction)
     end
@@ -55,7 +70,7 @@ describe PredictionsController do
 
   describe "GET edit" do
     it "assigns the requested prediction as @prediction" do
-      prediction = Prediction.create! valid_attributes
+      prediction = user.predictions.create(valid_attributes)
       get :edit, {:id => prediction.to_param}, valid_session
       assigns(:prediction).should eq(prediction)
     end
@@ -101,7 +116,7 @@ describe PredictionsController do
   describe "PUT update" do
     describe "with valid params" do
       it "updates the requested prediction" do
-        prediction = Prediction.create! valid_attributes
+        prediction = user.predictions.create(valid_attributes)
         # Assuming there are no other predictions in the database, this
         # specifies that the Prediction created on the previous line
         # receives the :update_attributes message with whatever params are
@@ -111,13 +126,13 @@ describe PredictionsController do
       end
 
       it "assigns the requested prediction as @prediction" do
-        prediction = Prediction.create! valid_attributes
+        prediction = user.predictions.create(valid_attributes)
         put :update, {:id => prediction.to_param, :prediction => valid_attributes}, valid_session
         assigns(:prediction).should eq(prediction)
       end
 
       it "redirects to the prediction" do
-        prediction = Prediction.create! valid_attributes
+        prediction = user.predictions.create(valid_attributes)
         put :update, {:id => prediction.to_param, :prediction => valid_attributes}, valid_session
         response.should redirect_to(prediction)
       end
@@ -125,7 +140,7 @@ describe PredictionsController do
 
     describe "with invalid params" do
       it "assigns the prediction as @prediction" do
-        prediction = Prediction.create! valid_attributes
+        prediction = user.predictions.create(valid_attributes)
         # Trigger the behavior that occurs when invalid params are submitted
         Prediction.any_instance.stub(:save).and_return(false)
         put :update, {:id => prediction.to_param, :prediction => { "user_id" => "invalid value" }}, valid_session
@@ -144,14 +159,14 @@ describe PredictionsController do
 
   describe "DELETE destroy" do
     it "destroys the requested prediction" do
-      prediction = Prediction.create! valid_attributes
+      prediction = user.predictions.create(valid_attributes)
       expect {
         delete :destroy, {:id => prediction.to_param}, valid_session
       }.to change(Prediction, :count).by(-1)
     end
 
     it "redirects to the predictions list" do
-      prediction = Prediction.create! valid_attributes
+      prediction = user.predictions.create(valid_attributes)
       delete :destroy, {:id => prediction.to_param}, valid_session
       response.should redirect_to(predictions_url)
     end

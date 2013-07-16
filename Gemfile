@@ -53,7 +53,7 @@ gem 'paperclip', '3.4.2'
 
 group :development, :test do
   gem 'rspec-rails', '~> 2.12'
-  gem 'factory_girl', '4.2.0'
+  gem 'factory_girl_rails', '4.2.1'
   gem 'faker', '1.1.2'
 end
 
