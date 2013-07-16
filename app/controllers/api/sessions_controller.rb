@@ -8,8 +8,12 @@ class Api::SessionsController < Devise::SessionsController
   def create
     self.resource = warden.authenticate!({:scope => :user})
     sign_in(resource_name, resource)
-    resource.reset_authentication_token!
-    resource.save!
+    
+    if resource.authentication_token.nil?
+      resource.reset_authentication_token!
+      resource.save!
+    end
+    
     render json: { auth_token: resource.authentication_token,
       login: resource.username,
       email: resource.email,
