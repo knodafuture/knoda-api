@@ -4,6 +4,8 @@ class Api::PredictionsController < ApplicationController
   before_action :set_prediction, only: [:show, :edit, :update, :destroy]
 
   respond_to :json
+  
+  authorize_actions_for Prediction
 
   def index
     if params[:tag]
