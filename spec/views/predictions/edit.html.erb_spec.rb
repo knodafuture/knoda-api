@@ -10,7 +10,8 @@ describe "predictions/edit" do
     ))
   end
 
-  it "renders the edit prediction form" do
+  it  "renders the edit prediction form" do
+    pending
     render
 
     # Run the generator again with the --webrat flag if you want to use webrat matchers

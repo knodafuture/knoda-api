@@ -9,5 +9,4 @@ class Prediction < ActiveRecord::Base
   validates :expires_at, presence: true
   validates :tag_list, presence: true
 
-  default_scope { order("created_at") }
 end
