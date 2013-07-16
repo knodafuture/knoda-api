@@ -4,4 +4,8 @@ class Challenge < ActiveRecord::Base
 
   validates :user_id, presence: true
   validates :prediction_id, presence: true
+  
+  # Adds `creatable_by?(user)`, etc
+  include Authority::Abilities
+  self.authorizer_name = 'ChallengeAuthorizer'
 end
