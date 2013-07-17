@@ -12,4 +12,13 @@ class ApplicationController < ActionController::Base
       u.permit :username, :email, :password
     end
   end
+  
+  def authenticate_user_please!
+    unless current_user
+      respond_to do |format|
+        format.html {authenticate_user!}
+        format.any  {render nothing: true, status: :forbidden}
+      end
+    end
+  end
 end
