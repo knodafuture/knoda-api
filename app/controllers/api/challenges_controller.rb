@@ -5,6 +5,6 @@ class Api::ChallengesController < ApplicationController
   respond_to :json
   
   def index
-    respond_with([:api, current_user.challenges])
+    respond_with(current_user.challenges)
   end
 end
