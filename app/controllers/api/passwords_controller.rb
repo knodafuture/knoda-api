@@ -20,9 +20,7 @@ class Api::PasswordsController < ApplicationController
   end
   
   private
-  
 
-  
   def password_params
     params.permit(:current_password, :new_password)
   end
