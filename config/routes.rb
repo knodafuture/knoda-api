@@ -9,15 +9,15 @@ Knoda::Application.routes.draw do
   # for iOS API
   namespace :api do
     resources :registrations, :only => [:create]
-    resources :predictions, :only => [:index, :show, :create, :update, :destroy]
-    resource :user, :only => [:show, :update]
-    resource :password, :only => [:update]
+    resources :predictions,   :only => [:index, :show, :create, :destroy]
+    resource  :user,          :only => [:show, :update]
+    resource  :password,      :only => [:update]
   end
 
   devise_for :users, skip: :registrations
   devise_scope :user do
     namespace :api do
-      resource :session, :only => [:create, :destroy]
+      resource :session,      :only => [:create, :destroy]
       resource :registration, :only => [:create]
     end
 
