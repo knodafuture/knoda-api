@@ -1,8 +1,9 @@
 class Api::PasswordsController < ApplicationController
   skip_before_filter :verify_authenticity_token
-  before_action :set_user, :only => [:update]
-  
+    
   def update
+    @user = current_user
+    
     unless @user.valid_password?(password_params[:current_password])
       invalid_current_password
     else
