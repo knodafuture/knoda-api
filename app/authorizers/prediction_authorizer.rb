@@ -14,4 +14,8 @@ class PredictionAuthorizer < ApplicationAuthorizer
   def self.deletable_by?(user)
     true
   end
+  
+  def self.votable_by?(user)
+    true
+  end
 end
