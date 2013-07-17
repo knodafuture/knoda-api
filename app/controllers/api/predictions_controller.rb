@@ -1,6 +1,5 @@
 class Api::PredictionsController < ApplicationController
   skip_before_filter :verify_authenticity_token
-  before_filter :require_login
   before_action :set_prediction, only: [:show, :edit, :update, :destroy]
 
   respond_to :json
@@ -61,16 +60,5 @@ class Api::PredictionsController < ApplicationController
 
   def prediction_params
     params.require(:prediction).permit(:user_id, :body, :expires_at, :outcome, :closed_as, :tag_list)
-  end
-
-  def require_login
-    unless current_user
-      flash[:error] = "You must be logged in to access this section"
-
-      respond_to do |format|
-        format.html { redirect_to new_user_session_url }
-        format.json { render json: {success: false}, :status => 403 }
-      end
-    end
   end
 end
