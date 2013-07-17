@@ -79,6 +79,8 @@ class Api::PredictionsController < ApplicationController
       render json: {errors: ["challenge", "is not unique"]}, status: 400
     end
   end
+  
+  private
 
   def set_prediction
     @prediction = Prediction.find(params[:id])
