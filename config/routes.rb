@@ -10,6 +10,11 @@ Knoda::Application.routes.draw do
   namespace :api do
     resources :registrations, :only => [:create]
     resources :challenges,    :only => [:index]
+    resources :predictions,   :only => [:index, :show, :create, :destroy] do
+      member do
+        get 'vote'
+      end
+    end
     resource  :user,          :only => [:show, :update]
     resource  :password,      :only => [:update]
   end

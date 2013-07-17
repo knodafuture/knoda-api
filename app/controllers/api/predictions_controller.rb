@@ -1,6 +1,6 @@
 class Api::PredictionsController < ApplicationController
   skip_before_filter :verify_authenticity_token
-  before_action :set_prediction, only: [:show, :edit, :update, :destroy]
+  before_action :set_prediction, only: [:show, :edit, :update, :destroy, :vote]
 
   respond_to :json
   
@@ -52,10 +52,31 @@ class Api::PredictionsController < ApplicationController
     end
   end
 
+  def vote
+    @challenge = current_user.challenges.new({
+      :prediction => @prediction,
+      :agree => vote_params['agree'] == "1"
+    });
+      
+    begin
+      if @challenge.save
+        respond_with @challenge
+      else
+        render json: @challenge.errors, status: 422
+      end
+    rescue ActiveRecord::RecordNotUnique
+      render json: {errors: ["challenge", "is not unique"]}, status: 400
+    end
+  end
+
   private
 
   def set_prediction
     @prediction = Prediction.find(params[:id])
+  end
+
+  def vote_params
+    params.permit(:agree)
   end
 
   def prediction_params
