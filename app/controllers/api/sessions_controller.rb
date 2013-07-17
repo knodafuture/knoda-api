@@ -1,6 +1,6 @@
 class Api::SessionsController < Devise::SessionsController
   skip_before_filter :verify_authenticity_token
-  prepend_before_filter :require_no_authentication, :only => [:create]
+  skip_before_filter :authenticate_user_please!, only: [:create]
   include Devise::Controllers::Helpers
 
   respond_to :json
