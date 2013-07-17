@@ -20,7 +20,7 @@ class Api::RegistrationsController < Devise::RegistrationsController
       end
     else
       clean_up_passwords resource
-      return render :json => {:success => false}
+      return render :json => {:success => false, :errors => resource.errors}
     end
   end
 end
