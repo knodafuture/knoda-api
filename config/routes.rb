@@ -36,8 +36,8 @@ Knoda::Application.routes.draw do
   get 'about' => 'pages#about'
 
   # admin namespace
-  namespace :admin do
-    resources :users
-    resources :predictions
-  end
+  # namespace :admin do
+  #  resources :users
+  #  resources :predictions
+  # end
 end
