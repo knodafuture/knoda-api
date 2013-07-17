@@ -1,27 +1,27 @@
 class Api::PasswordsController < ApplicationController
   skip_before_filter :verify_authenticity_token
     
-  def update
-    @user = current_user
-    
-    unless @user.valid_password?(password_params[:current_password])
+  def update    
+    unless current_user.valid_password?(password_params[:current_password])
       invalid_current_password
     else
-      @user.password = password_params[:new_password]
-      @user.password_confirmation = password_params[:new_password]
-      if @user.save
+      current_user.password = password_params[:new_password]
+      current_user.password_confirmation = password_params[:new_password]
+      if current_user.save
         respond_to do |format|
           format.any { head :no_content }
         end
       else
         respond_to do |format|
-          format.any { render json: @user.errors, status: :unprocessable_entity }
+          format.any { render json: current_user.errors, status: :unprocessable_entity }
         end
       end
     end
   end
   
   private
+  
+
   
   def password_params
     params.permit(:current_password, :new_password)
