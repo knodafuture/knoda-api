@@ -68,15 +68,11 @@ class Api::PredictionsController < ApplicationController
       :prediction => @prediction,
       :agree => is_agreed
     });
-      
-    begin
-      if @challenge.save
-        respond_with @challenge
-      else
-        render json: @challenge.errors, status: 422
-      end
-    rescue ActiveRecord::RecordNotUnique
-      render json: {errors: ["challenge", "is not unique"]}, status: 400
+
+    if @challenge.save
+      respond_with @challenge
+    else
+      render json: @challenge.errors, status: 422
     end
   end
   
