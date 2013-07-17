@@ -1,5 +1,6 @@
 class Api::RegistrationsController < Devise::RegistrationsController
   skip_before_filter :verify_authenticity_token
+  skip_before_filter :authenticate_user_please!, :only => [:create]
   
   def create
     build_resource(sign_up_params)
