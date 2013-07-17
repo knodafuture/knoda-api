@@ -28,7 +28,8 @@ Authority.configure do |config|
      :edit    => 'update',
      :update  => 'update',
      :destroy => 'delete',
-     :vote    => 'vote'
+     :agree   => 'agree',
+     :disagree => 'disagree'
   }
 
   # ABILITIES
@@ -44,7 +45,8 @@ Authority.configure do |config|
      :read   => 'readable',
      :update => 'updatable',
      :delete => 'deletable',
-     :vote   => 'votable',
+     :agree => 'agreeable',
+     :disagree => 'disagreeable'
   }
 
   # LOGGER
