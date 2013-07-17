@@ -12,7 +12,8 @@ Knoda::Application.routes.draw do
     resources :challenges,    :only => [:index]
     resources :predictions,   :only => [:index, :show, :create, :destroy] do
       member do
-        get 'vote'
+        post 'agree'
+        post 'disagree'
       end
     end
     resource  :user,          :only => [:show, :update]

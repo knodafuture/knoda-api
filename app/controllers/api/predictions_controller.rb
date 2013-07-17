@@ -1,6 +1,6 @@
 class Api::PredictionsController < ApplicationController
   skip_before_filter :verify_authenticity_token
-  before_action :set_prediction, only: [:show, :edit, :update, :destroy, :vote]
+  before_action :set_prediction, only: [:show, :edit, :update, :destroy, :agree, :disagree]
 
   respond_to :json
   
@@ -52,10 +52,21 @@ class Api::PredictionsController < ApplicationController
     end
   end
 
-  def vote
+  def agree
+    vote(true)
+  end
+  
+  def disagree
+    vote(false)
+  end
+
+
+  private
+  
+  def vote(is_agreed)
     @challenge = current_user.challenges.new({
       :prediction => @prediction,
-      :agree => vote_params['agree'] == "1"
+      :agree => is_agreed
     });
       
     begin
@@ -68,8 +79,6 @@ class Api::PredictionsController < ApplicationController
       render json: {errors: ["challenge", "is not unique"]}, status: 400
     end
   end
-
-  private
 
   def set_prediction
     @prediction = Prediction.find(params[:id])
