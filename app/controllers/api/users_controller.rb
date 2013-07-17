@@ -1,25 +1,23 @@
 class Api::UsersController < ApplicationController
-  skip_before_filter :verify_authenticity_token
-  before_action :set_user, :only => [:show, :update]
-  
+  skip_before_filter :verify_authenticity_token  
   respond_to :json
 
   def show
-    respond_with @user
+    respond_with current_user
   end
   
   def update
-    respond_with(@user) do |format|
-      if @user.update(user_params)
+    respond_with(current_user) do |format|
+      if current_user.update(user_params)
         format.json { head :no_content }
       else
-        format.json { render json: @user.errors, status: 422 }
+        format.json { render json: current_user.errors, status: 422 }
       end
     end
   end
 
   private
-  
+    
   def user_params
     params.require(:user).permit(:avatar, :notifications)
   end
