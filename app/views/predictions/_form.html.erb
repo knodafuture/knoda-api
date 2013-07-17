@@ -12,28 +12,16 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :title %><br>
-    <%= f.text_field :title %>
-  </div>
-  <div class="field">
-    <%= f.label :text %><br>
-    <%= f.text_field :text %>
+    <%= f.label :body %><br>
+    <%= f.text_field :body %>
   </div>
   <div class="field">
     <%= f.label :expires_at %><br>
     <%= f.date_select :expires_at %>
   </div>
   <div class="field">
-    <%= f.label :closed %><br>
-    <%= f.check_box :closed %>
-  </div>
-  <div class="field">
-    <%= f.label :closed_at %><br>
-    <%= f.date_select :closed_at %>
-  </div>
-  <div class="field">
-    <%= f.label :closed_as %><br>
-    <%= f.check_box :closed_as %>
+    <%= f.label :outcome %><br>
+    <%= f.check_box :outcome %>
   </div>
   <div class="field">
     <%= f.label :tag_list, "Tags" %><br />
