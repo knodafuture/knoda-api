@@ -1,9 +1,10 @@
 module DeviseLogins
 
-  def login_as_user
-    user = FactoryGirl.create(:user)
+  def login_as_user(with_token=false)
+    user = with_token ? FactoryGirl.create(:user, :with_token) : FactoryGirl.create(:user)
     #FactoryGirl.create(:school, :with_semesters, users: [user])
     before(:each) { sign_in user }
     user
   end
+
 end

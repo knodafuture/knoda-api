@@ -21,6 +21,14 @@ FactoryGirl.define do
     email { "user#{rand(1000000000000)}@example.com" }
     password 'password'
     password_confirmation { 'password' }
+
+    trait :with_token do
+      after(:create) do |user|
+        user.reset_authentication_token!
+        user.save!
+      end
+
+    end
   end
 
   factory :prediction do
@@ -28,7 +36,7 @@ FactoryGirl.define do
     body { FactoryGirl.generate(:body) }
     expires_at Date.new(2014, 9, 1)
     outcome true
-    tag_list 'test'
+    tag_list ['test']
   end
 
   factory :challenge do

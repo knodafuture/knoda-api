@@ -3,7 +3,7 @@ class Api::PredictionsController < ApplicationController
   before_action :set_prediction, only: [:show, :edit, :update, :destroy, :agree, :disagree]
 
   respond_to :json
-  
+
   authorize_actions_for Prediction
 
   def index
@@ -55,14 +55,14 @@ class Api::PredictionsController < ApplicationController
   def agree
     vote(true)
   end
-  
+
   def disagree
     vote(false)
   end
 
 
   private
-  
+
   def vote(is_agreed)
     @challenge = current_user.challenges.new({
       :prediction => @prediction,
@@ -75,7 +75,7 @@ class Api::PredictionsController < ApplicationController
       render json: @challenge.errors, status: 422
     end
   end
-  
+
   private
 
   def set_prediction

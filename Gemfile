@@ -55,6 +55,7 @@ group :development, :test do
   gem 'rspec-rails', '~> 2.12'
   gem 'factory_girl_rails', '4.2.1'
   gem 'faker', '1.1.2'
+  gem 'pry-rails', '0.3.1'
 end
 
 gem 'acts-as-taggable-on', '2.4.1'
