@@ -1,6 +1,5 @@
 class Api::UsersController < ApplicationController
   skip_before_filter :verify_authenticity_token
-  before_filter :require_login
   before_action :set_user, :only => [:show, :update]
   
   respond_to :json
@@ -20,18 +19,8 @@ class Api::UsersController < ApplicationController
   end
 
   private
-
-  def set_user
-    @user = current_user
-  end
   
   def user_params
     params.require(:user).permit(:avatar, :notifications)
-  end
-  
-  def require_login
-    unless current_user
-      render :nothing => true, :status => :forbidden
-    end
   end
 end
