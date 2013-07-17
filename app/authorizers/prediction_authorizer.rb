@@ -15,7 +15,11 @@ class PredictionAuthorizer < ApplicationAuthorizer
     true
   end
   
-  def self.votable_by?(user)
+  def self.agreeable_by?(user)
+    true
+  end
+  
+  def self.disagreeable_by?(user)
     true
   end
 end
