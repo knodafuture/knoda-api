@@ -1,7 +1,7 @@
 class ChallengeSerializer < ActiveModel::Serializer
 
-  attributes :id, :is_positive
-
+  attributes :id, :agree
+  
   has_one :user
   has_one :prediction
 
