@@ -1,6 +1,5 @@
 class Api::PasswordsController < ApplicationController
   skip_before_filter :verify_authenticity_token
-  before_filter :require_login
   before_action :set_user, :only => [:update]
   
   def update
@@ -22,16 +21,6 @@ class Api::PasswordsController < ApplicationController
   end
   
   private
-  
-  def set_user
-    @user = current_user
-  end
-  
-  def require_login
-    unless current_user
-      render :nothing => true, :status => :forbidden
-    end
-  end
   
   def password_params
     params.permit(:current_password, :new_password)
