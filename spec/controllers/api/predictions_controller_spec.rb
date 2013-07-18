@@ -38,13 +38,21 @@ describe Api::PredictionsController do
       json.should include("predictions")
     end
 
-    it "should be successful response with 'expiring' parameter" do
+    it "should be successful response with 'recent' parameter" do
       prediction = user.predictions.create(valid_attributes)
-      get :index, {:format => :json, :expiring => true}, valid_session
+      get :index, {:format => :json, :recent => true}, valid_session
       response.status.should eq(200)
       json = JSON.parse(response.body)
       json.should include("predictions")
-      end
+    end
+
+    it "should be successful response with 'recent' and 'user_id' parameters" do
+      prediction = user.predictions.create(valid_attributes)
+      get :index, {:format => :json, :recent => true, :user_id => User.first.id}, valid_session
+      response.status.should eq(200)
+      json = JSON.parse(response.body)
+      json.should include("predictions")
+    end
 
     it "should be successful response with 'history' parameter" do
       prediction = user.predictions.create(valid_attributes)

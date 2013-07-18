@@ -10,10 +10,8 @@ class Api::PredictionsController < ApplicationController
     if params[:tag]
       @predictions = current_user.predictions.tagged_with(params[:tag])
     elsif params[:recent]
-      @predictions = current_user.predictions.recent
-    elsif params[:expiring]
-      @predictions = current_user.predictions.expiring
-    elsif params[:history]
+      @predictions = params[:user_id] ? Prediction.recent_by_user_id(params[:user_id]) : Prediction.recent
+    elsif params[:expired]
       @predictions = current_user.predictions.closed
     else
       @predictions = current_user.predictions.all
@@ -42,7 +40,7 @@ class Api::PredictionsController < ApplicationController
   end
 
   def update
-    authorize_action_for(@prediction) 
+    authorize_action_for(@prediction)
     respond_with(@prediction) do |format|
       if @prediction.update(prediction_params)
         format.json { head :no_content }
@@ -53,7 +51,7 @@ class Api::PredictionsController < ApplicationController
   end
 
   def destroy
-    authorize_action_for(@prediction) 
+    authorize_action_for(@prediction)
     @prediction.destroy
     respond_with(@prediction) do |format|
       format.json { head :no_content }
@@ -67,19 +65,19 @@ class Api::PredictionsController < ApplicationController
   def disagree
     vote(false)
   end
-  
+
   def realize
     close_prediction(true)
   end
-  
+
   def unrealize
     close_prediction(false)
   end
 
   private
-  
-  def close_prediction(outcome)    
-    authorize_action_for(@prediction) 
+
+  def close_prediction(outcome)
+    authorize_action_for(@prediction)
     @prediction.outcome = outcome
     @prediction.closed_at = Time.now
     if @prediction.save

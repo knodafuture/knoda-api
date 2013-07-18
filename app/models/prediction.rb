@@ -10,17 +10,25 @@ class Prediction < ActiveRecord::Base
   validates :tag_list, presence: true
   validate  :max_tag_count
 
-  scope :recent, :order => "predictions.created_at DESC"
-  scope :expiring, lambda { { :conditions => ["predictions.expires_at >= ?", Time.now], :order => "predictions.expires_at ASC" } }
-  scope :closed, lambda { { :conditions => ["predictions.expires_at < ?", Time.now], :order => "predictions.expires_at DESC" } }
+  #scope :recent, :order => "predictions.created_at DESC"
+  scope :recent, lambda {{ :conditions => ["predictions.expires_at >= current_date"], :order => "predictions.created_at DESC" } }
+  scope :expiring, lambda { { :conditions => ["predictions.expires_at >= current_date"], :order => "predictions.expires_at ASC" } }
+  scope :closed, lambda { { :conditions => ["predictions.expires_at < current_date"], :order => "predictions.expires_at DESC" } }
 
   # Adds `creatable_by?(user)`, etc
   include Authority::Abilities
   self.authorizer_name = 'PredictionAuthorizer'
-  
+
+  def self.recent_by_user_id(id)
+    Prediction.where(user_id: id.to_s)
+    .where("expires_at >= current_date")
+    .order("created_at DESC")
+  end
+
   private
-  
+
   def max_tag_count
     errors[:tag_list] << "1 tag maximum" if tag_list.count > 1
   end
+
 end
