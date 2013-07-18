@@ -46,7 +46,7 @@ describe Api::PredictionsController do
 
     it "should be successful response with 'history' parameter" do
       prediction = user.predictions.create(valid_attributes)
-      get :index, {:format => :json, :expiring => true}, valid_session
+      get :index, {:format => :json, :history => true}, valid_session
       response.status.should eq(200)
       json = JSON.parse(response.body)
       json.should include("predictions")
