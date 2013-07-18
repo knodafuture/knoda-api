@@ -10,10 +10,8 @@ class Prediction < ActiveRecord::Base
   validates :tag_list, presence: true
   validate  :max_tag_count
 
-  #scope :recent, :order => "predictions.created_at DESC"
   scope :recent, lambda {{ :conditions => ["predictions.expires_at >= current_date"], :order => "predictions.created_at DESC" } }
   scope :expiring, lambda { { :conditions => ["predictions.expires_at >= current_date"], :order => "predictions.expires_at ASC" } }
-  scope :closed, lambda { { :conditions => ["predictions.expires_at < current_date"], :order => "predictions.expires_at DESC" } }
 
   # Adds `creatable_by?(user)`, etc
   include Authority::Abilities
@@ -21,8 +19,14 @@ class Prediction < ActiveRecord::Base
 
   def self.recent_by_user_id(id)
     Prediction.where(user_id: id.to_s)
-    .where("expires_at >= current_date")
-    .order("created_at DESC")
+              .where("expires_at >= current_date")
+              .order("created_at DESC")
+  end
+
+  def self.closed_by_user_id(id)
+    Prediction.where(user_id: id.to_s)
+              .where("closed_at IS NOT NULL")
+              .order("created_at DESC")
   end
 
   private
