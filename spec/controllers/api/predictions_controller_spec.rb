@@ -10,7 +10,7 @@ describe Api::PredictionsController do
                             "outcome" => prediction.outcome, "tag_list" => prediction.tag_list} }
 
   let(:valid_session) { {:auth_token => user.authentication_token} }
-  
+
   let(:user2) { FactoryGirl.create(:user) }
 
   describe "GET predictions.json" do
@@ -54,9 +54,9 @@ describe Api::PredictionsController do
       json.should include("predictions")
     end
 
-    it "should be successful response with 'history' parameter" do
+    it "should be successful response with 'expired' parameter" do
       prediction = user.predictions.create(valid_attributes)
-      get :index, {:format => :json, :history => true}, valid_session
+      get :index, {:format => :json, :expired => true, :user_id => User.first.id}, valid_session
       response.status.should eq(200)
       json = JSON.parse(response.body)
       json.should include("predictions")
@@ -102,7 +102,7 @@ describe Api::PredictionsController do
       end
     end
   end
-  
+
   describe "POST agree" do
     describe "as author of prediction" do
       it "should not create a challenge" do
@@ -111,13 +111,13 @@ describe Api::PredictionsController do
         response.status.should eq(403)
       end
     end
-    
+
     describe "as not author of prediction" do
       it "should create a challenge" do
         prediction = user.predictions.create(valid_attributes)
         prediction.user_id = user2.id
         prediction.save!
-        
+
         put :agree, {:id => prediction.to_param, :format => :json}, valid_session
         response.status.should eq(204)
       end
@@ -132,13 +132,13 @@ describe Api::PredictionsController do
         response.status.should eq(403)
       end
     end
-    
+
     describe "as not author of prediction" do
       it "should create a challenge" do
         prediction = user.predictions.create(valid_attributes)
         prediction.user_id = user2.id
         prediction.save!
-        
+
         put :disagree, {:id => prediction.to_param, :format => :json}, valid_session
         response.status.should eq(204)
       end
