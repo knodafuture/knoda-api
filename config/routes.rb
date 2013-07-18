@@ -14,6 +14,8 @@ Knoda::Application.routes.draw do
       member do
         post 'agree'
         post 'disagree'
+        post 'realize'
+        post 'unrealize'
       end
     end
     resource  :user,          :only => [:show, :update]
