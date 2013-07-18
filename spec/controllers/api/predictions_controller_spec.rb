@@ -10,6 +10,8 @@ describe Api::PredictionsController do
                             "outcome" => prediction.outcome, "tag_list" => prediction.tag_list} }
 
   let(:valid_session) { {:auth_token => user.authentication_token} }
+  
+  let(:user2) { FactoryGirl.create(:user) }
 
   describe "GET predictions.json" do
     it "should be successful response" do
@@ -89,6 +91,48 @@ describe Api::PredictionsController do
         Prediction.any_instance.stub(:save).and_return(false)
         post :create, {:prediction => { "user_id" => "invalid value" }, :format => :json}, valid_session
         response.status.should eq(422)
+      end
+    end
+  end
+  
+  describe "POST agree" do
+    describe "as author of prediction" do
+      it "should not create a challenge" do
+        prediction = user.predictions.create(valid_attributes)
+        put :agree, {:id => prediction.to_param, :format => :json}, valid_session
+        response.status.should eq(403)
+      end
+    end
+    
+    describe "as not author of prediction" do
+      it "should create a challenge" do
+        prediction = user.predictions.create(valid_attributes)
+        prediction.user_id = user2.id
+        prediction.save!
+        
+        put :agree, {:id => prediction.to_param, :format => :json}, valid_session
+        response.status.should eq(204)
+      end
+    end
+  end
+
+  describe "POST disagree" do
+    describe "as author of prediction" do
+      it "should not create a challenge" do
+        prediction = user.predictions.create(valid_attributes)
+        put :disagree, {:id => prediction.to_param, :format => :json}, valid_session
+        response.status.should eq(403)
+      end
+    end
+    
+    describe "as not author of prediction" do
+      it "should create a challenge" do
+        prediction = user.predictions.create(valid_attributes)
+        prediction.user_id = user2.id
+        prediction.save!
+        
+        put :disagree, {:id => prediction.to_param, :format => :json}, valid_session
+        response.status.should eq(204)
       end
     end
   end
