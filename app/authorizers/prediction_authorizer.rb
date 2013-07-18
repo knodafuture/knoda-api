@@ -22,4 +22,12 @@ class PredictionAuthorizer < ApplicationAuthorizer
   def self.disagreeable_by?(user)
     true
   end
+  
+  def self.realizable_by?(user)
+    true
+  end
+  
+  def self.unrealizable_by?(user)
+    true
+  end
 end
