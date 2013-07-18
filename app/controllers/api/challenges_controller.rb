@@ -7,4 +7,8 @@ class Api::ChallengesController < ApplicationController
   def index
     respond_with(current_user.challenges)
   end
+  
+  def show
+    respond_with(Challenge.find_by_prediction_id(params[:id]))
+  end
 end

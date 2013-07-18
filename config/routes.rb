@@ -9,7 +9,7 @@ Knoda::Application.routes.draw do
   # for iOS API
   namespace :api do
     resources :registrations, :only => [:create]
-    resources :challenges,    :only => [:index]
+    resources :challenges,    :only => [:index, :show]
     resources :predictions,   :only => [:index, :show, :create, :destroy] do
       member do
         post 'agree'
