@@ -29,7 +29,9 @@ Authority.configure do |config|
      :update  => 'update',
      :destroy => 'delete',
      :agree   => 'agree',
-     :disagree => 'disagree'
+     :disagree => 'disagree',
+     :realize => 'realize',
+     :unrealize => 'unrealize'
   }
 
   # ABILITIES
@@ -46,7 +48,9 @@ Authority.configure do |config|
      :update => 'updatable',
      :delete => 'deletable',
      :agree => 'agreeable',
-     :disagree => 'disagreeable'
+     :disagree => 'disagreeable',
+     :realize => 'realizable',
+     :unrealize => 'unrealizable'
   }
 
   # LOGGER
