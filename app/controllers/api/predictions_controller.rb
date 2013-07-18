@@ -1,6 +1,7 @@
 class Api::PredictionsController < ApplicationController
   skip_before_filter :verify_authenticity_token
-  before_action :set_prediction, only: [:show, :edit, :update, :destroy, :agree, :disagree]
+  before_action :set_prediction,
+    only: [:show, :edit, :update, :destroy, :agree, :disagree, :realize, :unrealize]
 
   respond_to :json
 
@@ -59,9 +60,26 @@ class Api::PredictionsController < ApplicationController
   def disagree
     vote(false)
   end
-
+  
+  def realize
+    close_prediction(true)
+  end
+  
+  def unrealize
+    close_prediction(false)
+  end
 
   private
+  
+  def close_prediction(outcome)
+    @prediction.outcome = outcome
+    @prediction.closed_at = Time.now
+    if @prediction.save
+      respond_with(@prediction)
+    else
+      render json: @prediction.errors, status: 422
+    end
+  end
 
   def vote(is_agreed)
     @challenge = current_user.challenges.new({
