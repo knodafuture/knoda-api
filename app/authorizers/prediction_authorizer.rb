@@ -7,27 +7,27 @@ class PredictionAuthorizer < ApplicationAuthorizer
     true
   end
   
-  def self.updatable_by?(user)
-    true
+  def updatable_by?(user)
+    user.id == resource.user_id
   end
   
-  def self.deletable_by?(user)
-    true
+  def deletable_by?(user)
+    user.id == resource.user_id
   end
   
-  def self.agreeable_by?(user)
-    true
+  def agreeable_by?(user)
+    user.id != resource.user_id
   end
   
-  def self.disagreeable_by?(user)
-    true
+  def disagreeable_by?(user)
+    user.id != resource.user_id
   end
   
-  def self.realizable_by?(user)
-    true
+  def realizable_by?(user)
+    user.id == resource.user_id
   end
   
-  def self.unrealizable_by?(user)
-    true
+  def unrealizable_by?(user)
+    user.id == resource.user_id
   end
 end

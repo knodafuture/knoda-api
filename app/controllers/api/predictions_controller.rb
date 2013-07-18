@@ -5,8 +5,7 @@ class Api::PredictionsController < ApplicationController
 
   respond_to :json
 
-  authorize_actions_for Prediction
-
+  authorize_actions_for Prediction, :only => [:index, :create, :show]
   def index
     if params[:tag]
       @predictions = current_user.predictions.tagged_with(params[:tag])
@@ -37,6 +36,7 @@ class Api::PredictionsController < ApplicationController
   end
 
   def update
+    authorize_action_for(@prediction) 
     respond_with(@prediction) do |format|
       if @prediction.update(prediction_params)
         format.json { head :no_content }
@@ -47,6 +47,7 @@ class Api::PredictionsController < ApplicationController
   end
 
   def destroy
+    authorize_action_for(@prediction) 
     @prediction.destroy
     respond_with(@prediction) do |format|
       format.json { head :no_content }
@@ -71,7 +72,8 @@ class Api::PredictionsController < ApplicationController
 
   private
   
-  def close_prediction(outcome)
+  def close_prediction(outcome)    
+    authorize_action_for(@prediction) 
     @prediction.outcome = outcome
     @prediction.closed_at = Time.now
     if @prediction.save
@@ -82,6 +84,7 @@ class Api::PredictionsController < ApplicationController
   end
 
   def vote(is_agreed)
+    authorize_action_for(@prediction)
     @challenge = current_user.challenges.new({
       :prediction => @prediction,
       :agree => is_agreed

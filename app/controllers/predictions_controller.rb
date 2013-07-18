@@ -2,7 +2,7 @@ class PredictionsController < ApplicationController
   before_action :set_prediction, only: [:show, :edit, :update, :destroy]
   respond_to :html
   
-  authorize_actions_for Prediction
+  authorize_actions_for Prediction, :only => [:index, :show, :create]
 
   def index
     if params[:tag]
@@ -37,6 +37,7 @@ class PredictionsController < ApplicationController
   end
 
   def update
+    authorize_action_for(@prediction) 
     respond_to do |format|
       if @prediction.update(prediction_params)
         format.html { redirect_to @prediction, notice: 'Prediction was successfully updated.' }
@@ -48,6 +49,7 @@ class PredictionsController < ApplicationController
 
   # DELETE /predictions/1
   def destroy
+    authorize_action_for(@prediction) 
     @prediction.destroy
     respond_to do |format|
       format.html { redirect_to predictions_url }
