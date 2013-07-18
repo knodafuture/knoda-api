@@ -41,6 +41,6 @@ FactoryGirl.define do
 
   factory :challenge do
     user_id 1
-    prediction_id
+    prediction { FactoryGirl.create(:prediction) }
   end
 end
