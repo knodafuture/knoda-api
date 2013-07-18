@@ -8,7 +8,8 @@ describe Api::ChallengesController do
 
   describe "GET challenges.json" do
     it "should be successful response" do
-      challenge = Challenge.create(:user_id => User.all.first.id, :prediction_id => Prediction.all.first.id, :agree => 1)
+      prediction  = FactoryGirl.create :prediction
+      challenge   = Challenge.create(:user_id => User.all.first.id, :prediction_id => prediction.id, :agree => 1)
       get :index, {:format => :json}, valid_session
       response.status.should eq(200)
       json = JSON.parse(response.body)
