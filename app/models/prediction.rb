@@ -40,10 +40,14 @@ class Prediction < ActiveRecord::Base
   
   
   def ratio
+    prediction_market.round
+  end
+
+  def prediction_market
     total = self.challenges.count  + 1
     positive = self.agreed_count
     
-    return ((positive.to_f / total) * 100.0).round
+    (positive.to_f / total) * 100.0
   end
 
   private
@@ -51,7 +55,4 @@ class Prediction < ActiveRecord::Base
   def max_tag_count
     errors[:tag_list] << "1 tag maximum" if tag_list.count > 1
   end
-
-  
-
 end

@@ -77,6 +77,53 @@ class Api::PredictionsController < ApplicationController
   end
 
   private
+  
+  def set_points_for_prediction(prediction, outcome)
+    market_size = prediction.challenges.count
+    
+    # Market size points
+    market_size_points = case prediction.challenges.count
+    when 0..5
+      0
+    when 6..20
+      1
+    when 21..100
+      2
+    when 101..500
+      3
+    when 501..(1.0/0.0)
+      4
+    end
+    
+    # Prediction market points
+    prediction_market_points = case prediction.prediction_market
+    when 0.0..15.00
+      5
+    when 15.00..30.00
+      4
+    when 30.00..50.00
+      3
+    when 50.00..75.00
+      2
+    when 75.00..95.00
+      1
+    when 95.00..100.00
+      0
+    end
+    
+    # Outcome points
+    outcome_points = outcome ? 1 : 0
+    
+    # Add points to users who agreed/disagreed
+    prediction.challenges.each do |challenge|
+      challenge.user.points += prediction_market_points + outcome_points
+      challenge.user.save!
+    end
+    
+    # Add points to user who created the prediction
+    prediction.user.points += market_size_points + prediction_market_points + outcome_points
+    prediction.user.save!    
+  end
 
   def close_prediction(outcome)
     authorize_action_for(@prediction)
@@ -84,13 +131,8 @@ class Api::PredictionsController < ApplicationController
     @prediction.closed_at = Time.now
     if @prediction.save
       
-      if outcome
-        @prediction.challenges.each do |challenge|
-          challenge.user.points = chappenge.user.points + 1
-          challenge.user.save!
-        end
-      end
-                  
+      set_points_for_prediction(@prediction, outcome)
+                    
       respond_with(@prediction)
     else
       render json: @prediction.errors, status: 422
@@ -110,8 +152,6 @@ class Api::PredictionsController < ApplicationController
       render json: @challenge.errors, status: 422
     end
   end
-
-  private
 
   def set_prediction
     @prediction = Prediction.find(params[:id])
