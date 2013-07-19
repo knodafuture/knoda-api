@@ -136,6 +136,48 @@ describe Api::PredictionsController do
       end
     end
   end
+  
+  describe "POST realize" do
+    describe "as author of prediction" do
+      it "should close prediction" do
+        prediction = user.predictions.create(valid_attributes)
+        put :realize, {:id => prediction.to_param, :format => :json}, valid_session
+        response.status.should eq(204)
+      end
+    end
+
+    describe "as not author of prediction" do
+      it "should not close a prediction" do
+        prediction = user.predictions.create(valid_attributes)
+        prediction.user_id = user2.id
+        prediction.save!
+
+        put :realize, {:id => prediction.to_param, :format => :json}, valid_session
+        response.status.should eq(403)
+      end
+    end
+  end
+
+  describe "POST unrealize" do
+    describe "as author of prediction" do
+      it "should close prediction" do
+        prediction = user.predictions.create(valid_attributes)
+        put :unrealize, {:id => prediction.to_param, :format => :json}, valid_session
+        response.status.should eq(204)
+      end
+    end
+
+    describe "as not author of prediction" do
+      it "should not close a prediction" do
+        prediction = user.predictions.create(valid_attributes)
+        prediction.user_id = user2.id
+        prediction.save!
+
+        put :unrealize, {:id => prediction.to_param, :format => :json}, valid_session
+        response.status.should eq(403)
+      end
+    end
+  end
 
   describe "PUT update" do
     describe "with valid params" do
