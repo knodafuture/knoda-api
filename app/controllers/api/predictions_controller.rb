@@ -83,6 +83,14 @@ class Api::PredictionsController < ApplicationController
     @prediction.outcome = outcome
     @prediction.closed_at = Time.now
     if @prediction.save
+      
+      if outcome
+        @prediction.challenges.each do |challenge|
+          challenge.user.points = chappenge.user.points + 1
+          challenge.user.save!
+        end
+      end
+                  
       respond_with(@prediction)
     else
       render json: @prediction.errors, status: 422
