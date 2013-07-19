@@ -10,9 +10,11 @@ class Api::PredictionsController < ApplicationController
     if params[:tag]
       @predictions = current_user.predictions.tagged_with(params[:tag])
     elsif params[:recent]
-      @predictions = params[:user_id] ? Prediction.recent_by_user_id(params[:user_id]) : Prediction.recent
-    elsif params[:expired] && params[:user_id]
-      @predictions = current_user.predictions.closed_by_user_id(params[:user_id])
+      @predictions = Prediction.recent
+    elsif params[:user_recent]
+      @predictions = Prediction.recent_by_user_id(current_user.id)
+    elsif params[:expired]
+      @predictions = Prediction.closed_by_user_id(current_user.id)
     else
       @predictions = current_user.predictions.all
     end
