@@ -15,6 +15,15 @@ describe Api::ChallengesController do
       json = JSON.parse(response.body)
       json.should include("challenges")
     end
+
+    it "should be successful response with 'notifications' parameter" do
+      prediction  = FactoryGirl.create :prediction
+      challenge   = Challenge.create(:user_id => User.all.first.id, :prediction_id => prediction.id, :agree => 1)
+      get :index, {:format => :json, :notifications => true}, valid_session
+      response.status.should eq(200)
+      json = JSON.parse(response.body)
+      json.should include("challenges")
+    end
   end
 
   describe "GET show" do
