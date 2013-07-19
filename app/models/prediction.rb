@@ -33,7 +33,11 @@ class Prediction < ActiveRecord::Base
     total = self.challenges.count
     positive = self.challenges.find_all_by_agree(true).count
     
-    return ((positive.to_f / total) * 100.0).round
+    if total > 0    
+      return ((positive.to_f / total) * 100.0).round
+    else
+      return 0
+    end
   end
 
   private
