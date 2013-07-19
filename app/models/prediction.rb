@@ -29,9 +29,19 @@ class Prediction < ActiveRecord::Base
               .order("created_at DESC")
   end
 
+
+  def disagreed_count
+    self.challenges.find_all_by_agree(false).count
+  end
+
+  def agreed_count
+    self.challenges.find_all_by_agree(true).count
+  end
+  
+  
   def ratio
     total = self.challenges.count
-    positive = self.challenges.find_all_by_agree(true).count
+    positive = self.agreed_count
     
     if total > 0    
       return ((positive.to_f / total) * 100.0).round
