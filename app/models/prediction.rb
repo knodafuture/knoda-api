@@ -35,19 +35,15 @@ class Prediction < ActiveRecord::Base
   end
 
   def agreed_count
-    self.challenges.find_all_by_agree(true).count
+    self.challenges.find_all_by_agree(true).count + 1
   end
   
   
   def ratio
-    total = self.challenges.count
+    total = self.challenges.count  + 1
     positive = self.agreed_count
     
-    if total > 0    
-      return ((positive.to_f / total) * 100.0).round
-    else
-      return 0
-    end
+    return ((positive.to_f / total) * 100.0).round
   end
 
   private
