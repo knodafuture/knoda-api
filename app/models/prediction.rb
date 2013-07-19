@@ -29,10 +29,19 @@ class Prediction < ActiveRecord::Base
               .order("created_at DESC")
   end
 
+  def ratio
+    total = self.challenges.count
+    positive = self.challenges.find_all_by_agree(true).count
+    
+    return ((positive.to_f / total) * 100.0).round
+  end
+
   private
 
   def max_tag_count
     errors[:tag_list] << "1 tag maximum" if tag_list.count > 1
   end
+
+  
 
 end
