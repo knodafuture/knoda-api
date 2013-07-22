@@ -63,4 +63,16 @@ class User < ActiveRecord::Base
         self.badges.create(:name => '1_challenge')
     end
   end
+  
+  def outcome_badges
+      correct_predictions = self.predictions.where(outcome: true)
+      if correct_predictions.count == 10
+        self.badges.create('10_correct_predictions')
+      end
+      
+      incorrect_predictions = self.predictions.where(outcome: false)
+      if incorrect_predictions.count == 10
+        self.badges.create('10_incorrect_predictions')
+      end
+  end
 end

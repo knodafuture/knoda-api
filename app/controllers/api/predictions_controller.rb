@@ -130,6 +130,7 @@ class Api::PredictionsController < ApplicationController
     @prediction.outcome = outcome
     @prediction.closed_at = Time.now
     if @prediction.save
+      @prediction.user.outcome_badges    
       
       set_points_for_prediction(@prediction, outcome)
                     
