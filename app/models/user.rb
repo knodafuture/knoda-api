@@ -2,6 +2,8 @@ class User < ActiveRecord::Base
   # Adds `can_create?(resource)`, etc
   include Authority::UserAbilities
   
+  after_create :registration_badges
+  
   has_many :predictions, :dependent => :destroy
   has_many :challenges, :dependent => :destroy
   has_many :badges, :dependent => :destroy
@@ -29,6 +31,17 @@ class User < ActiveRecord::Base
       where(conditions).where(["lower(username) = :value OR lower(email) = :value", { :value => login.downcase }]).first
     else
       where(conditions).first
+    end
+  end
+  
+  def registration_badges
+    case self.id
+    when 1..500
+      # Gold founding user badge
+      self.badges.create(:name => 'gold_founding')
+    when 501..5000
+      # Silver founding user badge
+      self.badges.create(:name => 'silver_founding')
     end
   end
 end
