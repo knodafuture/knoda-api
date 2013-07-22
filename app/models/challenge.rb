@@ -8,6 +8,8 @@ class Challenge < ActiveRecord::Base
   validates_uniqueness_of :prediction_id, :scope => :user_id
   validate :prediction_is_not_expired
   validate :prediction_is_not_closed
+  
+  after_create :challenge_create_badges
 
   # Adds `creatable_by?(user)`, etc
   include Authority::Abilities
@@ -29,5 +31,9 @@ class Challenge < ActiveRecord::Base
 
   def prediction_is_not_closed
     errors[:prediction] << "prediction is closed" if !self.prediction.closed_at.nil?
+  end
+  
+  def challenge_create_badges
+    self.user.challenge_create_badges
   end
 end

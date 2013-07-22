@@ -55,4 +55,12 @@ class User < ActiveRecord::Base
         self.badges.create(:name => '10_predictions')
     end
   end
+  
+  def challenge_create_badges
+    case self.challenges.count
+      when 1
+        # 1 challange badge
+        self.badges.create(:name => '1_challenge')
+    end
+  end
 end
