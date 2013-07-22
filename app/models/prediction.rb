@@ -1,5 +1,7 @@
 class Prediction < ActiveRecord::Base
   acts_as_taggable
+  
+  after_create :prediction_create_badges
 
   belongs_to :user
   has_many :challenges, :dependent => :destroy
@@ -54,5 +56,9 @@ class Prediction < ActiveRecord::Base
 
   def max_tag_count
     errors[:tag_list] << "1 tag maximum" if tag_list.count > 1
+  end
+  
+  def prediction_create_badges
+    self.user.prediction_create_badges
   end
 end
