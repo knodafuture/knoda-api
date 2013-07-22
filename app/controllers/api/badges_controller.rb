@@ -5,4 +5,14 @@ class Api::BadgesController < ApplicationController
   def index
     respond_with(current_user.badges)
   end
+  
+  def recent
+    @badges = current_user.badges.where(shown: false)
+    @badges.each do |badge|
+      badge.shown = true
+      badge.save!
+    end
+    
+    respond_with(@badges)
+  end
 end
