@@ -18,6 +18,7 @@ Knoda::Application.routes.draw do
         post 'unrealize'
       end
     end
+    resources :badges,        :only => [:index]
     resource  :user,          :only => [:show, :update]
     resource  :password,      :only => [:update]
   end

@@ -1,5 +1,14 @@
 # Some useful notes
 
+Badges:
+	predictions#create
+	predictions#agree
+	predictions#disagree
+	predictions#realize
+	predictions#unrealize
+	registrations#create
+
+
 ===============================================================================
 
 Some setup you must do manually if you haven't yet:

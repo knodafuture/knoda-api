@@ -4,6 +4,7 @@ class User < ActiveRecord::Base
   
   has_many :predictions, :dependent => :destroy
   has_many :challenges, :dependent => :destroy
+  has_many :badges, :dependent => :destroy
   has_many :voted_predictions, through: :challenges, class_name: "Prediction", source: 'prediction'
   
   # Include default devise modules. Others available are:
