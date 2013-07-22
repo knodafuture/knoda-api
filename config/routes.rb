@@ -24,7 +24,7 @@ Knoda::Application.routes.draw do
       end
     end
     resource  :user,          :only => [:show, :update]
-    resource  :password,      :only => [:update]
+    resource  :password,      :only => [:create, :update]
   end
 
   devise_for :users, skip: :registrations

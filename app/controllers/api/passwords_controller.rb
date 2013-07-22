@@ -1,5 +1,16 @@
 class Api::PasswordsController < ApplicationController
   skip_before_filter :verify_authenticity_token
+  skip_before_filter :authenticate_user_please!, :only => [:create]
+    
+  def create
+    user = User.find_first_by_auth_conditions(forgot_password_params)
+    if user
+      User.send_reset_password_instructions(user)
+      head :no_content
+    else
+      head :not_found
+    end
+  end
     
   def update    
     unless current_user.valid_password?(password_params[:current_password])
@@ -20,6 +31,10 @@ class Api::PasswordsController < ApplicationController
   end
   
   private
+
+  def forgot_password_params
+    params.permit(:login)
+  end
 
   def password_params
     params.permit(:current_password, :new_password)
