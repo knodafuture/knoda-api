@@ -1,4 +1,4 @@
-class ChallengeSerializer < ActiveModel::Serializer
+class BadgeSerializer < ActiveModel::Serializer
 
   attributes :id, :name, :created_at
   
