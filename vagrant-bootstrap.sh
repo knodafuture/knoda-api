@@ -1,4 +1,9 @@
 #!/bin/sh
+
+if [ -e "/home/vagrant/.provisioned" ]; then
+	exit
+fi
+
 sudo apt-get update
 sudo apt-get -y install build-essential nodejs
 sudo apt-get -y install postgresql-9.1 libpq-dev
@@ -14,3 +19,5 @@ rvm install 2.0.0  --with-openssl-dir=/home/vagrant/.rvm/usr  --verify-downloads
 rvm use 2.0.0;
 echo 'gem: --no-rdoc --no-ri' >> /home/vagrant/.gemrc;
 gem install rails"
+
+touch /home/vagrant/.provisioned
