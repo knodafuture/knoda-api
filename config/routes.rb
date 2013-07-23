@@ -1,10 +1,14 @@
 Knoda::Application.routes.draw do
-  root 'pages#index'
+  root 'mobile#index'
 
   resources :challenges, only: [:index, :show]
   resources :predictions
 
   get 'tags/:tag', to: 'predictions#index', as: :tag
+
+  get 'users/sign_in'       => 'mobile#index'
+  get 'users/sign_up'       => 'mobile#index'
+  get 'users/password/new'  => 'mobile#index'
 
   # for iOS API
   namespace :api do
@@ -45,8 +49,8 @@ Knoda::Application.routes.draw do
   end
 
   # pages
-  get 'terms' => 'pages#terms'
-  get 'about' => 'pages#about'
+  # get 'terms' => 'pages#terms'
+  # get 'about' => 'pages#about'
 
   # admin namespace
   # namespace :admin do
