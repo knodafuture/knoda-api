@@ -11,6 +11,8 @@ class Prediction < ActiveRecord::Base
   validates :expires_at, presence: true
   validates :tag_list, presence: true
   validate  :max_tag_count
+  
+  validates_length_of :body, :maximum => 300
 
   scope :recent, lambda {{ :conditions => ["predictions.expires_at >= current_date"], :order => "predictions.created_at DESC" } }
   scope :expiring, lambda { { :conditions => ["predictions.expires_at >= current_date"], :order => "predictions.expires_at ASC" } }
