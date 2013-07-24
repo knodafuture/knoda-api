@@ -1,7 +1,7 @@
 class Api::PredictionsController < ApplicationController
   skip_before_filter :verify_authenticity_token
   before_action :set_prediction,
-    only: [:show, :edit, :update, :destroy, :agree, :disagree, :realize, :unrealize]
+    only: [:show, :edit, :update, :destroy, :agree, :disagree, :realize, :unrealize, :history]
 
   respond_to :json
 
@@ -81,6 +81,16 @@ class Api::PredictionsController < ApplicationController
 
   def unrealize
     close_prediction(false)
+  end
+  
+  def history
+    @agreed = @prediction.challenges.order("created_at DESC").limit(50)
+    @disagreed  = @prediction.challenges.order("created_at DESC").limit(50)
+    
+    respond_with({
+      agreed: @prediction.challenges.where(agree: false).order("created_at DESC").limit(50),
+      disagreed: @prediction.challenges.where(agree: true).order("created_at DESC").limit(50)
+    })
   end
 
   private

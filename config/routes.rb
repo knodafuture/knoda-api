@@ -21,6 +21,7 @@ Knoda::Application.routes.draw do
         post 'disagree'
         post 'realize'
         post 'unrealize'
+        get  'history'
       end
     end
     resources :badges,        :only => [:index] do
