@@ -26,7 +26,7 @@ class Api::PredictionsController < ApplicationController
       total: @predictions.count,
       limit: rl,
       offset: ro,
-      challenges: @predictions
+      predictions: @predictions
     })
   end
 
