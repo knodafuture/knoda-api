@@ -141,6 +141,28 @@ class Api::PredictionsController < ApplicationController
     prediction.user.points += market_size_points + prediction_market_points + outcome_points
     prediction.user.save!    
   end
+  
+  def set_won_and_lost_for_prediction(prediction, outcome)
+    # Increase Won and Lost for user who created the prediction
+    # and for users who pick the prediction
+    if outcome
+      prediction.user.won += 1
+      prediction.user.save!
+      
+      prediction.challenges.each do |challenge|
+        challenge.user.won += 1
+        challenge.user.save!
+      end
+    else
+      prediction.user.lost += 1
+      prediction.user.save!
+      
+      prediction.challenges.each do |challenge|
+        challenge.user.lost += 1
+        challenge.user.save!
+      end
+    end
+  end
 
   def close_prediction(outcome)
     authorize_action_for(@prediction)
@@ -150,6 +172,7 @@ class Api::PredictionsController < ApplicationController
       @prediction.user.outcome_badges    
       
       set_points_for_prediction(@prediction, outcome)
+      set_won_and_lost_for_prediction(@prediction, outcome)
                     
       respond_with(@prediction)
     else
