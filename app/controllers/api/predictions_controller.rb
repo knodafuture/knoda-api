@@ -7,20 +7,27 @@ class Api::PredictionsController < ApplicationController
 
   authorize_actions_for Prediction, :only => [:index, :create, :show]
   def index
+    rl = params[:limit]  || 20
+    ro = params[:offset] || 0
+    
     if params[:tag]
-      @predictions = current_user.predictions.tagged_with(params[:tag])
+      @predictions = current_user.predictions.tagged_with(params[:tag]).offset(ro).limit(rl)
     elsif params[:recent]
-      @predictions = Prediction.recent
+      @predictions = Prediction.recent.offset(ro).limit(rl)
     elsif params[:user_recent]
-      @predictions = Prediction.recent_by_user_id(current_user.id)
+      @predictions = Prediction.recent_by_user_id(current_user.id).offset(ro).limit(rl)
     elsif params[:expired]
-      @predictions = Prediction.closed_by_user_id(current_user.id)
+      @predictions = Prediction.closed_by_user_id(current_user.id).offset(ro).limit(rl)
     else
-      @predictions = current_user.predictions.all
+      @predictions = current_user.predictions.limit(rl).offset(ro)
     end
-    respond_with(@predictions) do |format|
-      format.json { render json: @predictions}
-    end
+    
+    respond_with({
+      total: @predictions.count,
+      limit: rl,
+      offset: ro,
+      challenges: @predictions
+    })
   end
 
   def show
