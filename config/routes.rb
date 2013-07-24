@@ -29,6 +29,11 @@ Knoda::Application.routes.draw do
         get 'recent'
       end
     end
+    resources :users,         :only => [:show] do
+      member do
+        get 'predictions'
+      end
+    end
     resource  :profile,       :only => [:show, :update]
     resource  :password,      :only => [:create, :update]
   end
