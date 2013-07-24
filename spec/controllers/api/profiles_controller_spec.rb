@@ -1,7 +1,7 @@
 require 'spec_helper'
 
-describe Api::UsersController do
-  describe "GET user.json" do
+describe Api::ProfilesController do
+  describe "GET profile.json" do
     it "should return user information" do
       @user = FactoryGirl.build :user
       @user.reset_authentication_token!
@@ -16,7 +16,7 @@ describe Api::UsersController do
     end
   end
   
-  describe "PUT user.json" do    
+  describe "PUT profile.json" do    
     it "should update notifications" do      
       @user = FactoryGirl.build :user
       @user.reset_authentication_token!

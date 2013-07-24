@@ -29,7 +29,7 @@ Knoda::Application.routes.draw do
         get 'recent'
       end
     end
-    resource  :user,          :only => [:show, :update]
+    resource  :profile,       :only => [:show, :update]
     resource  :password,      :only => [:create, :update]
   end
 
