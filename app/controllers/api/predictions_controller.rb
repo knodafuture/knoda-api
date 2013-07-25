@@ -103,33 +103,33 @@ class Api::PredictionsController < ApplicationController
     when 0..5
       0
     when 6..20
-      1
+      10
     when 21..100
-      2
+      20
     when 101..500
-      3
+      30
     when 501..(1.0/0.0)
-      4
+      40
     end
     
     # Prediction market points
     prediction_market_points = case prediction.prediction_market
     when 0.0..15.00
-      5
+      50
     when 15.00..30.00
-      4
+      40
     when 30.00..50.00
-      3
+      30
     when 50.00..75.00
-      2
+      20
     when 75.00..95.00
-      1
+      10
     when 95.00..100.00
       0
     end
     
     # Outcome points
-    outcome_points = outcome ? 1 : 0
+    outcome_points = outcome ? 10 : 0
     
     # Add points to users who agreed/disagreed
     prediction.challenges.each do |challenge|
