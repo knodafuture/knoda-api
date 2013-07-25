@@ -168,6 +168,16 @@ class Api::PredictionsController < ApplicationController
       challenge.user.save!
     end
   end
+  
+  def set_streak(prediction, outcome)    
+    prediction.user.update_streak(outcome)
+    prediction.user.save!
+    
+    prediction.challenges.each do |challenge|
+      challenge.user.update_streak(challenge.agree == outcome)
+      challenge.user.save!
+    end
+  end
 
   def close_prediction(outcome)
     authorize_action_for(@prediction)
@@ -178,6 +188,7 @@ class Api::PredictionsController < ApplicationController
       
       set_points_for_prediction(@prediction, outcome)
       set_won_and_lost_for_prediction(@prediction, outcome)
+      set_streak(@prediction, outcome)
                     
       respond_with(@prediction)
     else

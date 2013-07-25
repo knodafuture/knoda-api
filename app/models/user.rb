@@ -50,6 +50,14 @@ class User < ActiveRecord::Base
     end
   end
   
+  def update_streak(won)
+    if won
+      self.streak = (self.streak > 0) ? self.streak+1 : +1
+    else
+      self.streak = (self.streak < 0) ? self.streak-1 : -1 
+    end
+  end
+  
   def registration_badges
     case self.id
       when 1..500
