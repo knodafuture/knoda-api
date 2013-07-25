@@ -36,6 +36,20 @@ class User < ActiveRecord::Base
     end
   end
   
+  def streak_s
+    if self.streak == 0
+      return ""
+    end
+    
+    if self.streak > 0
+      return "W#{self.streak}"
+    end
+    
+    if self.streak < 0
+      return "L#{self.streak}"
+    end
+  end
+  
   def registration_badges
     case self.id
       when 1..500
