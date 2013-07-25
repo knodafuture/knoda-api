@@ -35,6 +35,14 @@ class User < ActiveRecord::Base
       where(conditions).first
     end
   end
+
+  def winning_percentage
+    if self.lost > 0
+      (self.won.to_f / (self.won + self.lost)).round(2)
+    else
+      0.00
+    end
+  end
   
   def streak_s
     if self.streak == 0
