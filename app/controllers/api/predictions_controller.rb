@@ -133,7 +133,12 @@ class Api::PredictionsController < ApplicationController
     
     # Add points to users who agreed/disagreed
     prediction.challenges.each do |challenge|
-      challenge.user.points += prediction_market_points + outcome_points
+      challenge.user.points += prediction_market_points
+      
+      if challenge.agree == outcome
+        challenge.user.points += 1
+      end
+      
       challenge.user.save!
     end
     
@@ -148,19 +153,19 @@ class Api::PredictionsController < ApplicationController
     if outcome
       prediction.user.won += 1
       prediction.user.save!
-      
-      prediction.challenges.each do |challenge|
-        challenge.user.won += 1
-        challenge.user.save!
-      end
     else
       prediction.user.lost += 1
       prediction.user.save!
-      
-      prediction.challenges.each do |challenge|
+    end
+    
+    prediction.challenges.each do |challenge|
+      if challenge.agree = outcome
+        challenge.user.won += 1
+      else
         challenge.user.lost += 1
-        challenge.user.save!
       end
+      
+      challenge.user.save!
     end
   end
 
