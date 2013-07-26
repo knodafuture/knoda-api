@@ -3,6 +3,8 @@ require 'spec_helper'
 describe Api::PredictionsController do
 
   user = login_as_user(true)
+  
+  let(:topic) { FactoryGirl.create(:topic) }
 
   let(:prediction) { FactoryGirl.build(:prediction) }
 

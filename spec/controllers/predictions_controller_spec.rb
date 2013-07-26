@@ -21,6 +21,8 @@ require 'spec_helper'
 describe PredictionsController do
 
   user = login_as_user
+  
+  let(:topic) { FactoryGirl.create(:topic) }
 
   let(:prediction) { FactoryGirl.create(:prediction) }
   #let(:user) {FactoryGirl.create(:user)}
