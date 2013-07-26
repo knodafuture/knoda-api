@@ -6,12 +6,12 @@ class Api::TopicsController < ApplicationController
   
   def index
     if topic_params[:pattern]
-      @tags = ActsAsTaggableOn::Tag.where('name like ?', '%'+topic_params[:pattern]+'%').order("name").limit(20)
+      @topics = Topic.where('name like ?', '%'+topic_params[:pattern]+'%').order("name")
     else
-      @tags = ActsAsTaggableOn::Tag.order("name").limit(20)
+      @topics = Topic.order("name")
     end
     
-    respond_with(@tags)
+    respond_with(@topics)
   end
   
   private
