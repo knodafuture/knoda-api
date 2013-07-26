@@ -4,23 +4,14 @@ class Api::ChallengesController < ApplicationController
   authorize_actions_for Challenge
   respond_to :json
 
-  def index
-    roffset = params[:offset] || 0
-    rlimit  = params[:limit]  || 20    
-    
+  def index    
     if params[:notifications]
-      @challenges = Challenge.get_notifications_by_user_id(current_user.id).offset(roffset).limit(rlimit)
+      @challenges = Challenge.get_notifications_by_user_id(current_user.id)
     else
-      @challenges = current_user.challenges.offset(roffset).limit(rlimit)
+      @challenges = current_user.challenges.where(is_own: false)
     end
     
     respond_with(@challenges)
-    #respond_with({
-    #  total: @challenges.count,
-    #  limit: rlimit,
-    #  offset: roffset,
-    #  challenges: @challenges
-    #})
   end
 
   def show
