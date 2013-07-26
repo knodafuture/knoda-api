@@ -14,12 +14,13 @@ class Api::ChallengesController < ApplicationController
       @challenges = current_user.challenges.offset(roffset).limit(rlimit)
     end
     
-    respond_with({
-      total: @challenges.count,
-      limit: rlimit,
-      offset: roffset,
-      challenges: @challenges
-    })
+    respond_with(@challenges)
+    #respond_with({
+    #  total: @challenges.count,
+    #  limit: rlimit,
+    #  offset: roffset,
+    #  challenges: @challenges
+    #})
   end
 
   def show

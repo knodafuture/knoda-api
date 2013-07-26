@@ -22,12 +22,13 @@ class Api::PredictionsController < ApplicationController
       @predictions = current_user.predictions.limit(rl).offset(ro)
     end
     
-    respond_with({
-      total: @predictions.count,
-      limit: rl,
-      offset: ro,
-      predictions: @predictions
-    })
+    respond_with(@predictions)
+    #respond_with({
+    #  total: @predictions.count,
+    #  limit: rl,
+    #  offset: ro,
+    #  predictions: @predictions
+    #})
   end
 
   def show
