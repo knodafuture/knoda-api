@@ -43,7 +43,11 @@ Knoda::Application.routes.draw do
   devise_for :users, skip: :registrations
   devise_scope :user do
     namespace :api do
-      resource :session,      :only => [:create, :destroy]
+      resource :session,      :only => [:create, :destroy] do
+        member do
+          get 'authentication_failure'
+        end
+      end
       resource :registration, :only => [:create]
     end
 

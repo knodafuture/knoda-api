@@ -1,12 +1,12 @@
 class Api::SessionsController < Devise::SessionsController
   skip_before_filter :verify_authenticity_token
-  skip_before_filter :authenticate_user_please!, only: [:create]
+  skip_before_filter :authenticate_user_please!, only: [:create, :authentication_failure]
   include Devise::Controllers::Helpers
 
   respond_to :json
 
   def create
-    self.resource = warden.authenticate!({:scope => :user})
+    self.resource = warden.authenticate!({:scope => :user, :recall => 'api/sessions#authentication_failure'})
     sign_in(resource_name, resource)
     
     if resource.authentication_token.nil?
@@ -27,5 +27,9 @@ class Api::SessionsController < Devise::SessionsController
     resource.save
     sign_out(resource_name)
     render :json => {}.to_json, :status => :ok
+  end
+  
+  def authentication_failure
+    render json: {success: false}, status: :forbidden
   end
 end
