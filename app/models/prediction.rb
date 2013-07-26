@@ -11,6 +11,7 @@ class Prediction < ActiveRecord::Base
   validates :expires_at, presence: true
   validates :tag_list, presence: true
   validate  :max_tag_count
+  validate  :tag_existence
   
   validates_length_of :body, :maximum => 300
 
@@ -65,6 +66,14 @@ class Prediction < ActiveRecord::Base
 
   def max_tag_count
     errors[:tag_list] << "1 tag maximum" if tag_list.count > 1
+  end
+  
+  def tag_existence
+    tag_list.each do |tag_name|
+      if Topic.where(name: tag_name).first.nil?
+        errors[:tag_list] << "invalid tag #{tag_name}"
+      end
+    end
   end
   
   def prediction_create_badges
