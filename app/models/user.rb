@@ -35,6 +35,14 @@ class User < ActiveRecord::Base
       where(conditions).first
     end
   end
+  
+  def avatar_image
+    if self.avatar.exists?
+      self.avatar
+    else
+      nil
+    end
+  end
 
   def winning_percentage
     if self.lost > 0
