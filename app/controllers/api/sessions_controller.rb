@@ -22,7 +22,7 @@ class Api::SessionsController < Devise::SessionsController
   end
 
   def destroy
-    resource = User.find_by_authentication_token(params[:auth_token]||request.headers["X-AUTH-TOKEN"])
+    resource = User.find_by_authentication_token(params[:auth_token])
     resource.authentication_token = nil
     resource.save
     sign_out(resource_name)
