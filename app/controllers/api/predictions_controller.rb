@@ -6,29 +6,20 @@ class Api::PredictionsController < ApplicationController
   respond_to :json
 
   authorize_actions_for Prediction, :only => [:index, :create, :show]
-  def index
-    rl = params[:limit]  || 20
-    ro = params[:offset] || 0
-    
+  def index    
     if params[:tag]
-      @predictions = current_user.predictions.tagged_with(params[:tag]).offset(ro).limit(rl)
+      @predictions = current_user.predictions.tagged_with(params[:tag])
     elsif params[:recent]
-      @predictions = Prediction.recent.offset(ro).limit(rl)
+      @predictions = Prediction.recent
     elsif params[:user_recent]
-      @predictions = Prediction.recent_by_user_id(current_user.id).offset(ro).limit(rl)
+      @predictions = Prediction.recent_by_user_id(current_user.id)
     elsif params[:expired]
-      @predictions = Prediction.closed_by_user_id(current_user.id).offset(ro).limit(rl)
+      @predictions = Prediction.closed_by_user_id(current_user.id)
     else
-      @predictions = current_user.predictions.limit(rl).offset(ro)
+      @predictions = current_user.predictions
     end
     
     respond_with(@predictions)
-    #respond_with({
-    #  total: @predictions.count,
-    #  limit: rl,
-    #  offset: ro,
-    #  predictions: @predictions
-    #})
   end
 
   def show
