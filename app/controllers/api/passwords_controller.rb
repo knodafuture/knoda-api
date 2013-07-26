@@ -44,5 +44,4 @@ class Api::PasswordsController < ApplicationController
     warden.custom_failure!
     render :json=> {:success=>false, :message=>"Error with your current password"}, :status=>401
   end
-  
 end
