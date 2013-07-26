@@ -1,8 +1,8 @@
 class PredictionSerializer < ActiveModel::Serializer
 
-  attributes :id, :user_id, :body, :outcome, :expires_at, :created_at, :closed_at, 
-    :ratio, :agreed_count, :disagreed_count
-
+  attributes :id, :user_id, :body, :outcome, :expires_at, :created_at, :closed_at, :ratio, :agreed_count, :disagreed_count
+  attributes :user
+  
   has_many :tags
 
   self.root = false
