@@ -61,6 +61,40 @@ class Prediction < ActiveRecord::Base
     
     (positive.to_f / total) * 100.0
   end
+  
+  
+  
+  def market_size_points
+    case self.challenges.count
+      when 0..5
+        0
+      when 6..20
+        10
+      when 21..100
+        20
+      when 101..500
+        30
+      when 501..(1.0/0.0)
+        40
+    end
+  end
+  
+  def prediction_market_points
+    case self.prediction_market
+      when 0.0..15.00
+        50
+      when 15.00..30.00
+        40
+      when 30.00..50.00
+        30
+      when 50.00..75.00
+        20
+      when 75.00..95.00
+        10
+      when 95.00..100.00
+        0
+    end
+  end
 
   private
 
