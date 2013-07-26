@@ -8,18 +8,8 @@ class Api::UsersController < ApplicationController
     respond_with(@user)
   end
   
-  def predictions
-    rl = params[:limit]  || 30
-    ro = params[:offset] || 0
-    
-    @predictions = @user.predictions.order("created_at DESC").offset(ro).limit(rl)
-    respond_with(@predictions)
-    #respond_with({
-    #  total: @predictions.count,
-    #  limit: rl,
-    #  offset: ro,
-    #  predictions: @predictions
-    #})
+  def predictions    
+    respond_with(@user.predictions.order("created_at DESC"))
   end
   
   private
