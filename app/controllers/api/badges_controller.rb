@@ -7,9 +7,9 @@ class Api::BadgesController < ApplicationController
   end
   
   def recent
-    @badges = current_user.badges.where(shown: false)
+    @badges = current_user.badges.where(seen: false)
     @badges.each do |badge|
-      badge.shown = true
+      badge.seen = true
       badge.save!
     end
     
