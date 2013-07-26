@@ -1,7 +1,7 @@
 class PredictionSerializer < ActiveModel::Serializer
 
   attributes :id, :user_id, :body, :outcome, :expires_at, :created_at, :closed_at, :ratio, :agreed_count, :disagreed_count
-  attributes :user
+  attributes :user_username, :user_avatar_image
   
   has_many :tags
 

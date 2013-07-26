@@ -32,7 +32,14 @@ class Prediction < ActiveRecord::Base
               .where("closed_at IS NOT NULL")
               .order("created_at DESC")
   end
-
+  
+  def user_username
+    self.user.username
+  end
+  
+  def user_avatar_image
+    self.user.avatar_image
+  end
 
   def disagreed_count
     self.challenges.find_all_by_agree(false).count
