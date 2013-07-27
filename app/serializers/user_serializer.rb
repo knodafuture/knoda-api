@@ -4,6 +4,7 @@ class UserSerializer < ActiveModel::Serializer
   attributes :streak
   attributes :total_predictions
   attributes :alerts
+  attributes :badges
 
   self.root = false
   
@@ -27,5 +28,9 @@ class UserSerializer < ActiveModel::Serializer
   
   def alerts
     object.alerts_count
+  end
+  
+  def badges
+    object.badges.unseen.count
   end
 end
