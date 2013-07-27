@@ -98,14 +98,31 @@ class User < ActiveRecord::Base
   end
   
   def outcome_badges
-    correct_predictions = self.predictions.where(outcome: true)
-    if correct_predictions.count == 10
-      self.badges.create('10_correct_predictions')
+    # 10 correct predictions badge
+    correct_predictions = self.predictions.where(outcome: true).count
+    correct_badge = self.badges.where(name: '10_correct_predictions').first
+    
+    if correct_badge
+      if correct_predictions < 10
+        correct_badge.delete
+      end
+    else
+      if correct_predictions > 9
+        self.badges.create(name: '10_correct_predictions')
+      end
     end
     
-    incorrect_predictions = self.predictions.where(outcome: false)
-    if incorrect_predictions.count == 10
-      self.badges.create('10_incorrect_predictions')
+    # 10 incorrect predictions badge
+    incorrect_predictions = self.predictions.where(outcome: false).count
+    incorrect_badge = self.badges.where(name: '10_incorrect_predictions').first
+    if incorrect_badge
+      if incorrect_predictions < 10
+        incorrect_badge.delete
+      end
+    else
+      if incorrect_predictions > 9
+        self.badges.create(name: '10_incorrect_predictions')
+      end
     end
   end
   
