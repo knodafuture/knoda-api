@@ -1,190 +1,105 @@
 class Api::PredictionsController < ApplicationController
   skip_before_filter :verify_authenticity_token
-  before_action :set_prediction,
-    only: [:show, :edit, :update, :destroy, :agree, :disagree, :realize, :unrealize, :history]
-
+  skip_before_filter :authenticate_user_please!
+  before_action :set_prediction, :except => [:index, :create]
+  
   respond_to :json
-
-  authorize_actions_for Prediction, :only => [:index, :create, :show]
-  def index    
+  
+  def index
     if params[:tag]
-      @predictions = current_user.predictions.tagged_with(params[:tag])
+      @predictions = Prediction.tagged_with(params[:tag])
     elsif params[:recent]
       @predictions = Prediction.recent
     elsif params[:user_recent]
       @predictions = Prediction.recent_by_user_id(current_user.id)
-    elsif params[:expired]
-      @predictions = Prediction.closed_by_user_id(current_user.id)
+    elsif params[:user_expiring]
+      @predictions = Prediction.expiring_by_user_id(current_user.id)
     else
       @predictions = current_user.predictions
     end
     
     respond_with(@predictions)
   end
-
-  def show
-    respond_with(@prediction) do |format|
-      format.json { render json: @prediction}
-    end
-  end
-
+  
   def create
-    @prediction = current_user.predictions.new(prediction_params)
-
-    respond_with(@prediction) do |format|
-      if @prediction.save
-        format.json { render json: @prediction, status: 201}
-      else
-        format.json { render json: @prediction.errors, status: 422 }
-      end
-    end
+    @prediction = current_user.predictions.create(prediction_create_params)  
+    respond_with(@prediction)
   end
-
+  
   def update
-    authorize_action_for(@prediction)
-    respond_with(@prediction) do |format|
-      if @prediction.update(prediction_params)
-        format.json { head :no_content }
-      else
-        format.json { render json: @prediction.errors, status: 422 }
-      end
-    end
+    @prediction.update(prediction_update_params)
+    respond_with(@prediction)
   end
-
-  def destroy
-    authorize_action_for(@prediction)
-    @prediction.destroy
-    respond_with(@prediction) do |format|
-      format.json { head :no_content }
-    end
+  
+  def show
+    respond_with(@prediction)
   end
-
+  
+  def history_agreed
+    respond_with(@prediction.challenges.where(is_own: false, agree: true))
+  end
+  
+  def history_disagreed
+    respond_with(@prediction.challenges.where(is_own: false, agree: false))
+  end
+  
   def agree
-    vote(true)
+    authorize_action_for(@prediction)
+    
+    @challenge = current_user.first.pick(@prediction, true)
+    @challenge.save
+    respond_with(@challenge)
   end
-
+  
   def disagree
-    vote(false)
+    authorize_action_for(@prediction)
+    
+    @challenge = current_user.pick(@prediction, false)
+    @challenge.save
+    respond_with(@challenge)
   end
-
+  
   def realize
-    close_prediction(true)
+    authorize_action_for(@prediction)
+    
+    if @prediction.close_as(true)
+      respond_with(@prediction)
+    else
+      respond_with(@prediction.errors, status: 422)
+    end
   end
 
   def unrealize
-    close_prediction(false)
-  end
-  
-  def history
-    @agreed = @prediction.challenges.order("created_at DESC").limit(50)
-    @disagreed  = @prediction.challenges.order("created_at DESC").limit(50)
-    
-    respond_with({
-      agreed: @prediction.challenges.where(agree: false).order("created_at DESC").limit(50),
-      disagreed: @prediction.challenges.where(agree: true).order("created_at DESC").limit(50)
-    })
-  end
-
-  private
-  
-  def set_points_for_prediction(prediction, outcome)        
-    # Market size points
-    market_size_points = prediction.market_size_points
-
-    # Prediction market points
-    prediction_market_points = prediction.prediction_market_points
-    
-    # Outcome points
-    outcome_points = outcome ? 10 : 0
-    
-    # Add points to users who agreed/disagreed
-    prediction.challenges.each do |challenge|
-      challenge.user.points += prediction_market_points
-      
-      if challenge.agree == outcome
-        challenge.user.points += 1
-      end
-      
-      challenge.user.save!
-    end
-    
-    # Add points to user who created the prediction
-    prediction.user.points += market_size_points + prediction_market_points + outcome_points
-    prediction.user.save!    
-  end
-  
-  def set_won_and_lost_for_prediction(prediction, outcome)
-    # Increase Won and Lost for user who created the prediction
-    # and for users who pick the prediction
-    if outcome
-      prediction.user.won += 1
-      prediction.user.save!
-    else
-      prediction.user.lost += 1
-      prediction.user.save!
-    end
-    
-    prediction.challenges.each do |challenge|
-      if challenge.agree = outcome
-        challenge.user.won += 1
-      else
-        challenge.user.lost += 1
-      end
-      
-      challenge.user.save!
-    end
-  end
-  
-  def set_streak(prediction, outcome)    
-    prediction.user.update_streak(outcome)
-    prediction.user.save!
-    
-    prediction.challenges.each do |challenge|
-      challenge.user.update_streak(challenge.agree == outcome)
-      challenge.user.save!
-    end
-  end
-
-  def close_prediction(outcome)
     authorize_action_for(@prediction)
-    @prediction.outcome = outcome
-    @prediction.closed_at = Time.now
-    if @prediction.save
-      @prediction.user.outcome_badges    
-      
-      set_points_for_prediction(@prediction, outcome)
-      set_won_and_lost_for_prediction(@prediction, outcome)
-      set_streak(@prediction, outcome)
-                    
+    
+    if @prediction.close_as(false)
       respond_with(@prediction)
     else
-      render json: @prediction.errors, status: 422
+      respond_with(@prediction.errors, status: 422)
     end
   end
-
-  def vote(is_agreed)
-    authorize_action_for(@prediction)
-    @challenge = current_user.challenges.new({
-      :prediction => @prediction,
-      :agree => is_agreed
-    });
-
-    if @challenge.save
-      respond_with @challenge
-    else
-      render json: @challenge.errors, status: 422
-    end
+  
+  def bs
+    @challenge = current_user.challenges.where(prediction: @prediction).first
+    @challenge.bs = true
+    @challenge.save!
+    
+    @prediction.request_for_bs
+    
+    head :no_content
   end
-
+  
+  private
+  
   def set_prediction
     @prediction = Prediction.find(params[:id])
   end
-
-  def vote_params
-    params.permit(:agree)
+  
+  def prediction_create_params
+    params.require(:prediction).permit(:body, :expires_at, :tag_list => [])
   end
-
-  def prediction_params
-    params.require(:prediction).permit(:user_id, :body, :expires_at, :outcome, :closed_at, :tag_list => [])
+  
+  def prediction_update_params
+    params.require(:prediction).permit(:expires_at)
   end
 end
