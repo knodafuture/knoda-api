@@ -14,14 +14,8 @@ Knoda::Application.routes.draw do
   namespace :api do
     resources :registrations, :only => [:create]
     resources :topics,        :only => [:index]
-    resources :challenges,    :only => [:show] do
+    resources :challenges,    :only => [:index, :show] do
       collection do
-        get  'own'
-        get  'picks'
-        get  'won_picks'
-        get  'lost_picks'
-        get  'completed'
-        get  'expired'
         post 'set_seen'
       end
     end

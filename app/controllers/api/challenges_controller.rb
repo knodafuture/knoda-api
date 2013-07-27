@@ -4,29 +4,28 @@ class Api::ChallengesController < ApplicationController
 
   #authorize_actions_for Challenge
   respond_to :json
-
-  def own
-    @challenges = current_user.challenges.own
-    respond_with(@challenges)
-  end
   
-  def picks
-    @challenges = current_user.challenges.picks
-    respond_with(@challenges)
-  end
-  
-  def won_picks
-    @challenges = current_user.challenges.won_picks
-    respond_with(@challenges)
-  end
-  
-  def lost_picks
-    @challenges = current_user.challenges.lost_picks
-    respond_with(@challenges)
-  end
-  
-  def completed
-    @challenges = current_user.challenges.completed
+  def index
+    case (params[:list] || '*')
+      when 'own'
+        @challenges = current_user.challenges.own
+      when 'picks'
+        @challenges = current_user.challenges.picks
+      when 'won_picks'
+        @challenges = current_user.challenges.won_picks
+      when 'lost_picks'
+        @challenges = current_user.challenges.lost_picks
+      when 'completed'
+        @challenges = current_user.challenges.completed
+      when 'expired'
+        @challenges = Challenge.joins(:prediction)
+          .where(user: current_user)
+          .where("is_closed is false and expires_at <= ?", Time.now)
+          .order("expires_at DESC")
+      else
+        @challenges = current_user.challenges      
+    end
+    
     respond_with(@challenges)
   end
   
@@ -42,14 +41,6 @@ class Api::ChallengesController < ApplicationController
   
   def show
     respond_with(@challenge)
-  end
-  
-  def expired
-    @challenges = Challenge.joins(:prediction)
-      .where(user: current_user)
-      .where("is_closed is false and expires_at <= ?", Time.now)
-      .order("expires_at DESC")
-    respond_with(@challenges)
   end
   
   private
