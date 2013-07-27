@@ -52,9 +52,9 @@ class User < ActiveRecord::Base
     end
   end
 
-  def winning_percentage
-    if self.lost > 0
-      (self.won.to_f / (self.won + self.lost)).round(2)
+  def winning_percentage    
+    if self.won > 0
+      (self.won.to_f / (self.won + self.lost) * 100.0).round(2)
     else
       0.00
     end
