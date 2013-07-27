@@ -6,8 +6,8 @@ class Challenge < ActiveRecord::Base
   validates :prediction_id, presence: true
 
   validates_uniqueness_of :prediction_id, :scope => :user_id
-  validate :prediction_is_not_expired
-  validate :prediction_is_not_closed
+  #validate :prediction_is_not_expired
+  #validate :prediction_is_not_closed
   
   after_create :challenge_create_badges
   
@@ -67,19 +67,20 @@ class Challenge < ActiveRecord::Base
     self.user.save!
   end
   
-  def revert
+  def revert!
     self.is_right = false
     self.is_finished = false
     self.bs = false
     self.save!
-    
-    self.user.points -= self.prediction_market_points
-    self.user.points -= self.outcome_points
-    
-    if self.is_own
-      self.user.points -= self.market_size_points
+ 
+    k = 0
+    k = k + self.prediction_market_points
+    k = k + self.outcome_points
+    if self.is_own?
+      k = k + self.market_size_points
     end
     
+    self.user.points = self.user.points - k    
     self.user.save!
   end
 

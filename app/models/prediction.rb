@@ -109,11 +109,14 @@ class Prediction < ActiveRecord::Base
     self.close_as(false)
   end
   
-  def revert
+  def revert_challenges
     self.challenges.each do |challenge|
-      challenge.revert
+      challenge.revert!
     end
-    
+  end
+  
+  def revert
+    self.revert_challenges
     self.close_as(!self.outcome)
   end
   
