@@ -10,10 +10,21 @@ class Challenge < ActiveRecord::Base
   validate :prediction_is_not_closed
   
   after_create :challenge_create_badges
+  
+  scope :own, -> {joins(:prediction).where(is_own: true).order('expires_at DESC')}
+  scope :picks, -> {joins(:prediction).where(is_own: false).order('expires_at DESC')}
+  scope :completed, -> {joins(:prediction).where(is_own: false, is_finished: true).order('expires_at DESC')}
 
   # Adds `creatable_by?(user)`, etc
   include Authority::Abilities
   self.authorizer_name = 'ChallengeAuthorizer'
+  
+  def self.get_own(id)
+    Challenge.joins(:prediction)
+      .where(user_id: id)
+      .where(is_own: true)
+      .order('expires_at DESC')
+  end
 
   def self.get_notifications_by_user_id(id)
     Challenge.joins(:prediction)
@@ -59,6 +70,7 @@ class Challenge < ActiveRecord::Base
   def revert
     self.is_right = false
     self.is_finished = false
+    self.bs = false
     self.save!
     
     self.user.points -= self.prediction_market_points
