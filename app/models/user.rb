@@ -36,6 +36,14 @@ class User < ActiveRecord::Base
     end
   end
   
+  def won
+    self.challenges.where({is_finished: true, is_right: true}).count
+  end
+  
+  def lost
+    self.challenges.where({is_finished: true, is_right: false}).count
+  end
+  
   def avatar_image
     if self.avatar.exists?
       self.avatar
