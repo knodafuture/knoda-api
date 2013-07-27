@@ -101,6 +101,14 @@ class Prediction < ActiveRecord::Base
     end
   end
   
+  def close_as_true
+    self.close_as(true)
+  end
+  
+  def close_as_false
+    self.close_as(false)
+  end
+  
   def revert
     self.challenges.each do |challenge|
       challenge.revert
