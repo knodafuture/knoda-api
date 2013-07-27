@@ -14,7 +14,12 @@ Knoda::Application.routes.draw do
   namespace :api do
     resources :registrations, :only => [:create]
     resources :topics,        :only => [:index]
-    resources :challenges,    :only => [:index, :show]
+    resources :challenges,    :only => [:show] do
+      collection do
+        get 'own'
+        get 'picks'
+      end
+    end
     resources :predictions,   :only => [:index, :show, :create, :update, :destroy] do
       member do
         post 'agree'
