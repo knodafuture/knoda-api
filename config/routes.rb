@@ -16,8 +16,11 @@ Knoda::Application.routes.draw do
     resources :topics,        :only => [:index]
     resources :challenges,    :only => [:show] do
       collection do
-        get 'own'
-        get 'picks'
+        get  'own'
+        get  'picks'
+        get  'completed'
+        get  'expired'
+        post 'set_seen'
       end
     end
     resources :predictions,   :only => [:index, :show, :create, :update, :destroy] do
@@ -29,6 +32,7 @@ Knoda::Application.routes.draw do
         get  'history_agreed'
         get  'history_disagreed'
         post 'bs'
+        get  'challenge'
       end
     end
     resources :badges,        :only => [:index] do
