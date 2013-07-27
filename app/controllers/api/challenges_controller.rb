@@ -2,7 +2,7 @@ class Api::ChallengesController < ApplicationController
   skip_before_filter :verify_authenticity_token
   before_action :set_challenge, :only => [:show]
 
-  #authorize_actions_for Challenge
+  authorize_actions_for Challenge
   respond_to :json
   
   def index

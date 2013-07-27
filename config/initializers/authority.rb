@@ -31,7 +31,8 @@ Authority.configure do |config|
      :agree   => 'agree',
      :disagree => 'disagree',
      :realize => 'realize',
-     :unrealize => 'unrealize'
+     :unrealize => 'unrealize',
+     :set_seen => 'set_seen'
   }
 
   # ABILITIES
@@ -50,7 +51,8 @@ Authority.configure do |config|
      :agree => 'agreeable',
      :disagree => 'disagreeable',
      :realize => 'realizable',
-     :unrealize => 'unrealizable'
+     :unrealize => 'unrealizable',
+     :set_seen => 'set_seenable'
   }
 
   # LOGGER

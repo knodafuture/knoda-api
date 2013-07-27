@@ -13,5 +13,9 @@ class ChallengeAuthorizer < ApplicationAuthorizer
   
   def self.deletable_by?(user)
     true
-  end  
+  end
+  
+  def self.set_seenable_by?(user)
+    true
+  end
 end
