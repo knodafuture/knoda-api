@@ -15,13 +15,15 @@ Knoda::Application.routes.draw do
     resources :registrations, :only => [:create]
     resources :topics,        :only => [:index]
     resources :challenges,    :only => [:index, :show]
-    resources :predictions,   :only => [:index, :show, :create, :destroy] do
+    resources :predictions,   :only => [:index, :show, :create, :update, :destroy] do
       member do
         post 'agree'
         post 'disagree'
         post 'realize'
         post 'unrealize'
-        get  'history'
+        get  'history_agreed'
+        get  'history_disagreed'
+        post 'bs'
       end
     end
     resources :badges,        :only => [:index] do
