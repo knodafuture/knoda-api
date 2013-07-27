@@ -17,7 +17,7 @@ class UserSerializer < ActiveModel::Serializer
     end
     
     if object.streak < 0
-      return "L#{object.streak}"
+      return "L#{object.streak.abs}"
     end
   end
   
