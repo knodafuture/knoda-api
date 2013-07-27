@@ -1,13 +1,23 @@
 class PredictionSerializer < ActiveModel::Serializer
-  attributes :id, :user_id, :body, :outcome, :expires_at, :created_at, :closed_at
+  attributes :id, :body, :outcome, :expires_at, :created_at, :closed_at
   attributes :agreed_count, :disagreed_count
   attributes :market_size, :prediction_market
   
-  attributes :username, :user_avatar
+  attributes :user_id, :username, :user_avatar
+  attributes :expired
+  attributes :settled
   
   has_many :tags
 
   self.root = false
+  
+  def settled
+    object.is_closed?
+  end
+  
+  def expired
+    object.expires_at.past?
+  end
   
   def username
     object.user.username
