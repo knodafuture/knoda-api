@@ -116,4 +116,9 @@ class User < ActiveRecord::Base
       agree: agree
     })
   end
+  
+  def alerts_count
+    self.challenges.where(is_finished: true, seen: false, is_own: false).count +
+    self.predictions.where("is_closed is false and expires_at <= ?", Time.now).count
+  end
 end

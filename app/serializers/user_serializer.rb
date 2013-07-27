@@ -3,6 +3,7 @@ class UserSerializer < ActiveModel::Serializer
   attributes :points, :won, :lost, :winning_percentage
   attributes :streak, :streak_string
   attributes :total_predictions
+  attributes :alerts
 
   self.root = false
   
@@ -22,5 +23,9 @@ class UserSerializer < ActiveModel::Serializer
   
   def total_predictions
     object.predictions.count
+  end
+  
+  def alerts
+    object.alerts_count
   end
 end
