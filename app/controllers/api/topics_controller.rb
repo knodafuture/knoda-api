@@ -5,18 +5,10 @@ class Api::TopicsController < ApplicationController
   respond_to :json
   
   def index
-    if topic_params[:pattern]
-      @topics = Topic.where('hidden is false and name like ?', '%'+topic_params[:pattern]+'%').order("name")
+    if params[:pattern]
+      respond_with(Topic.find_active_by_pattern(params[:pattern]))
     else
-      @topics = Topic.where('hidden is false').order("name")
+      respond_with(Topic.find_active)
     end
-    
-    respond_with(@topics)
-  end
-  
-  private
-  
-  def topic_params
-    params.permit(:pattern)
   end
 end
