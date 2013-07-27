@@ -7,12 +7,8 @@ class Api::BadgesController < ApplicationController
   end
   
   def recent
-    @badges = current_user.badges.unseen
-    @badges.each do |badge|
-      badge.seen = true
-      badge.save!
-    end
-    
+    @badges = current_user.badges.unseen.all
+    current_user.badges.unseen.update_all(seen: true)
     respond_with(@badges)
   end
 end
