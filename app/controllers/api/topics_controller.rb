@@ -6,9 +6,9 @@ class Api::TopicsController < ApplicationController
   
   def index
     if topic_params[:pattern]
-      @topics = Topic.where('name like ?', '%'+topic_params[:pattern]+'%').order("name")
+      @topics = Topic.where('hidden is false and name like ?', '%'+topic_params[:pattern]+'%').order("name")
     else
-      @topics = Topic.order("name")
+      @topics = Topic.where('hidden is false').order("name")
     end
     
     respond_with(@topics)
