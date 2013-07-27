@@ -54,7 +54,7 @@ class Prediction < ActiveRecord::Base
   end
   
   def prediction_market
-    self.agreed_count.fdiv(self.market_size).round(2)
+    (self.agreed_count.fdiv(self.market_size) * 100.0).round(2)
   end
   
   def market_size_points
