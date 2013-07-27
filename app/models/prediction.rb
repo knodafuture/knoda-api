@@ -86,6 +86,36 @@ class Prediction < ActiveRecord::Base
         0
     end
   end
+  
+  def close_as(outcome)
+    self.outcome = outcome
+    self.is_closed = true
+    self.closed_at = Time.now
+    return false unless self.save
+    
+    self.user.outcome_badges
+    self.challenges.each do |challenge|
+      challenge.close
+    end
+  end
+  
+  def revert
+    self.challenges.each do |challenge|
+      challenge.revert
+    end
+    
+    self.close_as(!self.outcome)
+  end
+  
+  def request_for_bs
+    bs_count = self.challenges.where(bs: true).count
+    if bs_count.fdiv(self.challenges.count-1) >= 25.00
+      self.revert
+      true
+    else
+      false
+    end
+  end
 
   private
   
