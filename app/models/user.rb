@@ -109,4 +109,11 @@ class User < ActiveRecord::Base
       self.badges.create('10_incorrect_predictions')
     end
   end
+  
+  def pick(prediction, agree)
+    self.challenges.new({
+      prediction: prediction,
+      agree: agree
+    })
+  end
 end
