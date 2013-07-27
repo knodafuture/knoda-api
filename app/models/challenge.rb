@@ -14,6 +14,9 @@ class Challenge < ActiveRecord::Base
   scope :own, -> {joins(:prediction).where(is_own: true).order('expires_at DESC')}
   scope :picks, -> {joins(:prediction).where(is_own: false).order('expires_at DESC')}
   scope :completed, -> {joins(:prediction).where(is_own: false, is_finished: true).order('expires_at DESC')}
+  
+  scope :won_picks, -> {joins(:prediction).where(is_own: false, is_finished: true, is_right: true).order('expires_at DESC')}
+  scope :lost_picks, -> {joins(:prediction).where(is_own: false, is_finished: true, is_right: false).order('expires_at DESC')}
 
   # Adds `creatable_by?(user)`, etc
   include Authority::Abilities

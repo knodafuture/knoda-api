@@ -18,6 +18,8 @@ Knoda::Application.routes.draw do
       collection do
         get  'own'
         get  'picks'
+        get  'won_picks'
+        get  'lost_picks'
         get  'completed'
         get  'expired'
         post 'set_seen'

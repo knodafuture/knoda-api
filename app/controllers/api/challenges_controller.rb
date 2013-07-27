@@ -15,6 +15,16 @@ class Api::ChallengesController < ApplicationController
     respond_with(@challenges)
   end
   
+  def won_picks
+    @challenges = current_user.challenges.won_picks
+    respond_with(@challenges)
+  end
+  
+  def lost_picks
+    @challenges = current_user.challenges.lost_picks
+    respond_with(@challenges)
+  end
+  
   def completed
     @challenges = current_user.challenges.completed
     respond_with(@challenges)
