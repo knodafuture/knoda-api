@@ -38,6 +38,16 @@ class Challenge < ActiveRecord::Base
              .order("CASE when closed_at IS NOT NULL then closed_at else expires_at end desc")
   end
   
+  def base_points
+    if self.is_own
+      # inceptive for user making the prediction
+      10
+    else
+      # inceptive for user agreeing or disagreeing with prediction
+      5
+    end
+  end
+  
   def outcome_points
     if self.agree == self.prediction.outcome
       10
@@ -59,6 +69,7 @@ class Challenge < ActiveRecord::Base
     self.is_finished = true
     self.save!
     
+    self.user.points += self.base_points
     self.user.points += self.prediction_market_points
     self.user.points += self.outcome_points
     
@@ -77,6 +88,7 @@ class Challenge < ActiveRecord::Base
     self.save!
  
     k = 0
+    k = k + self.base_points
     k = k + self.prediction_market_points
     k = k + self.outcome_points
     if self.is_own?
