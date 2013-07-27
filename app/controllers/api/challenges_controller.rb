@@ -30,12 +30,7 @@ class Api::ChallengesController < ApplicationController
   end
   
   def set_seen
-    params[:ids].split(',').each do |id|
-      challenge = current_user.challenges.where(id: id).first
-      challenge.seen = true
-      challenge.save
-    end
-    
+    current_user.challenges.where(id: params[:ids]).update_all(seen: true)
     head :no_content
   end
   
