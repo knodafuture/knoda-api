@@ -91,9 +91,8 @@ class User < ActiveRecord::Base
   end
   
   def challenge_create_badges
-    case self.challenges.count
+    case self.challenges.where(is_own: false).count
       when 1
-        # 1 challange badge
         self.badges.create(:name => '1_challenge')
     end
   end
