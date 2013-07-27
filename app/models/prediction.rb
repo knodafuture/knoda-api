@@ -14,11 +14,11 @@ class Prediction < ActiveRecord::Base
 
   validates :body, presence: true
   validates :expires_at, presence: true
-  validate  :expires_at_is_not_past
-  
+
   validates :tag_list, presence: true
   validate  :max_tag_count
   validate  :tag_existence
+  validate  :expires_at_is_not_past
   
   validates_length_of :body, :maximum => 300
   validates_uniqueness_of :body
@@ -90,6 +90,7 @@ class Prediction < ActiveRecord::Base
   private
   
   def expires_at_is_not_past
+    return unless self.expires_at
     errors[:expires_at] << "is past" if self.expires_at.past?
   end
 
