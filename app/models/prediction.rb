@@ -26,8 +26,9 @@ class Prediction < ActiveRecord::Base
 
   scope :recent, lambda {{ :conditions => ["predictions.expires_at >= current_date"], :order => "predictions.created_at DESC" } }
   scope :expiring, lambda { { :conditions => ["predictions.expires_at >= current_date"], :order => "predictions.expires_at ASC" } }
-
-
+  
+  scope :latest, -> { order('created_at DESC') }
+  
   def self.recent_by_user_id(id)
     Prediction.where(user_id: id.to_s)
               .where("expires_at >= current_date")

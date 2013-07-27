@@ -9,7 +9,7 @@ class Api::UsersController < ApplicationController
   end
   
   def predictions    
-    respond_with(@user.predictions.order("created_at DESC"))
+    respond_with(@user.predictions.latest)
   end
   
   private
