@@ -5,6 +5,8 @@ class Api::PredictionsController < ApplicationController
   
   respond_to :json
   
+  authorize_actions_for Prediction, :only => [:index, :create, :show]
+  
   def index
     if params[:tag]
       @predictions = Prediction.tagged_with(params[:tag])
@@ -27,6 +29,8 @@ class Api::PredictionsController < ApplicationController
   end
   
   def update
+    authorize_action_for(@prediction)
+    
     @prediction.update(prediction_update_params)
     respond_with(@prediction)
   end
@@ -87,6 +91,11 @@ class Api::PredictionsController < ApplicationController
     @prediction.request_for_bs
     
     head :no_content
+  end
+  
+  def challenge
+    @challenge = current_user.challenges.where(prediction: @prediction).first
+    respond_with(@challenge)
   end
   
   private
