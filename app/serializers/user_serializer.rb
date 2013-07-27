@@ -1,20 +1,26 @@
 class UserSerializer < ActiveModel::Serializer
-  attributes :id, :username, :email, :created_at, :avatar_image, :notifications, :points, :won, :lost, :streak, :winning_percentage
-  attributes :streak_string
+  attributes :id, :username, :email, :created_at, :avatar_image, :notifications
+  attributes :points, :won, :lost, :winning_percentage
+  attributes :streak, :streak_string
+  attributes :total_predictions
 
   self.root = false
   
   def streak_string
-    if self.streak == 0
+    if object.streak == 0
       return ""
     end
     
-    if self.streak > 0
+    if object.streak > 0
       return "W#{self.streak}"
     end
     
-    if self.streak < 0
+    if object.streak < 0
       return "L#{self.streak}"
     end
+  end
+  
+  def total_predictions
+    object.predictions.count
   end
 end
