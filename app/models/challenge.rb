@@ -19,8 +19,56 @@ class Challenge < ActiveRecord::Base
     Challenge.joins(:prediction)
              .where(seen: false)
              .where(user_id: id)
+             .where(is_own: false)
              .where("predictions.closed_at IS NOT NULL OR (predictions.closed_at IS NULL AND expires_at < current_date)")
              .order("CASE when closed_at IS NOT NULL then closed_at else expires_at end desc")
+  end
+  
+  def outcome_points
+    if self.agree == self.prediction.outcome
+      10
+    else
+      0
+    end
+  end
+  
+  def market_size_points
+    self.prediction.market_size_points
+  end
+  
+  def prediction_market_points
+    self.prediction.prediction_market_points
+  end
+  
+  def close
+    self.is_right = self.agree == self.prediction.outcome
+    self.is_finished = true
+    self.save!
+    
+    self.user.points += self.prediction_market_points
+    self.user.points += self.outcome_points
+    
+    if self.is_own
+      self.user.points += self.market_size_points
+    end
+    
+    self.user.update_streak(self.is_right)
+    self.user.save!
+  end
+  
+  def revert
+    self.is_right = false
+    self.is_finished = false
+    self.save!
+    
+    self.user.points -= self.prediction_market_points
+    self.user.points -= self.outcome_points
+    
+    if self.is_own
+      self.user.points -= self.market_size_points
+    end
+    
+    self.user.save!
   end
 
   private
