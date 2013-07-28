@@ -3,7 +3,8 @@ class User < ActiveRecord::Base
   include Authority::UserAbilities
   
   after_create :registration_badges
-  
+  before_update :send_email_if_username_was_changed
+  before_update :send_email_if_email_was_changed
   
   has_many :predictions, :dependent => :destroy
   has_many :challenges, :dependent => :destroy
@@ -136,5 +137,17 @@ class User < ActiveRecord::Base
   def alerts_count
     self.challenges.where(is_finished: true, seen: false, is_own: false).count +
     self.predictions.where("is_closed is false and expires_at <= ?", Time.now).count
+  end
+  
+  def send_email_if_username_was_changed
+    if self.username_changed?
+      # send email here
+    end
+  end
+  
+  def send_email_if_email_was_changed
+    if self.email_changed?
+      # send email here
+    end
   end
 end
