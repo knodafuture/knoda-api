@@ -49,7 +49,7 @@ class Challenge < ActiveRecord::Base
   end
   
   def outcome_points
-    if self.agree == self.prediction.outcome
+    if self.agree == self.prediction.reload.outcome
       10
     else
       0
