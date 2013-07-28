@@ -6,8 +6,8 @@ class Challenge < ActiveRecord::Base
   validates :prediction_id, presence: true
 
   validates_uniqueness_of :prediction_id, :scope => :user_id
-  #validate :prediction_is_not_expired
-  #validate :prediction_is_not_closed
+  validate :prediction_is_not_expired, :on => :create
+  validate :prediction_is_not_closed, :on => :create
   
   after_create :challenge_create_badges
   
