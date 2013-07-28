@@ -2,11 +2,12 @@ require "spec_helper"
 
 describe UserMailer do
   describe "signup" do
-    let(:mail) { UserMailer.signup }
+    let(:user) { FactoryGirl.create(:user) }
+    let(:mail) { UserMailer.signup(user) }
 
     it "renders the headers" do
       mail.subject.should eq("Signup")
-      mail.to.should eq(["to@example.org"])
+      mail.to.should eq([user.email])
       mail.from.should eq(["from@example.com"])
     end
 
@@ -16,11 +17,12 @@ describe UserMailer do
   end
 
   describe "email_was_changed" do
-    let(:mail) { UserMailer.email_was_changed }
+    let(:user) { FactoryGirl.create(:user) }
+    let(:mail) { UserMailer.email_was_changed(user) }
 
     it "renders the headers" do
       mail.subject.should eq("Email was changed")
-      mail.to.should eq(["to@example.org"])
+      mail.to.should eq([user.email])
       mail.from.should eq(["from@example.com"])
     end
 
@@ -30,11 +32,12 @@ describe UserMailer do
   end
 
   describe "username_was_changed" do
-    let(:mail) { UserMailer.username_was_changed }
+    let(:user) { FactoryGirl.create(:user) }
+    let(:mail) { UserMailer.username_was_changed(user) }
 
     it "renders the headers" do
       mail.subject.should eq("Username was changed")
-      mail.to.should eq(["to@example.org"])
+      mail.to.should eq([user.email])
       mail.from.should eq(["from@example.com"])
     end
 
