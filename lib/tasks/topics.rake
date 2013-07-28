@@ -1,16 +1,22 @@
 namespace :topics do
   desc "TODO"
   task refresh: :environment do
-    @topics = [
-      'Sports',
-      'Entertainment',
-      'Stocks',
-      'Weather',
-      'Personal',
-      'Social',
-      'Funny',
-      'TBD'
-    ]
+    @topics = []
+    
+    File.open("#{Rails.root}/data/topics.txt") do |f|
+      f.each do |line|      
+        line.strip!
+         
+        unless line =~ /\#/ || line.empty?
+          @topics << line
+        end
+      end
+    end
+    
+    unless @topics.count
+      puts "Please specify the topic list"
+      exit
+    end
     
     Topic.update_all(hidden: true)
     
