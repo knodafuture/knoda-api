@@ -33,4 +33,32 @@ class UserSerializer < ActiveModel::Serializer
   def badges
     object.badges.unseen.count
   end
+  
+  def include_notifications?
+    object.id == current_user.id
+  end
+  
+  def include_alerts?
+    object.id == current_user.id
+  end
+  
+  def include_badges?
+    object.id == current_user.id
+  end
+  
+  def include_won?
+    object.id == current_user.id
+  end
+  
+  def include_lost?
+    object.id == current_user.id
+  end
+  
+  def include_winning_percentage?
+    object.id == current_user.id
+  end
+  
+  def include_streak?
+    object.id == current_user.id
+  end
 end
