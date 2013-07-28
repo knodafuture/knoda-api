@@ -145,7 +145,7 @@ class Prediction < ActiveRecord::Base
   
   def tag_existence
     self.tag_list.each do |tag_name|
-      if Topic.where(name: tag_name).first.nil?
+      if Topic.where(name: tag_name, hidden: false).first.nil?
         errors[:tag_list] << "invalid tag #{tag_name}"
       end
     end
