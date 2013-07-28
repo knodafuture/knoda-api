@@ -50,7 +50,7 @@ class Api::PredictionsController < ApplicationController
   def agree
     authorize_action_for(@prediction)
     
-    @challenge = current_user.first.pick(@prediction, true)
+    @challenge = current_user.pick(@prediction, true)
     @challenge.save
     respond_with(@challenge)
   end
