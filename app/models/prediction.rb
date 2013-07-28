@@ -90,14 +90,10 @@ class Prediction < ActiveRecord::Base
   end
   
   def close_as(outcome)
-    self.outcome = outcome
-    self.is_closed = true
-    self.closed_at = Time.now
-    return false unless self.save
-    
+    self.update({outcome: outcome, is_closed: true, closed_at: Time.now})
     self.user.outcome_badges
-    self.challenges.each do |challenge|
-      challenge.close
+    self.challenges.each do |c|
+      c.close
     end
   end
   
