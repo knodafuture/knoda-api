@@ -64,39 +64,25 @@ class Challenge < ActiveRecord::Base
     self.prediction.prediction_market_points
   end
   
-  def close
-    self.is_right = self.agree == self.prediction.outcome
-    self.is_finished = true
-    self.save!
-    
-    self.user.points += self.base_points
-    self.user.points += self.prediction_market_points
-    self.user.points += self.outcome_points
-    
+  def total_points
+    p = self.base_points + self.outcome_points + self.prediction_market_points
     if self.is_own
-      self.user.points += self.market_size_points
+      p += self.market_size_points
     end
     
+    return p
+  end
+  
+  def close
+    self.update({is_right: (self.agree == self.prediction.outcome), is_finished: true})
+    self.user.update({points: self.user.points + self.total_points})
     self.user.update_streak(self.is_right)
     self.user.save!
   end
   
-  def revert!
-    self.is_right = false
-    self.is_finished = false
-    self.bs = false
-    self.save!
- 
-    k = 0
-    k = k + self.base_points
-    k = k + self.prediction_market_points
-    k = k + self.outcome_points
-    if self.is_own?
-      k = k + self.market_size_points
-    end
-    
-    self.user.points = self.user.points - k    
-    self.user.save!
+  def revert
+    self.user.update({points: self.user.points - self.total_points})
+    self.update({is_right: false, is_finished: false, bs: false})
   end
 
   private

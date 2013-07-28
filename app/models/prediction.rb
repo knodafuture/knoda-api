@@ -111,7 +111,7 @@ class Prediction < ActiveRecord::Base
   
   def revert_challenges
     self.challenges.each do |challenge|
-      challenge.revert!
+      challenge.revert
     end
   end
   
