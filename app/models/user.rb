@@ -3,6 +3,8 @@ class User < ActiveRecord::Base
   include Authority::UserAbilities
   
   after_create :registration_badges
+  after_create :send_signup_email
+  
   before_update :send_email_if_username_was_changed
   before_update :send_email_if_email_was_changed
   
@@ -139,15 +141,19 @@ class User < ActiveRecord::Base
     self.predictions.where("is_closed is false and expires_at <= ?", Time.now).count
   end
   
+  def send_signup_email
+    UserMailer.signup(self).deliver
+  end
+  
   def send_email_if_username_was_changed
     if self.username_changed?
-      # send email here
+      UserMailer.username_was_changed(self).deliver
     end
   end
   
   def send_email_if_email_was_changed
     if self.email_changed?
-      # send email here
+      UserMailer.email_was_changed(self).deliver
     end
   end
 end
