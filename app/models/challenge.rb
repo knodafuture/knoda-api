@@ -20,6 +20,10 @@ class Challenge < ActiveRecord::Base
   scope :unviewed, -> {where(seen: false)}
   scope :expired, -> {joins(:prediction).where("is_closed is false and expires_at <= ?", Time.now).order("expires_at DESC")}
   
+  scope :agreed_by_users, ->{where(agree: true, is_own: false)}
+  scope :disagreed_by_users, ->{where(agree: false, is_own: false)}
+  
+  
   # Adds `creatable_by?(user)`, etc
   include Authority::Abilities
   self.authorizer_name = 'ChallengeAuthorizer'

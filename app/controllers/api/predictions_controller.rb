@@ -40,11 +40,11 @@ class Api::PredictionsController < ApplicationController
   end
   
   def history_agreed
-    respond_with(@prediction.challenges.where(is_own: false, agree: true))
+    respond_with(@prediction.challenges.agreed_by_users.limit(50), each_serializer: ChallengeHistorySerializer)
   end
   
   def history_disagreed
-    respond_with(@prediction.challenges.where(is_own: false, agree: false))
+    respond_with(@prediction.challenges.disagreed_by_users.limit(50), each_serializer: ChallengeHistorySerializer)
   end
   
   def agree
