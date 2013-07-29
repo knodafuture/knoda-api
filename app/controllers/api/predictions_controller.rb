@@ -21,9 +21,8 @@ class Api::PredictionsController < ApplicationController
     end
     
     @predictions = @predictions.offset(param_offset).limit(param_limit)
-    @meta = {offset: param_offset, limit: param_limit, count: @predictions.count}
-    
-    respond_with(@predictions, each_serializer: PredictionFeedSerializer, meta: @meta)
+        
+    respond_with(@predictions, each_serializer: PredictionFeedSerializer, meta: pagination_meta(@predictions))
   end
   
   def create

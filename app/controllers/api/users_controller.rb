@@ -12,8 +12,8 @@ class Api::UsersController < ApplicationController
     @predictions = @user.predictions.latest.offset(param_offset).limit(param_limit)
     @meta = {offset: param_offset, limit: param_limit, count: @predictions.count}
     
-    respond_with(@user.predictions.latest, root: 'predictions', 
-      meta: @meta, 
+    respond_with(@predictions, root: 'predictions', 
+      meta: pagination_meta(@predictions), 
       each_serializer: PredictionFeedSerializer)
   end
   
