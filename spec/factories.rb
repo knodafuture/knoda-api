@@ -45,7 +45,7 @@ FactoryGirl.define do
     body { FactoryGirl.generate(:body) }
     expires_at Date.new(2014, 9, 1)
     outcome true
-    tag_list ["test"]
+    tag_list {[FactoryGirl.create(:topic).name]}
   end
 
   factory :challenge do

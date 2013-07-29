@@ -19,10 +19,9 @@ require 'spec_helper'
 # that an instance is receiving a specific message.
 
 describe PredictionsController do
-
   user = login_as_user
   
-  let(:topic) { FactoryGirl.create(:topic) }
+  #let(:topic) { FactoryGirl.create(:topic) }
 
   let(:prediction) { FactoryGirl.create(:prediction) }
   #let(:user) {FactoryGirl.create(:user)}
@@ -31,7 +30,7 @@ describe PredictionsController do
   # Prediction. As you add validations to Prediction, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) { {"user_id" => prediction.user_id, "body" => prediction.body, "expires_at" => prediction.expires_at,
-                            "outcome" => prediction.outcome, "tag_list" => [topic.name]} }
+                            "outcome" => prediction.outcome, "tag_list" => prediction.tag_list} }
 
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
