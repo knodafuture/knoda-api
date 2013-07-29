@@ -31,7 +31,7 @@ describe PredictionsController do
   # Prediction. As you add validations to Prediction, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) { {"user_id" => prediction.user_id, "body" => prediction.body, "expires_at" => prediction.expires_at,
-                            "outcome" => prediction.outcome, "tag_list" => prediction.tag_list} }
+                            "outcome" => prediction.outcome, "tag_list" => [topic.name]} }
 
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in

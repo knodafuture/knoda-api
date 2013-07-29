@@ -200,14 +200,4 @@ describe Api::PredictionsController do
       end
     end
   end
-
-  describe "DELETE destroy" do
-    it "should destroy a prediction" do
-      prediction = user.predictions.create(valid_attributes)
-      expect {
-        delete :destroy, {:id => prediction.to_param, :format => :json}, valid_session
-      }.to change(Prediction, :count).by(-1)
-      response.status.should eq(204)
-    end
-  end
 end

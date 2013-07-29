@@ -16,7 +16,7 @@ class PredictionSerializer < ActiveModel::Serializer
   end
   
   def expired
-    object.expires_at.past?
+    object.expires_at && object.expires_at.past?
   end
   
   def username
