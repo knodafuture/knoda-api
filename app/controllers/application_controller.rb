@@ -22,4 +22,12 @@ class ApplicationController < ActionController::Base
       end
     end
   end
+  
+  def param_limit
+    params[:limit] || 50
+  end
+  
+  def param_offset
+    params[:offset] || 0
+  end
 end

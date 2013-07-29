@@ -20,7 +20,10 @@ class Api::PredictionsController < ApplicationController
       @predictions = current_user.predictions
     end
     
-    respond_with(@predictions, each_serializer: PredictionFeedSerializer)
+    @predictions = @predictions.offset(param_offset).limit(param_limit)
+    @meta = {offset: param_offset, limit: param_limit, count: @predictions.count}
+    
+    respond_with(@predictions, each_serializer: PredictionFeedSerializer, meta: @meta)
   end
   
   def create

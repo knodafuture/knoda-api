@@ -35,7 +35,10 @@ class Api::ChallengesController < ApplicationController
         @challenges = current_user.challenges.expired.unviewed    
     end
     
-    respond_with(@challenges)
+    @challenges = @challenges.offset(param_offset).limit(param_limit)
+    @meta = {offset: param_offset, limit: param_limit, count: @challenges.count}
+    
+    respond_with(@challenges, meta: @meta)
   end
   
   def set_seen
