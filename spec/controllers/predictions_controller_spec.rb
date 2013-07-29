@@ -21,10 +21,7 @@ require 'spec_helper'
 describe PredictionsController do
   user = login_as_user
   
-  #let(:topic) { FactoryGirl.create(:topic) }
-
-  let(:prediction) { FactoryGirl.create(:prediction) }
-  #let(:user) {FactoryGirl.create(:user)}
+  let(:prediction) { FactoryGirl.build(:prediction) }
 
   # This should return the minimal set of attributes required to create a valid
   # Prediction. As you add validations to Prediction, be sure to
@@ -35,7 +32,7 @@ describe PredictionsController do
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
   # PredictionsController. Be sure to keep this updated too.
-  let(:valid_session) { {:auth_token => "2iZHiNipXUywoacpyW7R"} }
+  let(:valid_session) { {:auth_token => user.authentication_token} }
 
   describe "GET index" do
     it "assigns all predictions as @predictions" do
