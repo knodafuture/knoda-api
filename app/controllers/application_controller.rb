@@ -31,8 +31,8 @@ class ApplicationController < ActionController::Base
     params[:offset] || 0
   end
   
-  def pagination_meta(@collection)
-    if @collection
+  def pagination_meta(collection)
+    if collection
       {offset: param_offset, limit: param_limit, count: @collection.count}
     end
   end
