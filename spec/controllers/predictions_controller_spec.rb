@@ -152,20 +152,4 @@ describe PredictionsController do
       end
     end
   end
-
-  describe "DELETE destroy" do
-    it "destroys the requested prediction" do
-      prediction = user.predictions.create(valid_attributes)
-      expect {
-        delete :destroy, {:id => prediction.to_param}, valid_session
-      }.to change(Prediction, :count).by(-1)
-    end
-
-    it "redirects to the predictions list" do
-      prediction = user.predictions.create(valid_attributes)
-      delete :destroy, {:id => prediction.to_param}, valid_session
-      response.should redirect_to(predictions_url)
-    end
-  end
-
 end
