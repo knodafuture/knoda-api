@@ -57,16 +57,23 @@ class Api::PredictionsController < ApplicationController
     authorize_action_for(@prediction)
     
     @challenge = current_user.pick(@prediction, true)
-    @challenge.save
-    respond_with(@challenge)
+    if @challenge.save
+      respond_with(@challenge)
+    else
+      respond_with(@challenge.errors, status: 422)
+    end
   end
   
   def disagree
     authorize_action_for(@prediction)
     
     @challenge = current_user.pick(@prediction, false)
-    @challenge.save
-    respond_with(@challenge)
+  
+    if @challenge.save
+      respond_with(@challenge)
+    else
+      respond_with(@challenge.errors, status: 422)
+    end
   end
   
   def realize
