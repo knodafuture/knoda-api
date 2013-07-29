@@ -80,7 +80,7 @@ describe Api::PredictionsController do
       end
 
       it "should be successful response" do
-        prediction = user.predictions.create(valid_attributes)
+        #prediction = user.predictions.create(valid_attributes)
         post :create, {:prediction => valid_attributes, :format => :json}, valid_session
         response.status.should eq(201)
       end
@@ -88,7 +88,7 @@ describe Api::PredictionsController do
 
     describe "with invalid params" do
       it "should not create a prediction" do
-        Prediction.any_instance.stub(:save).and_return(false)
+        #Prediction.any_instance.stub(:save).and_return(false)
         post :create, {:prediction => { "user_id" => "invalid value" }, :format => :json}, valid_session
         response.status.should eq(422)
       end
