@@ -8,8 +8,13 @@ class Api::UsersController < ApplicationController
     respond_with(@user)
   end
   
-  def predictions    
-    respond_with(@user.predictions.latest)
+  def predictions
+    @predictions = @user.predictions.latest.offset(param_offset).limit(param_limit)
+    @meta = {offset: param_offset, limit: param_limit, count: @predictions.count}
+    
+    respond_with(@user.predictions.latest, root: 'predictions', 
+      meta: @meta, 
+      each_serializer: PredictionFeedSerializer)
   end
   
   private
