@@ -90,6 +90,15 @@ class Challenge < ActiveRecord::Base
     self.user.update({points: self.user.points - self.total_points})
     self.update({is_right: false, is_finished: false, bs: false})
   end
+  
+  def points_details
+    {
+      base_points: object.base_points,
+      outcome_points: object.outcome_points,
+      market_size_points: object.market_size_points,
+      prediction_market_points: object.prediction_market_points
+    }
+  end
 
   private
 
