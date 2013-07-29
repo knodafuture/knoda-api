@@ -6,24 +6,33 @@ class Api::ChallengesController < ApplicationController
   respond_to :json
   
   def index
-    case (params[:list] || '*')
+    case (params[:list] || 'all')
+      when 'all'
+        @challenges = current_user.challenges
       when 'own'
         @challenges = current_user.challenges.own
+      when 'own_unviewed'
+        @challenges = current_user.challenges.own.unviewed
       when 'picks'
         @challenges = current_user.challenges.picks
+      when 'picks_unviewed'
+        @challenges = current_user.challenges.picks.unviewed
       when 'won_picks'
         @challenges = current_user.challenges.won_picks
+      when 'won_picks_unviewed'
+        @challenges = current_user.challenges.won_picks.unviewed
       when 'lost_picks'
         @challenges = current_user.challenges.lost_picks
+      when 'lost_picks_unviewed'
+        @challenges = current_user.challenges.lost_picks.unviewed
       when 'completed'
         @challenges = current_user.challenges.completed
+      when 'completed_unviewed'
+        @challenges = current_user.challenges.completed.unviewed
       when 'expired'
-        @challenges = Challenge.joins(:prediction)
-          .where(user: current_user)
-          .where("is_closed is false and expires_at <= ?", Time.now)
-          .order("expires_at DESC")
-      else
-        @challenges = current_user.challenges      
+        @challenges = current_user.challenges.expired
+      when 'expired_unviewed'
+        @challenges = current_user.challenges.expired.unviewed    
     end
     
     respond_with(@challenges)

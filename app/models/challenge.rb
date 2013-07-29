@@ -17,7 +17,9 @@ class Challenge < ActiveRecord::Base
   
   scope :won_picks, -> {joins(:prediction).where(is_own: false, is_finished: true, is_right: true).order('expires_at DESC')}
   scope :lost_picks, -> {joins(:prediction).where(is_own: false, is_finished: true, is_right: false).order('expires_at DESC')}
-
+  scope :unviewed, -> {where(seen: false)}
+  scope :expired, -> {joins(:prediction).where("is_closed is false and expires_at <= ?", Time.now).order("expires_at DESC")}
+  
   # Adds `creatable_by?(user)`, etc
   include Authority::Abilities
   self.authorizer_name = 'ChallengeAuthorizer'
