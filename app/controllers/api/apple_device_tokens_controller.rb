@@ -8,6 +8,10 @@ class Api::AppleDeviceTokensController < ApplicationController
     respond_with(current_user.apple_device_tokens)
   end
   
+  def show
+    respond_with(current_user.apple_device_tokens.find(params[:id]))
+  end
+  
   def create  
     @token = AppleDeviceToken.find_or_create_by_token(required_params[:token])
     @token.user = current_user
