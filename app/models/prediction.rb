@@ -20,9 +20,12 @@ class Prediction < ActiveRecord::Base
   validate  :tag_existence
   validate  :expires_at_is_not_past, :on => :create
   validate  :new_expires_at_is_not_past, :on => :update
+  validate  :is_not_settled, :on => :update, :unless => :in_bs
   
   validates_length_of :body, :maximum => 300
   validates_uniqueness_of :body
+  
+  attr_accessor :in_bs
 
   scope :recent, lambda {{ :conditions => ["predictions.expires_at >= current_date"], :order => "predictions.created_at DESC" } }
   scope :expiring, lambda { { :conditions => ["predictions.expires_at >= current_date"], :order => "predictions.expires_at ASC" } }
@@ -90,10 +93,15 @@ class Prediction < ActiveRecord::Base
   end
   
   def close_as(outcome)
-    self.update({outcome: outcome, is_closed: true, closed_at: Time.now})
-    self.user.outcome_badges
-    self.challenges.each do |c|
-      c.close
+    if self.update({outcome: outcome, is_closed: true, closed_at: Time.now})
+      self.user.outcome_badges
+      self.challenges.each do |c|
+        c.close
+      end
+      
+      true
+    else
+      false
     end
   end
   
@@ -112,6 +120,7 @@ class Prediction < ActiveRecord::Base
   end
   
   def revert
+    self.in_bs = true
     self.revert_challenges
     self.close_as(!self.outcome)
   end
@@ -127,6 +136,10 @@ class Prediction < ActiveRecord::Base
   end
 
   private
+  
+  def is_not_settled
+    errors[:expires_at] << "prediction is settled" if self.is_closed?
+  end
   
   def expires_at_is_not_past
     return unless self.expires_at
