@@ -93,10 +93,10 @@ class Challenge < ActiveRecord::Base
   
   def points_details
     {
-      base_points: object.base_points,
-      outcome_points: object.outcome_points,
-      market_size_points: object.market_size_points,
-      prediction_market_points: object.prediction_market_points
+      base_points: self.base_points,
+      outcome_points: self.outcome_points,
+      market_size_points: self.market_size_points,
+      prediction_market_points: self.prediction_market_points
     }
   end
 
