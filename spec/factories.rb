@@ -15,6 +15,11 @@ FactoryGirl.define do
   sequence :body do |n|
     "Prediction #{n}"
   end
+  
+  factory :apple_device_token do
+    user_id 1
+    token "MyString"
+  end
 
   factory :user do
     username
@@ -30,13 +35,17 @@ FactoryGirl.define do
 
     end
   end
+  
+  factory :topic do
+    name "test"
+  end
 
   factory :prediction do
     user_id 1
     body { FactoryGirl.generate(:body) }
     expires_at Date.new(2014, 9, 1)
     outcome true
-    tag_list ['test']
+    tag_list ["test"]
   end
 
   factory :challenge do

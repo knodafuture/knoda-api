@@ -5,11 +5,10 @@ describe Api::PredictionsController do
   user = login_as_user(true)
   
   let(:topic) { FactoryGirl.create(:topic) }
-
   let(:prediction) { FactoryGirl.build(:prediction) }
 
   let(:valid_attributes) { {"user_id" => prediction.user_id, "body" => prediction.body, "expires_at" => prediction.expires_at,
-                            "outcome" => prediction.outcome, "tag_list" => prediction.tag_list} }
+                            "outcome" => prediction.outcome, "tag_list" => [topic.name]} }
 
   let(:valid_session) { {:auth_token => user.authentication_token} }
 
