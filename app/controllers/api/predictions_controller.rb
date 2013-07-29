@@ -20,7 +20,7 @@ class Api::PredictionsController < ApplicationController
       @predictions = current_user.predictions
     end
     
-    respond_with(@predictions)
+    respond_with(@predictions, each_serializer: PredictionFeedSerializer)
   end
   
   def create
@@ -32,11 +32,11 @@ class Api::PredictionsController < ApplicationController
     authorize_action_for(@prediction)
     
     @prediction.update(prediction_update_params)
-    respond_with(@prediction)
+    respond_with(@prediction, serializer: PredictionFeedSerializer)
   end
   
   def show
-    respond_with(@prediction)
+    respond_with(@prediction, serializer: PredictionFeedSerializer)
   end
   
   def history_agreed
