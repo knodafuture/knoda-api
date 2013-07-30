@@ -13,16 +13,10 @@ class Api::AppleDeviceTokensController < ApplicationController
   end
   
   def create  
-    @token = AppleDeviceToken.find_or_create_by_token(required_params[:token])
+    @token = AppleDeviceToken.find_or_initialize_by_token(required_params[:token])
     @token.user = current_user
-    
-    respond_to do |format|
-      if @token.save
-        format.json { render json: @token, status: 201 }
-      else
-        format.json { render json: @token.errors, status: 422 }
-      end
-    end    
+    @token.save
+    respond_with(@token, location: nil) 
   end
   
   private
