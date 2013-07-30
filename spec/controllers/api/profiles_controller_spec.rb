@@ -10,9 +10,24 @@ describe Api::ProfilesController do
       get :show, auth_token: @user.authentication_token, :format => :json
     
       response.status.should eq(200)
+      
       json = JSON.parse(response.body)
       json["username"].should eq(@user.username)
       json["email"].should eq(@user.email)
+      
+      json.should include("id")
+      json.should include("created_at")
+      json.should include("avatar_image")
+      json.should include("notifications")
+      json.should include("points")
+      json.should include("won")
+      json.should include("lost")
+      json.should include("winning_percentage")
+      json.should include("streak")
+      json.should include("alerts")
+      json.should include("badges")
+      
+      json["badges"].should eq(@user.badges.count)      
     end
   end
   
