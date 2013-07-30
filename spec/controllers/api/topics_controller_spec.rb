@@ -13,6 +13,15 @@ describe Api::TopicsController do
       json = JSON.parse(response.body)
       json.should include("topics")
     end    
+    
+    it "should return list of topics matched pattern" do
+      FactoryGirl.create(:topic)
+      
+      get :index, {pattern: 'pattern', format: :json}, valid_session
+      response.status.should eq(200)
+      json = JSON.parse(response.body)
+      json.should include("topics")
+    end
   end
   
 end
