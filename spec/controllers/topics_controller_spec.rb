@@ -19,7 +19,8 @@ require 'spec_helper'
 # that an instance is receiving a specific message.
 
 describe TopicsController do
-
+  user = login_as_user(true)
+  
   # This should return the minimal set of attributes required to create a valid
   # Topic. As you add validations to Topic, be sure to
   # adjust the attributes here as well.
@@ -28,12 +29,10 @@ describe TopicsController do
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
   # TopicsController. Be sure to keep this updated too.
-  let(:valid_session) { {} }
+  let(:valid_session) { {:auth_token => user.authentication_token} }
 
   describe "GET index" do
-    it "assigns all topics as @topics" do
-      pending
-      
+    it "assigns all topics as @topics" do      
       topic = Topic.create! valid_attributes
       get :index, {}, valid_session
       assigns(:topics).should eq([topic])
@@ -41,9 +40,7 @@ describe TopicsController do
   end
 
   describe "GET show" do
-    it "assigns the requested topic as @topic" do
-      pending
-      
+    it "assigns the requested topic as @topic" do    
       topic = Topic.create! valid_attributes
       get :show, {:id => topic.to_param}, valid_session
       assigns(:topic).should eq(topic)
@@ -52,8 +49,6 @@ describe TopicsController do
 
   describe "GET new" do
     it "assigns a new topic as @topic" do
-      pending
-
       get :new, {}, valid_session
       assigns(:topic).should be_a_new(Topic)
     end
@@ -61,8 +56,6 @@ describe TopicsController do
 
   describe "GET edit" do
     it "assigns the requested topic as @topic" do
-      pending
-
       topic = Topic.create! valid_attributes
       get :edit, {:id => topic.to_param}, valid_session
       assigns(:topic).should eq(topic)
@@ -72,33 +65,25 @@ describe TopicsController do
   describe "POST create" do
     describe "with valid params" do
       it "creates a new Topic" do
-        pending
-
         expect {
           post :create, {:topic => valid_attributes}, valid_session
         }.to change(Topic, :count).by(1)
       end
 
       it "assigns a newly created topic as @topic" do
-        pending  
-
         post :create, {:topic => valid_attributes}, valid_session
         assigns(:topic).should be_a(Topic)
         assigns(:topic).should be_persisted
       end
 
       it "redirects to the created topic" do
-        pending
-
         post :create, {:topic => valid_attributes}, valid_session
         response.should redirect_to(Topic.last)
       end
     end
 
     describe "with invalid params" do
-      it "assigns a newly created but unsaved topic as @topic" do
-        pending
-  
+      it "assigns a newly created but unsaved topic as @topic" do  
         # Trigger the behavior that occurs when invalid params are submitted
         Topic.any_instance.stub(:save).and_return(false)
         post :create, {:topic => { "name" => "invalid value" }}, valid_session
@@ -106,9 +91,6 @@ describe TopicsController do
       end
 
       it "re-renders the 'new' template" do
-        pending
-    
-  
         # Trigger the behavior that occurs when invalid params are submitted
         Topic.any_instance.stub(:save).and_return(false)
         post :create, {:topic => { "name" => "invalid value" }}, valid_session
@@ -120,8 +102,6 @@ describe TopicsController do
   describe "PUT update" do
     describe "with valid params" do
       it "updates the requested topic" do
-        pending
-
         topic = Topic.create! valid_attributes
         # Assuming there are no other topics in the database, this
         # specifies that the Topic created on the previous line
@@ -132,16 +112,12 @@ describe TopicsController do
       end
 
       it "assigns the requested topic as @topic" do
-        pending
-
         topic = Topic.create! valid_attributes
         put :update, {:id => topic.to_param, :topic => valid_attributes}, valid_session
         assigns(:topic).should eq(topic)
       end
 
       it "redirects to the topic" do
-        pending
-
         topic = Topic.create! valid_attributes
         put :update, {:id => topic.to_param, :topic => valid_attributes}, valid_session
         response.should redirect_to(topic)
@@ -150,8 +126,6 @@ describe TopicsController do
 
     describe "with invalid params" do
       it "assigns the topic as @topic" do
-        pending
-
         topic = Topic.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         Topic.any_instance.stub(:save).and_return(false)
@@ -159,9 +133,7 @@ describe TopicsController do
         assigns(:topic).should eq(topic)
       end
 
-      it "re-renders the 'edit' template" do
-        pending
-  
+      it "re-renders the 'edit' template" do  
         topic = Topic.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         Topic.any_instance.stub(:save).and_return(false)
@@ -173,8 +145,6 @@ describe TopicsController do
 
   describe "DELETE destroy" do
     it "destroys the requested topic" do
-      pending
-  
       topic = Topic.create! valid_attributes
       expect {
         delete :destroy, {:id => topic.to_param}, valid_session
@@ -182,8 +152,6 @@ describe TopicsController do
     end
 
     it "redirects to the topics list" do
-      pending
-  
       topic = Topic.create! valid_attributes
       delete :destroy, {:id => topic.to_param}, valid_session
       response.should redirect_to(topics_url)
