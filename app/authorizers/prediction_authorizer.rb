@@ -24,10 +24,14 @@ class PredictionAuthorizer < ApplicationAuthorizer
   end
   
   def realizable_by?(user)
-    (user.id == resource.user_id) || (resource.expires_at + 3.days).past?
+    (user.id == resource.user_id) || 
+      ((resource.expires_at + 3.days).past? &&
+        !user.challenges.where(prediction_id: resource_id).empty?)
   end
   
   def unrealizable_by?(user)
-    user.id == resource.user_id
+    (user.id == resource.user_id) || 
+      ((resource.expires_at + 3.days).past? &&
+        !user.challenges.where(prediction_id: resource_id).empty?)
   end
 end
