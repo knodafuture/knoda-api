@@ -58,6 +58,10 @@ group :development, :test do
   gem 'pry-rails', '0.3.1'
 end
 
+group :test do
+  gem 'simplecov', '0.7.1'
+end
+
 gem 'acts-as-taggable-on', '2.4.1'
 
 gem 'grocer', '0.4.1'
