@@ -39,5 +39,15 @@ describe Api::ChallengesController do
       json.should include("prediction")
     end
   end
+  
+  describe "POST set_seen" do
+    it "should be successful response" do
+      prediction  = FactoryGirl.create :prediction
+      challenge   = Challenge.create(:user_id => User.all.first.id, :prediction_id => prediction.id, :agree => 1)
+      
+      post :set_seen, {:ids => [challenge.id], :format => :json}, valid_session
+      response.status.should eq(204)
+    end
+  end
 
 end
