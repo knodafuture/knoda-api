@@ -1,8 +1,8 @@
 class Api::BadgesController < ApplicationController
-  skip_before_filter :verify_authenticity_token  
-  respond_to :json
+  skip_before_filter :verify_authenticity_token
   
   authorize_actions_for Badge
+  respond_to :json
   
   def index
     respond_with(current_user.badges)
