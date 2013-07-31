@@ -19,7 +19,7 @@ describe Api::PasswordsController do
   
   
   describe "Change password using password.json" do    
-    it "should change password" do
+    it "should change password with valid current password" do
       user.reset_authentication_token!
       user.save
       
@@ -30,5 +30,29 @@ describe Api::PasswordsController do
       
       response.status.should eq(204);
     end
+    
+    it "should not change password with invalid current password" do
+      user.reset_authentication_token!
+      user.save
+      
+      patch :update, {
+        auth_token:       user.authentication_token, 
+        current_password: user.password_confirmation+"_invalid", 
+        new_password:     user.password_confirmation.reverse}, :format => :json
+      
+      response.status.should eq(401);
+    end
+    
+    it "should not change password with invalid new password" do
+      user.reset_authentication_token!
+      user.save
+      
+      patch :update, {
+        auth_token:       user.authentication_token, 
+        current_password: user.password_confirmation, 
+        new_password:     ''}, :format => :json
+      
+      response.status.should eq(422);
+    end 
   end
 end
