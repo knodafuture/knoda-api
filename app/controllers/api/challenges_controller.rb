@@ -6,9 +6,7 @@ class Api::ChallengesController < ApplicationController
   respond_to :json
   
   def index
-    case (params[:list] || 'all')
-      when 'all'
-        @challenges = current_user.challenges
+    case (params[:list])
       when 'own'
         @challenges = current_user.challenges.own
       when 'own_unviewed'
@@ -32,7 +30,9 @@ class Api::ChallengesController < ApplicationController
       when 'expired'
         @challenges = current_user.challenges.expired
       when 'expired_unviewed'
-        @challenges = current_user.challenges.expired.unviewed    
+        @challenges = current_user.challenges.expired.unviewed
+      else
+        @challenges = current_user.challenges
     end
     
     @challenges = @challenges.offset(param_offset).limit(param_limit)
