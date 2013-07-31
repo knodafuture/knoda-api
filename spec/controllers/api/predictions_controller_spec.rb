@@ -7,8 +7,11 @@ describe Api::PredictionsController do
   let(:prediction) { FactoryGirl.build(:prediction) }
 
   let(:valid_attributes) { {"user_id" => prediction.user_id, "body" => prediction.body, "expires_at" => prediction.expires_at,
-                            "outcome" => prediction.outcome, "tag_list" => prediction.tag_list } }
-                            
+                            "tag_list" => prediction.tag_list } }
+                     
+  let(:invalid_tag_attributes) { {"body" => prediction.body, "expires_at" => prediction.expires_at,
+                                  "tag_list" => ["invalid tag"]}}     
+                                    
   let(:valid_update_attributes) { { "expires_at" => prediction.expires_at + 10.days }}
   let(:invalid_update_attributes) { { "expires_at" => DateTime.now - 10.days }}
   
@@ -77,6 +80,11 @@ describe Api::PredictionsController do
       it "should not create a prediction" do
         #Prediction.any_instance.stub(:save).and_return(false)
         post :create, {:prediction => { "user_id" => "invalid value" }, :format => :json}, valid_session
+        response.status.should eq(422)
+      end
+      
+      it "with invalid tag should not created a prediction" do
+        post :create, {:prediction => invalid_tag_attributes, :format => :json}, valid_session
         response.status.should eq(422)
       end
     end
