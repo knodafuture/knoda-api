@@ -26,7 +26,7 @@ class User < ActiveRecord::Base
   validates_uniqueness_of :username
   validates_format_of     :username, :with => /\A[a-zA-Z0-9_]{1,15}\z/
   
-  has_attached_file :avatar, :styles => { :medium => "300x300>", :thumb => "100x100>" }
+  has_attached_file :avatar, :styles => { :big => "172х172>", :small => "50x50>", :thumb => "20x20>" }
   
   attr_accessor :login
   
@@ -49,7 +49,11 @@ class User < ActiveRecord::Base
   
   def avatar_image
     if self.avatar.exists?
-      self.avatar
+      {
+        big: self.avatar(:big),
+        small: self.avatar(:small),
+        thumb: self.avatar(:thumb)
+      }
     else
       nil
     end
