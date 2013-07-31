@@ -31,18 +31,6 @@ class Prediction < ActiveRecord::Base
   scope :expiring, lambda { { :conditions => ["predictions.expires_at >= current_date"], :order => "predictions.expires_at ASC" } }
   
   scope :latest, -> { order('created_at DESC') }
-  
-  def self.recent_by_user_id(id)
-    Prediction.where(user_id: id.to_s)
-              .where("expires_at >= current_date")
-              .order("created_at DESC")
-  end
-
-  def self.closed_by_user_id(id)
-    Prediction.where(user_id: id.to_s)
-              .where("closed_at IS NOT NULL")
-              .order("created_at DESC")
-  end
 
   def disagreed_count
     self.challenges.find_all_by_agree(false).count
