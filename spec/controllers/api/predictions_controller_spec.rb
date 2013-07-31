@@ -8,7 +8,10 @@ describe Api::PredictionsController do
 
   let(:valid_attributes) { {"user_id" => prediction.user_id, "body" => prediction.body, "expires_at" => prediction.expires_at,
                             "outcome" => prediction.outcome, "tag_list" => prediction.tag_list } }
-
+                            
+  let(:valid_update_attributes) { { "expires_at" => prediction.expires_at + 10.days }}
+  let(:invalid_update_attributes) { { "expires_at" => DateTime.now - 10.days }}
+  
   let(:valid_session) { {:auth_token => user.authentication_token} }
 
   let(:user2) { FactoryGirl.create(:user) }
@@ -179,7 +182,7 @@ describe Api::PredictionsController do
     end
   end
 
-  describe "PUT update" do
+  describe "PUT update" do    
     describe "with valid params" do
       it "should update a prediction" do
         pending
@@ -195,6 +198,26 @@ describe Api::PredictionsController do
         prediction = user.predictions.create(valid_attributes)
         Prediction.any_instance.should_receive(:update).with({ "user_id" => "invalid value" })
         put :update, {:id => prediction.to_param, :prediction => { "user_id" => "invalid value" }, :format => :json}, valid_session
+        response.status.should eq(422)
+      end
+    end
+  end
+  
+  describe "PATCH update" do
+    describe "with valid params" do
+      it "should update expiration_at" do
+        prediction = user.predictions.create(valid_attributes)
+        patch :update, {:id => prediction.to_param, :prediction => valid_update_attributes, :format => :json}, valid_session
+      
+        response.status.should eq(204)
+      end
+    end
+    
+    describe "with invalid update params" do
+      it "should not update expires_at" do
+        prediction = user.predictions.create(valid_attributes)
+        patch :update, {:id => prediction.to_param, :prediction => invalid_update_attributes, :format => :json}, valid_session
+      
         response.status.should eq(422)
       end
     end
