@@ -27,23 +27,7 @@ class Challenge < ActiveRecord::Base
   # Adds `creatable_by?(user)`, etc
   include Authority::Abilities
   self.authorizer_name = 'ChallengeAuthorizer'
-  
-  def self.get_own(id)
-    Challenge.joins(:prediction)
-      .where(user_id: id)
-      .where(is_own: true)
-      .order('expires_at DESC')
-  end
 
-  def self.get_notifications_by_user_id(id)
-    Challenge.joins(:prediction)
-             .where(seen: false)
-             .where(user_id: id)
-             .where(is_own: false)
-             .where("predictions.closed_at IS NOT NULL OR (predictions.closed_at IS NULL AND expires_at < current_date)")
-             .order("CASE when closed_at IS NOT NULL then closed_at else expires_at end desc")
-  end
-  
   def base_points
     if self.is_own
       # inceptive for user making the prediction
