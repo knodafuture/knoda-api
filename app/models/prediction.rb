@@ -20,7 +20,7 @@ class Prediction < ActiveRecord::Base
   validate  :tag_existence
   validate  :expires_at_is_not_past, :on => :create
   validate  :new_expires_at_is_not_past, :on => :update
-  validate  :is_not_settled, :on => :update, :unless => :in_bs
+  #validate  :is_not_settled, :on => :update, :unless => :in_bs
   
   validates_length_of :body, :maximum => 300
   validates_uniqueness_of :body
@@ -107,12 +107,16 @@ class Prediction < ActiveRecord::Base
   
   def request_for_bs
     bs_count = self.challenges.where(bs: true).count
-    if bs_count.fdiv(self.challenges.count-1) >= 25.00
+    if bs_count.fdiv(self.challenges.count-1) >= 0.25
       self.revert
       true
     else
       false
     end
+  end
+  
+  def is_expired?
+    self.expires_at.past?
   end
 
   private

@@ -134,7 +134,7 @@ class User < ActiveRecord::Base
   end
   
   def pick(prediction, agree)
-    self.challenges.new({
+    self.challenges.build({
       prediction: prediction,
       agree: agree
     })

@@ -52,24 +52,15 @@ class Api::PredictionsController < ApplicationController
   def agree
     authorize_action_for(@prediction)
     
-    @challenge = current_user.pick(@prediction, true)
-    if @challenge.save
-      respond_with(@challenge)
-    else
-      respond_with(@challenge.errors, status: 422)
-    end
+    @challenge = current_user.challenges.create(prediction: @prediction, agree: true)
+    respond_with(@challenge)
   end
   
   def disagree
     authorize_action_for(@prediction)
     
-    @challenge = current_user.pick(@prediction, false)
-  
-    if @challenge.save
-      respond_with(@challenge)
-    else
-      respond_with(@challenge.errors, status: 422)
-    end
+    @challenge = current_user.challenges.create(prediction: @prediction, agree: false)
+    respond_with(@challenge)
   end
   
   def realize
@@ -78,7 +69,8 @@ class Api::PredictionsController < ApplicationController
     if @prediction.close_as(true)
       respond_with(@prediction)
     else
-      respond_with(@prediction.errors, status: 422)
+      raise @prediction.errors.to_json
+      render json: @prediction.errors, status: 422
     end
   end
 
