@@ -70,11 +70,6 @@ class Challenge < ActiveRecord::Base
     self.user.save!
   end
   
-  def revert
-    self.user.update({points: self.user.points - self.total_points})
-    self.update({is_right: false, is_finished: false, bs: false})
-  end
-  
   def points_details
     {
       base_points: self.base_points,

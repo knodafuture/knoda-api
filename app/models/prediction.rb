@@ -83,6 +83,7 @@ class Prediction < ActiveRecord::Base
   def close_as(outcome)
     if self.update({outcome: outcome, is_closed: true, closed_at: Time.now})
       self.user.outcome_badges
+      
       self.challenges.each do |c|
         c.close
       end
@@ -93,15 +94,14 @@ class Prediction < ActiveRecord::Base
     end
   end
   
-  def revert_challenges
-    self.challenges.each do |challenge|
-      challenge.revert
-    end
-  end
-  
   def revert
     self.in_bs = true
-    self.revert_challenges
+    
+    self.challenges.each do |c|
+      c.user.update({points: c.user.points - c.total_points})
+      c.update({is_right: false, is_finished: false, bs: false})
+    end
+    
     self.close_as(!self.outcome)
   end
   
