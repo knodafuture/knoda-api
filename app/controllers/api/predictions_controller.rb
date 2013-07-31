@@ -69,7 +69,6 @@ class Api::PredictionsController < ApplicationController
     if @prediction.close_as(true)
       respond_with(@prediction)
     else
-      raise @prediction.errors.to_json
       render json: @prediction.errors, status: 422
     end
   end
@@ -85,11 +84,11 @@ class Api::PredictionsController < ApplicationController
   end
   
   def bs
-    @challenge = current_user.challenges.where(prediction: @prediction).first
-    @challenge.bs = true
-    @challenge.save!
+    authorize_action_for(@prediction)
     
-    @prediction.request_for_bs
+    @challenge = current_user.challenges.where(prediction: @prediction, is_own: false).first
+    @challenge.update(bs: true)
+    @challenge.prediction.request_for_bs
     
     head :no_content
   end

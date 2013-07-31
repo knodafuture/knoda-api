@@ -33,7 +33,8 @@ Authority.configure do |config|
      :realize => 'realize',
      :unrealize => 'unrealize',
      :set_seen => 'set_seen',
-     :recent => 'recent'
+     :recent => 'recent',
+     :bs => 'bs'
   }
 
   # ABILITIES
@@ -54,7 +55,8 @@ Authority.configure do |config|
      :realize => 'realizable',
      :unrealize => 'unrealizable',
      :set_seen => 'set_seenable',
-     :recent => 'recentable'
+     :recent => 'recentable',
+     :bs => 'bsable'
   }
 
   # LOGGER

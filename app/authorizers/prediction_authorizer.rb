@@ -38,6 +38,7 @@ class PredictionAuthorizer < ApplicationAuthorizer
   end
   
   def bsable_by(user)
-
+    (resource.is_expired? && resource.is_closed?) &&
+      !user.challenges.where(prediction_id: resource.id, is_own: false).empty?
   end
 end
