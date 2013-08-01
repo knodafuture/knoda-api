@@ -643,6 +643,92 @@ describe Api::PredictionsController do
     end
   end
 
+  describe "POST bs" do
+    describe "as prediction owner" do
+      describe "with expired and settled prediction" do
+        it "should return 403" do
+          user1.reset_authentication_token!
+          user1.save!
 
+          user1_prediction.save!
+          user1_prediction.expires_at = DateTime.now - 10.days
+          user1_prediction.save!(validate: false)
+          user1_prediction.close_as(true)
+          
+          user1_prediction.reload.outcome.should eq(true)
+          
+          post :bs, {id: user1_prediction.id, format: :json, auth_token: user1_token}
+          response.status.should eq(403)
+        end
+      end
+    end
+    
+    describe "as not prediction owner" do
+      describe "with active prediction" do
+        it "should return 403" do
+          user1.reset_authentication_token!
+          user1.save!
+
+          user2_prediction.save!
+          user1_challenge = user1.pick(user2_prediction, true)
+          user1_challenge.save!
+          
+          post :bs, {id: user2_prediction.id, format: :json, auth_token: user1_token}
+          response.status.should eq(403)
+        end
+      end
+      
+      describe "with expired and not settled prediction" do
+        it "should return 403" do
+          user1.reset_authentication_token!
+          user1.save!
+
+          user2_prediction.save!
+          user1_challenge = user1.pick(user2_prediction, true)
+          user1_challenge.save!
+          
+          user2_prediction.expires_at = DateTime.now - 10.days
+          user2_prediction.save!(validate: false)
+          
+          post :bs, {id: user2_prediction.id, format: :json, auth_token: user1_token}
+          response.status.should eq(403)
+        end
+      end
+      
+      describe "with expired and settled prediction" do
+        it "should return success" do
+          user1.reset_authentication_token!
+          user1.save!
+          
+          user1.update(points: 0)
+          user2.update(points: 0)
+
+          user2_prediction.save!
+          user1_challenge = user1.pick(user2_prediction, true)
+          user1_challenge.save!
+          
+          user2_prediction.expires_at = DateTime.now - 10.days
+          user2_prediction.save!(validate: false)
+          user2_prediction.close_as(false)
+          
+          user2_prediction.reload.is_closed?.should eq(true)
+          user2_prediction.reload.is_expired?.should eq(true)
+          user2_prediction.reload.outcome.should eq(false)
+          
+          user1.reload.points.should eq(5)
+          user2.reload.points.should eq(10)
+          
+          post :bs, {id: user2_prediction.id, format: :json, auth_token: user1_token}
+          response.status.should eq(204)          
+          
+          user1.reload.points.should eq(15)
+          user2.reload.points.should eq(20)
+          
+          user2_prediction.reload.is_closed?.should eq(true)
+          user2_prediction.reload.outcome.should eq(true)
+        end
+      end
+    end
+  end
 
 end

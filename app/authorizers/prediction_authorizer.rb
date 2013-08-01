@@ -37,8 +37,8 @@ class PredictionAuthorizer < ApplicationAuthorizer
           !user.challenges.where(prediction_id: resource.id).empty?))
   end
   
-  def bsable_by(user)
+  def bsable_by?(user)
     (resource.is_expired? && resource.is_closed?) &&
-      !user.challenges.where(prediction_id: resource.id, is_own: false).empty?
+      !user.challenges.where("prediction_id = ? and is_own is false and bs is not true", resource.id).blank?
   end
 end
