@@ -21,6 +21,10 @@ require 'spec_helper'
 describe TopicsController do
   user = login_as_user(true)
   
+  before(:all) do
+    pending
+  end
+  
   # This should return the minimal set of attributes required to create a valid
   # Topic. As you add validations to Topic, be sure to
   # adjust the attributes here as well.
