@@ -1,16 +1,219 @@
 == Registration
 
+POST /api/registration.json
+Parameters:
+	user[username]
+	Username 1..15 characters A-Z0-9_
+	
+	user[email]
+	User email address
+	
+	user[password]
+	Password
+	
+Success
+200 OK
+{"success":true,"authUNPROCESSABLE_token":"mEbnS48nG45PvVp9p57z"}
+
+where auth_token is token used for authentication via auth_token parameter
+
+Failed
+400 BAD REQUEST
+{"success":false,"errors":{"email":["has already been taken"],"password":["is too short (minimum is 6 characters)"],"username":["has already been taken"]}}
+
+possible errors:
+"email":["has already been taken"]
+"email":["is invalid"]
+"email":["is blank"]
+
+"password":["is too short (minimum is 6 characters)"]
+"password":["is too long (maximum is 20 characters)"]
+"password":["is blank"]
+
+"username":["has already been taken"]
+"username":["is invalid"]
+
 == Session
+
+Sign in
+
+POST /api/session.json
+Parameters:
+	user[login]
+	User login (username or email address)
+	
+	user[password]
+	User password
+	
+Success
+200 OK
+{"success":true,"auth_token":"mEbnS48nG45PvVp9p57z"}
+
+Failed response
+403 FORBIDDEN
+{"success":false}
+
+Sign out
+
+DELETE /api/session.json
+
+Success
+200 OK
+{"success":true,"auth_token":"mEbnS48nG45PvVp9p57z"}
+
+Failed
+403 FORBIDDEN
+{"success":false}
 
 == Password
 
+Forgot password
+
+POST /api/password.json
+Parameters:
+	login
+	User email or username
+	
+Success
+204 NO CONTENT
+
+Failed
+404 NOT FOUND
+
+Change password
+
+PUT /api/password.json
+Parameters:
+	current_password
+	Current user password
+	
+	new_password
+	New user password
+	
+Success
+204 NO CONTENT
+
+If something wrong with current password
+401 BAD REQUEST
+{:success=>false, :message=>"Error with your current password"}
+
+If something wrong with new password
+422 UNPROCESSABLE ENTITY
+{"errors":{"email":{"password":["is too short (minimum is 6 characters)"]}}
+
+"password":["is too short (minimum is 6 characters)"]
+"password":["is too long (maximum is 20 characters)"]
+"password":["is blank"]
+
 == Topics
+
+GET /api/topics.json
+
+Success
+200 OK
+{"topics":[{"id":5,"name":"Entertainment"},{"id":10,"name":"Funny"},{"id":8,"name":"Personal"},{"id":9,"name":"Social"},{"id":4,"name":"Sports"},{"id":6,"name":"Stocks"},{"id":11,"name":"TBD"},{"id":7,"name":"Weather"}]}
+
 
 == AppleDeviceTokens
 
+GET /api/apple_device_tokens.json
+Returns list of assigned apple device tokens with signed in user
+
+200 OK
+{apple_device_tokens:[{id:"1", "token": "XXX", "created_at":"date"}]}
+
+GET /api/apple_device_tokens/:id.json
+Get apple device token info
+
+Success
+200 OK
+{"id":"1", "token":"XXX", "created_at":"date"}
+
+POST /api/apple_device_tokens.json
+Assign apple device token with signed in user
+
+Parameters:
+	apple_device_token[token]
+	Device token
+	
+Success
+200 OK
+{"id":"id", "created_at":"created_at", "token":"token"}
+
+Failed
+422 UNPROCESSABLE ENTITY
+
+{"errors":{"errors":{"token":["is_blank"]}}
+
+Possible errors:
+"token":["is_blank"]
+
 == Badges
 
+GET /api/badges.json
+Returns list of user badges
+
+Success
+200 OK
+{"badges":[{"id":7,"name":"gold_founding","created_at":"2013-07-30T09:56:36.788Z"},{"id":8,"name":"1_challenge","created_at":"2013-07-30T10:44:23.491Z"}]}
+
+Types of badges
+gold_founding
+silver_founding
+1_prediction
+10_predictions
+1_challenge
+10_correct_predictions
+10_incorrect_predictions
+
+GET /api/badges/recent.json
+Returns list of user recent badges (since last request)
+
+Success
+200 OK
+{"badges":[{"id":7,"name":"gold_founding","created_at":"2013-07-30T09:56:36.788Z"},{"id":8,"name":"1_challenge","created_at":"2013-07-30T10:44:23.491Z"}]}
+
+
 == Profile
+
+GET /api/profile.json
+Get profile information
+
+Success
+200 OK
+{"id":3,"username":"newuser","email":"newuser@example.com","created_at":"2013-07-30T09:56:36.711Z","avatar_image":{"big":"big","small":"small","thumb":"thumb"},"notifications":true,"points":10,"won":0,"lost":1,"winning_percentage":0.0,"streak":"L1","total_predictions":0,"alerts":1,"badges":0}
+
+PATCH /api/profile.json
+Update profile information
+
+Parameters:
+	user[notifications] 
+	Enable or disable push notifications
+	
+	user[username]
+	New username
+	
+	user[email]
+	New email
+	
+	user[avatar]
+	New image for avatar
+	
+Success
+204 NO CONTENT
+
+Failed
+422 UNPROCESSABLE ENTITY
+{errors: [...]}
+
+"password":["is too short (minimum is 6 characters)"]
+"password":["is too long (maximum is 20 characters)"]
+"password":["is blank"]
+
+"username":["has already been taken"]
+"username":["is invalid"]
+
+"avatar":["..."]
 
 == Challenges
 
