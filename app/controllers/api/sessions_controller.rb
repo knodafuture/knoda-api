@@ -26,7 +26,7 @@ class Api::SessionsController < Devise::SessionsController
     resource.authentication_token = nil
     resource.save
     sign_out(resource_name)
-    render :json => {}.to_json, :status => :ok
+    render :json => {success: true}, :status => :ok
   end
   
   def authentication_failure
