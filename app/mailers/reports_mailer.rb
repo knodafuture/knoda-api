@@ -10,6 +10,6 @@ class ReportsMailer < ActionMailer::Base
     @users = users
     @predictions = predictions
 
-    mail to: Knoda::Application.config.reports_mailer_to
+    mail to: Knoda::Application.config.reports_mailer_to, subject: "Daily report #{DateTime.now.to_date}"
   end
 end
