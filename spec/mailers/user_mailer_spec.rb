@@ -8,7 +8,7 @@ describe UserMailer do
     it "renders the headers" do
       mail.subject.should eq("Signup")
       mail.to.should eq([user.email])
-      mail.from.should eq(["from@example.com"])
+      mail.from.should eq([Knoda::Application.config.user_mailer_from])
     end
 
     it "renders the body" do
@@ -23,7 +23,7 @@ describe UserMailer do
     it "renders the headers" do
       mail.subject.should eq("Email was changed")
       mail.to.should eq([user.email])
-      mail.from.should eq(["from@example.com"])
+      mail.from.should eq([Knoda::Application.config.user_mailer_from])
     end
 
     it "renders the body" do
@@ -38,7 +38,7 @@ describe UserMailer do
     it "renders the headers" do
       mail.subject.should eq("Username was changed")
       mail.to.should eq([user.email])
-      mail.from.should eq(["from@example.com"])
+      mail.from.should eq([Knoda::Application.config.user_mailer_from])
     end
 
     it "renders the body" do

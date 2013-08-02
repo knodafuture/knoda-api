@@ -1,5 +1,5 @@
 class ReportsMailer < ActionMailer::Base
-  default from: "reports@example.com"
+  default from: Knoda::Application.config.reports_mailer_from
 
   # Subject can be set in your I18n file at config/locales/en.yml
   # with the following lookup:
@@ -10,6 +10,6 @@ class ReportsMailer < ActionMailer::Base
     @users = users
     @predictions = predictions
 
-    mail to: "test@example.com"
+    mail to: Knoda::Application.config.reports_mailer_to
   end
 end

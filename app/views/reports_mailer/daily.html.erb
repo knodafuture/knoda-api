@@ -1,4 +1,4 @@
-<strong>Daily report <%= DateTime.now %></strong><br/>
+<strong>Daily report <%= DateTime.now.to_date %></strong><br/>
 
 <p>Number or new users - <%= @users.count %></p>
 <table>
@@ -19,7 +19,6 @@
 <% end %>
 	</tbody>
 </table>
-
 
 <p>Number of new predictions - <%= @predictions.count %></p>
 
