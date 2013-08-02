@@ -6,6 +6,7 @@
 		<tr>
 			<th style="border: 1px solid black">User ID</th>
 			<th style="border: 1px solid black">EMail</th>
+			<th style="border: 1px solid black">Username</th>
 			<th style="border: 1px solid black">Created At</th>
 		</tr>
 	</thead>
@@ -14,6 +15,7 @@
 		<tr>
 			<td style="border: 1px solid black"><%= u.id %></td>
 			<td style="border: 1px solid black"><%= u.email %></td>
+			<td style="border: 1px solid black"><%= u.username %></td>
 			<td style="border: 1px solid black"><%= u.created_at %></td>
 		</tr>
 <% end %>
@@ -27,6 +29,7 @@
 	<thead>
 		<tr>
 			<th style="border: 1px solid black">ID</th>
+			<th style="border: 1px solid black">Username</th>
 			<th style="border: 1px solid black">Body</th>
 			<th style="border: 1px solid black">Created At</th>
 			<th style="border: 1px solid black">Agree</th>
@@ -37,7 +40,8 @@
 <% @predictions.each do |p| %>
 		<tr>
 			<td style="border: 1px solid black"><%= p.id %></td>
-			<td style="border: 1px solid black"><%= p.body %></td>
+			<td style="border: 1px solid black"><%= p.user.username %></td>
+			<td style="border: 1px solid black"><%= p.body[0..50] %></td>
 			<td style="border: 1px solid black"><%= p.created_at %></td>
 			<td style="border: 1px solid black"><%= p.challenges.agreed_by_users.last_day.count %></td>
 			<td style="border: 1px solid black"><%= p.challenges.disagreed_by_users.last_day.count %></td>
