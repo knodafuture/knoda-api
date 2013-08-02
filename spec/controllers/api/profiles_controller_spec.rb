@@ -72,6 +72,8 @@ describe Api::ProfilesController do
       @user.reset_authentication_token!
       @user.save!
       
+      @user.notifications.should be(true)
+      
       put :update, auth_token: @user.authentication_token, :user => {:notifications => false}, :format => :json
       
       response.status.should eq(204)

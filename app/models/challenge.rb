@@ -23,6 +23,8 @@ class Challenge < ActiveRecord::Base
   scope :agreed_by_users, ->{where(agree: true, is_own: false).order('created_at DESC')}
   scope :disagreed_by_users, ->{where(agree: false, is_own: false).order('created_at DESC')}
   
+  scope :last_day, ->{where("created_at >= ?", DateTime.now - 24.hours)}
+  
   
   # Adds `creatable_by?(user)`, etc
   include Authority::Abilities

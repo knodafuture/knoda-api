@@ -1,0 +1,17 @@
+Daily report <%= DateTime.now %>
+
+Number or new users - <%= @users.count %>
+<% @users.each do |u| %>
+	<%= u.id %> | <%= u.email %> | <%= u.created_at %>
+<% end %>
+
+Number of new predictions - <%= @predictions.count %>
+
+Number of agrees and disagrees for each prediction
+<% @predictions.each do |p| %>
+	<%= p.id %> | <%= p.body %> | 
+	
+	<%= p.challenges.agreed_by_users.last_day.count %> | 
+	<%= p.challenges.disagreed_by_users.last_day.count %>
+<% end %>
+

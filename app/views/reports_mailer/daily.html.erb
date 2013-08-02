@@ -1,0 +1,50 @@
+<strong>Daily report <%= DateTime.now %></strong><br/>
+
+<p>Number or new users - <%= @users.count %></p>
+<table>
+	<thead>
+		<tr>
+			<th>User ID</th>
+			<th>EMail</th>
+			<th>Created At</th>
+		</tr>
+	</thead>
+	<tbody>
+<% @users.each do |u| %>
+		<tr>
+			<td><%= u.id %><td/>
+			<td><%= u.email %><td/>
+			<td><%= u.created_at %><td/>
+		</tr>
+<% end %>
+	</tbody>
+</table>
+
+
+<p>Number of new predictions - <%= @predictions.count %></p>
+
+<p>Number of agrees and disagrees for each prediction</p>
+<table>
+	<thead>
+		<tr>
+			<th>ID</th>
+			<th>Body</th>
+			<th>Created At</th>
+			<th>Agree</th>
+			<th>Disagree</th>
+		</tr>
+	</thead>
+	<tbody>
+<% @predictions.each do |p| %>
+		<tr>
+			<td><%= p.id %></td>
+			<td><%= p.body %></td>
+			<td><%= p.created_at %></td>
+			<td><%= p.challenges.agreed_by_users.last_day.count %></td>
+			<td><%= p.challenges.disagreed_by_users.last_day.count %></td>
+		</tr>
+<% end %>
+	</tbody>
+</table>
+
+
