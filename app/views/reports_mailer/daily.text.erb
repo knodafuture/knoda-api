@@ -2,16 +2,17 @@ Daily report <%= DateTime.now.to_date %>
 
 Number or new users - <%= @users.count %>
 <% @users.each do |u| %>
-	<%= u.id %> | <%= u.email %> | <%= u.created_at %>
+<%= u.id %> | <%= u.email %> | <%= u.username %> | <%= u.created_at %>
 <% end %>
 
 Number of new predictions - <%= @predictions.count %>
 
 Number of agrees and disagrees for each prediction
 <% @predictions.each do |p| %>
-	<%= p.id %> | <%= p.body %> | 
+ID: <%= p.id %> 
+Body: <%= p.body %>
+Username: <%= p.user.username %>
+Agree/Disagree: <%= p.challenges.agreed_by_users.last_day.count %>/<%= p.challenges.disagreed_by_users.last_day.count %>
 	
-	<%= p.challenges.agreed_by_users.last_day.count %> | 
-	<%= p.challenges.disagreed_by_users.last_day.count %>
 <% end %>
 
