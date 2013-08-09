@@ -23,6 +23,11 @@ class Challenge < ActiveRecord::Base
   scope :agreed_by_users, ->{where(agree: true, is_own: false).order('created_at DESC')}
   scope :disagreed_by_users, ->{where(agree: false, is_own: false).order('created_at DESC')}
   
+  scope :notifications, -> {joins(:prediction).
+    where("((is_own IS FALSE) and (is_finished IS TRUE)) or ((is_own IS TRUE) and (is_finished IS FALSE) and (expires_at < current_date))").
+    order("CASE WHEN is_finished IS TRUE THEN predictions.closed_at ELSE predictions.expires_at END DESC")
+  }
+  
   scope :last_day, ->{where("created_at >= ?", DateTime.now - 24.hours)}
   
   

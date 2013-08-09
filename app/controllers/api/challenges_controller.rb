@@ -31,6 +31,10 @@ class Api::ChallengesController < ApplicationController
         @challenges = current_user.challenges.expired
       when 'expired_unviewed'
         @challenges = current_user.challenges.expired.unviewed
+      when 'notifications'
+        @challenges = current_user.challenges.notifications
+      when 'notifications_unviewed'
+        @challenges = current_user.challenges.notifications.unviewed
       else
         @challenges = current_user.challenges
     end
