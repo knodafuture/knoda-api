@@ -1,6 +1,10 @@
 require 'spec_helper'
 
 describe "topics/index" do
+  before(:all) do
+    pending
+  end
+  
   before(:each) do
     assign(:topics, [
       stub_model(Topic,
