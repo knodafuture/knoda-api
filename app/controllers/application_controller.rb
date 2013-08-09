@@ -30,6 +30,10 @@ class ApplicationController < ActionController::Base
   def param_offset
     params[:offset] || 0
   end
+
+  def param_id_lt
+    params[:param_id_lt]
+  end
   
   def pagination_meta(collection)
     if collection

@@ -31,6 +31,8 @@ class Prediction < ActiveRecord::Base
   scope :expiring, lambda { { :conditions => ["predictions.expires_at >= current_date"], :order => "predictions.expires_at ASC" } }
   
   scope :latest, -> { order('created_at DESC') }
+  
+  scope :id_lt, -> (i) {where('id < ?', i) if i}
 
   def disagreed_count
     self.challenges.find_all_by_agree(false).count
