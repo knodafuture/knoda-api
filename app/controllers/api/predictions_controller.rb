@@ -15,10 +15,9 @@ class Api::PredictionsController < ApplicationController
       @predictions = current_user.predictions
     end
     
-    @predictions = @predictions.id_lt(param_id_lt).
-      offset(param_offset).limit(param_limit)
+    @predictions = @predictions.id_lt(param_id_lt)
         
-    respond_with(@predictions, 
+    respond_with(@predictions.offset(param_offset).limit(param_limit), 
       each_serializer: PredictionFeedSerializer,
       meta: pagination_meta(@predictions))
   end

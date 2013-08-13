@@ -38,10 +38,9 @@ class Api::ChallengesController < ApplicationController
       else
         @challenges = current_user.challenges
     end
-    
-    @challenges = @challenges.offset(param_offset).limit(param_limit)
-    
-    respond_with(@challenges, meta: pagination_meta(@challenges))
+       
+    respond_with(@challenges.offset(param_offset).limit(param_limit), 
+      meta: pagination_meta(@challenges))
   end
   
   def set_seen
