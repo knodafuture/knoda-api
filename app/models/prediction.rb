@@ -27,8 +27,8 @@ class Prediction < ActiveRecord::Base
   
   attr_accessor :in_bs
 
-  scope :recent, lambda {{ :conditions => ["predictions.expires_at >= current_date"], :order => "predictions.created_at DESC" } }
-  scope :expiring, lambda { { :conditions => ["predictions.expires_at >= current_date"], :order => "predictions.expires_at ASC" } }
+  scope :recent, lambda {{ :conditions => ["predictions.expires_at >= now()"], :order => "predictions.created_at DESC" } }
+  scope :expiring, lambda { { :conditions => ["predictions.expires_at >= now()"], :order => "predictions.expires_at ASC" } }
   
   scope :latest, -> { order('created_at DESC') }
   
