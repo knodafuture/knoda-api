@@ -32,7 +32,7 @@ class ApplicationController < ActionController::Base
   end
 
   def param_id_lt
-    params[:param_id_lt]
+    params[:id_lt]
   end
   
   def pagination_meta(collection)
