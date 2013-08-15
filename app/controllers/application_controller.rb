@@ -35,6 +35,10 @@ class ApplicationController < ActionController::Base
     params[:id_lt]
   end
   
+  def param_created_at_lt
+    params[:created_at_lt]
+  end
+  
   def pagination_meta(collection)
     if collection
       {offset: param_offset, limit: param_limit, count: collection.count}

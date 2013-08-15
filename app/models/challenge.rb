@@ -30,6 +30,7 @@ class Challenge < ActiveRecord::Base
   
   scope :last_day, ->{where("created_at >= ?", DateTime.now - 24.hours)}
   
+  scope :created_at_lt, -> (i) {where('created_at < ?', i) if i}
   
   # Adds `creatable_by?(user)`, etc
   include Authority::Abilities
