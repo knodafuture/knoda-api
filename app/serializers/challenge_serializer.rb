@@ -1,6 +1,6 @@
 class ChallengeSerializer < ActiveModel::Serializer
 
-  attributes :id, :agree, :created_at, :is_own
+  attributes :id, :agree, :created_at, :is_own, :is_right
   attributes :points_details
   attributes :bs
   
