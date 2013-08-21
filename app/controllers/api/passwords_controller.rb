@@ -18,6 +18,8 @@ class Api::PasswordsController < ApplicationController
     else
       current_user.password = password_params[:new_password]
       current_user.password_confirmation = password_params[:new_password]
+      current_user.authentication_token = nil
+
       if current_user.save
         respond_to do |format|
           format.any { head :no_content }
