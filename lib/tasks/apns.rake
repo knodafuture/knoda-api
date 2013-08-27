@@ -25,6 +25,8 @@ namespace :apns do
 				badge: p.total_predictions,
 			)
 
+			Rails.logger.debug "sending notification to #{p.user.username} with message: #{message}"
+
 			pusher.push(notification)
 		end
 
