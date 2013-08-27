@@ -26,7 +26,7 @@ class Api::PasswordsController < ApplicationController
         end
       else
         respond_to do |format|
-          format.any { render json: current_user.errors, status: :unprocessable_entity }
+          format.any { render json: {errors: current_user.errors}, status: :unprocessable_entity }
         end
       end
     end
