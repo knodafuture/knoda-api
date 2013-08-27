@@ -5,6 +5,15 @@ class ApplicationController < ActionController::Base
 
   before_filter :configure_permitted_parameters, if: :devise_controller?
   before_filter :authenticate_user_please!
+
+
+  rescue_from ActionController::ParameterMissing do |exception|
+    render json: {error: 'required parameter missing'}, status: 422
+  end
+ 
+  rescue_from ActiveRecord::RecordNotFound do |exception|
+    render json: {error: 'item not found'}, status: 404
+  end
   
   protected
 
