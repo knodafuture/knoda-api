@@ -25,8 +25,6 @@ namespace :apns do
 				badge: p.total_predictions,
 			)
 
-			p(notification)
-
 			pusher.push(notification)
 		end
 
