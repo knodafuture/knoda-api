@@ -32,7 +32,7 @@ class Prediction < ActiveRecord::Base
   
   scope :latest, -> { order('created_at DESC') }
   
-  scope :id_lt, -> (i) {where('id < ?', i) if i}
+  scope :id_lt, -> (i) {where('predictions.id < ?', i) if i}
 
   def disagreed_count
     self.challenges.find_all_by_agree(false).count
