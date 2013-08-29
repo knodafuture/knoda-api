@@ -22,7 +22,7 @@ namespace :apns do
 			notification = Grocer::Notification.new(
 				device_token: token.token,
 				alert: message,
-				badge: p.total_predictions,
+				badge: p.user.alerts_count,
 			)
 
 			Rails.logger.debug "sending notification to #{p.user.username} with message: #{message}"
