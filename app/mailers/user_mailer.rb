@@ -7,7 +7,7 @@ class UserMailer < ActionMailer::Base
   #   en.user_mailer.signup.subject
   #
   def signup(user)
-    @greeting = "Hi"
+    @resource = user
 
     mail to: user.email
   end
@@ -18,7 +18,7 @@ class UserMailer < ActionMailer::Base
   #   en.user_mailer.email_was_changed.subject
   #
   def email_was_changed(user)
-    @greeting = "Hi"
+    @resource = user
 
     mail to: user.email
   end
@@ -29,7 +29,7 @@ class UserMailer < ActionMailer::Base
   #   en.user_mailer.username_was_changed.subject
   #
   def username_was_changed(user)
-    @greeting = "Hi"
+    @resource = user
 
     mail to: user.email
   end
