@@ -59,7 +59,7 @@ DELETE /api/session.json
 
 Success
 200 OK
-{"success":true,"auth_token":"mEbnS48nG45PvVp9p57z"}
+{"success":true}
 
 Failed
 403 FORBIDDEN
@@ -226,7 +226,11 @@ Where list_name:
 	lost_picks - get all user lost challenges 
 	expired - get expired predictions
 	completed - get completed challenges
+	notifications - get alerts (picks + expired)
 Also _unviewed can be added (ex. won_picks_lost) to get only new predictions
+
+Additional parameters:
+created_at_lt=datetime - show only items where created_at lesser than specified in parameter
 
 Success
 {"challenges":[{"id":4,"agree":true,"created_at":"2013-08-02T13:05:18.932Z","is_own":true,"points_details":{"base_points":10,"outcome_points":0,"market_size_points":0,"prediction_market_points":0},"bs":false,"user":{"id":5,"username":"user","email":"user@example.com","created_at":"2013-08-02T13:04:27.764Z","avatar_image":null,"notifications":true,"points":0,"won":0,"lost":0,"winning_percentage":0.0,"streak":"","total_predictions":1,"alerts":0,"badges":2},"prediction":{"id":2,"body":"body","outcome":null,"expires_at":"2013-08-03T13:05:18.000Z","created_at":"2013-08-02T13:05:18.785Z","closed_at":null,"agreed_count":1,"disagreed_count":0,"market_size":1,"prediction_market":100.0,"user_id":5,"username":"user","user_avatar":null,"expired":false,"settled":false,"tags":[{"id":2,"name":"TBD"}]}}],"meta":{"offset":0,"limit":50,"count":1}}
@@ -250,12 +254,20 @@ Success
 GET /api/predictions?recent=1
 Get recent predictions (for home feed)
 
+Additional parameters:
+id_lt=id - show only items where id lesser than specified in parameter
+
+
 Success:
 200 OK
 {"predictions":[{"id":2,"body":"body","outcome":null,"expires_at":"2013-08-03T13:05:18.000Z","created_at":"2013-08-02T13:05:18.785Z","closed_at":null,"agreed_count":1,"disagreed_count":0,"market_size":1,"prediction_market":100.0,"user_id":5,"username":"user","user_avatar":null,"expired":false,"settled":false,"my_challenge":{"id":4,"user_id":5,"prediction_id":2,"agree":true,"created_at":"2013-08-02T13:05:18.932Z","updated_at":"2013-08-02T13:05:18.932Z","seen":false,"is_own":true,"right":false,"finished":false,"is_right":false,"is_finished":false,"bs":false},"my_points":{"base_points":10,"outcome_points":0,"market_size_points":0,"prediction_market_points":0},"tags":[{"id":2,"name":"TBD"}]}],"meta":{"offset":0,"limit":50,"count":1}}
 
 GET /api/predictions.json?tag=tag_name
 Get recent predictions tagged with tag_name
+
+Additional parameters:
+id_lt=id - show only items where id lesser than specified in parameter
+
 
 200 OK
 {"predictions":[{"id":2,"body":"body","outcome":null,"expires_at":"2013-08-03T13:05:18.000Z","created_at":"2013-08-02T13:05:18.785Z","closed_at":null,"agreed_count":1,"disagreed_count":0,"market_size":1,"prediction_market":100.0,"user_id":5,"username":"user","user_avatar":null,"expired":false,"settled":false,"my_challenge":{"id":4,"user_id":5,"prediction_id":2,"agree":true,"created_at":"2013-08-02T13:05:18.932Z","updated_at":"2013-08-02T13:05:18.932Z","seen":false,"is_own":true,"right":false,"finished":false,"is_right":false,"is_finished":false,"bs":false},"my_points":{"base_points":10,"outcome_points":0,"market_size_points":0,"prediction_market_points":0},"tags":[{"id":2,"name":"TBD"}]}],"meta":{"offset":0,"limit":50,"count":1}}
@@ -301,7 +313,7 @@ Success
 POST /api/predictions/:id/unrealize.json
 Settle prediction as false
 
-Sucсess
+Success
 204 NO CONTENT
 
 POST /api/predictions/:id/bs.json
@@ -323,6 +335,9 @@ Success
 GET /api/users/:id/predictions.json
 Get user predictions
 
+Additional parameters:
+id_lt=id - show only items where id lesser than specified in parameter
+
+
 200 OK
 {"predictions":[{"id":2,"body":"body","outcome":null,"expires_at":"2013-08-03T13:05:18.000Z","created_at":"2013-08-02T13:05:18.785Z","closed_at":null,"agreed_count":1,"disagreed_count":0,"market_size":1,"prediction_market":100.0,"user_id":5,"username":"user","user_avatar":null,"expired":false,"settled":false,"my_challenge":{"id":4,"user_id":5,"prediction_id":2,"agree":true,"created_at":"2013-08-02T13:05:18.932Z","updated_at":"2013-08-02T13:05:18.932Z","seen":false,"is_own":true,"right":false,"finished":false,"is_right":false,"is_finished":false,"bs":false},"my_points":{"base_points":10,"outcome_points":0,"market_size_points":0,"prediction_market_points":0},"tags":[{"id":2,"name":"TBD"}]}],"meta":{"offset":0,"limit":50,"count":1}}
-
