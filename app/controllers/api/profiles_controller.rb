@@ -11,7 +11,7 @@ class Api::ProfilesController < ApplicationController
       if current_user.update(user_params)
         format.json { head :no_content }
       else
-        format.json { render json: current_user.errors, status: 422 }
+        format.json { render json: {errors: current_user.errors}, status: 422 }
       end
     end
   end
