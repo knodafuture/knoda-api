@@ -44,7 +44,7 @@ Knoda::Application.routes.draw do
     resource  :profile,       :only => [:show, :update]
     resource  :password,      :only => [:create, :update]
     
-    resources :apple_device_tokens, :only => [:index, :show, :create, :delete]
+    resources :apple_device_tokens, :only => [:index, :show, :create, :destroy]
   end
 
   devise_for :users, skip: :registrations
