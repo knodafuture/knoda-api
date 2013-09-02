@@ -34,6 +34,6 @@ class Api::AppleDeviceTokensController < ApplicationController
   private
   
   def required_params
-    params.require(:apple_device_token).permit(:token)
+    params.require(:apple_device_token).permit(:token, :sandbox)
   end
 end
