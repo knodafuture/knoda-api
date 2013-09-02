@@ -18,6 +18,15 @@ class Api::AppleDeviceTokensController < ApplicationController
     @token.save
     respond_with(@token, location: nil) 
   end
+
+  def destroy
+    @token = current_user.apple_device_tokens.find_by_token(required_params[:token])
+    @token.delete
+
+    respond_to do |format|
+      format.any { head :no_content }
+    end
+  end
   
   private
   
