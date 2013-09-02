@@ -2,7 +2,7 @@ class Api::AppleDeviceTokensController < ApplicationController
   skip_before_filter :verify_authenticity_token  
   respond_to :json
   
-  authorize_actions_for AppleDeviceToken
+  authorize_actions_for AppleDeviceToken, :only => ['index', 'create', 'show']
   
   def index    
     respond_with(current_user.apple_device_tokens)
@@ -20,7 +20,10 @@ class Api::AppleDeviceTokensController < ApplicationController
   end
 
   def destroy
-    @token = current_user.apple_device_tokens.find_by_token(required_params[:token])
+    @token = current_user.apple_device_tokens.find(params[:id])
+
+    authorize_action_for(@token)
+
     @token.delete
 
     respond_to do |format|

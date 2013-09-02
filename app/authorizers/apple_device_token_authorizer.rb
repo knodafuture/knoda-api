@@ -7,7 +7,7 @@ class AppleDeviceTokenAuthorizer < ApplicationAuthorizer
     true
   end
 
-  def self.deletable_by?(user)
+  def deletable_by?(user)
   	user.id == resource.user_id
   end
 end
