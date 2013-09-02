@@ -21,6 +21,7 @@ class Api::PasswordsController < ApplicationController
       current_user.authentication_token = nil
 
       if current_user.save
+        current_user.apple_device_tokens.delete_all
         respond_to do |format|
           format.any { head :no_content }
         end
