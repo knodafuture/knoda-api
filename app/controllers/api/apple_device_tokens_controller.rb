@@ -15,6 +15,11 @@ class Api::AppleDeviceTokensController < ApplicationController
   def create  
     @token = AppleDeviceToken.find_or_initialize_by_token(required_params[:token])
     @token.user = current_user
+
+    if required_params[:sandbox] == "true"
+      @token.sandbox = true
+    end
+
     @token.save
     respond_with(@token, location: nil) 
   end
