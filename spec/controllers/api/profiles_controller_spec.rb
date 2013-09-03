@@ -36,7 +36,7 @@ describe Api::ProfilesController do
       @user.save
       
       get :show, auth_token: 'invalid_token', :format => :json
-      response.status.should eq(403)
+      response.status.should eq(401)
     end
     
     it "should return streak positive streak" do

@@ -27,7 +27,7 @@ class ApplicationController < ActionController::Base
     unless current_user
       respond_to do |format|
         format.html {authenticate_user!}
-        format.any  {render nothing: true, status: :forbidden}
+        format.any  {render nothing: true, status: 401}
       end
     end
   end
