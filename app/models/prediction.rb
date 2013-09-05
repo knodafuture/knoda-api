@@ -20,6 +20,7 @@ class Prediction < ActiveRecord::Base
   validate  :tag_existence
   validate  :expires_at_is_not_past, :on => :create
   validate  :new_expires_at_is_not_past, :on => :update
+  validate  :unfinished_is_not_past, :on => :update
   #validate  :is_not_settled, :on => :update, :unless => :in_bs
   
   validates_length_of :body, :maximum => 300
@@ -135,6 +136,13 @@ class Prediction < ActiveRecord::Base
   def new_expires_at_is_not_past
     if self.expires_at_changed?
       errors[:expires_at] << "is past" if self.expires_at.past?
+    end
+  end
+
+  def unfinished_is_not_past
+    if self.unfinished_changed?
+      errors[:unfinished] << "is past" if self.unfinished < self.expires_at
+      errors[:unfinished] << "is past" if self.unfinished.past?
     end
   end
 

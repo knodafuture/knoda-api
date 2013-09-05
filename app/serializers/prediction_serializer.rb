@@ -6,6 +6,8 @@ class PredictionSerializer < ActiveModel::Serializer
   attributes :user_id, :username, :user_avatar
   attributes :expired
   attributes :settled
+
+  attributes :unfinished
   
   has_many :tags
 
