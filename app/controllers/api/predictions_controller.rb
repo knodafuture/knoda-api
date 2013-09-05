@@ -110,6 +110,6 @@ class Api::PredictionsController < ApplicationController
   end
   
   def prediction_update_params
-    params.require(:prediction).permit(:expires_at)
+    params.require(:prediction).permit(:expires_at, :unfinished)
   end
 end
