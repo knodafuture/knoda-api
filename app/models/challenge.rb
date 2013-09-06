@@ -18,13 +18,13 @@ class Challenge < ActiveRecord::Base
   scope :won_picks, -> {joins(:prediction).where(is_own: false, is_finished: true, is_right: true).order('expires_at DESC')}
   scope :lost_picks, -> {joins(:prediction).where(is_own: false, is_finished: true, is_right: false).order('expires_at DESC')}
   scope :unviewed, -> {where(seen: false)}
-  scope :expired, -> {joins(:prediction).where("is_own is true and is_closed is false and ((unfinished is null and expires_at <= ?) or (unfinished is not null and unfinished <= ?))", Time.now, Time.now).order("expires_at DESC")}
+  scope :expired, -> {joins(:prediction).where("is_own is true and is_closed is false and ((unfinished is null and expires_at < ?) or (unfinished is not null and unfinished < ?))", Time.now, Time.now).order("expires_at DESC")}
   
   scope :agreed_by_users, ->{where(agree: true, is_own: false).order('created_at DESC')}
   scope :disagreed_by_users, ->{where(agree: false, is_own: false).order('created_at DESC')}
   
   scope :notifications, -> {joins(:prediction).
-    where("((is_own IS FALSE) and (is_finished IS TRUE)) or ((is_own IS TRUE) and (expires_at < now()))").
+    where("((is_own IS FALSE) and (is_finished IS TRUE)) or ((is_own IS TRUE) and ((unfinished is null and expires_at < now()) or (unfinished is not null and unfinished < now())))").
     order("CASE WHEN is_finished IS TRUE THEN predictions.closed_at ELSE predictions.expires_at END DESC")
   }
   
