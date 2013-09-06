@@ -35,6 +35,9 @@ class Prediction < ActiveRecord::Base
   
   scope :id_lt, -> (i) {where('predictions.id < ?', i) if i}
 
+  scope :unnotified, -> {where('notified_at is null')}
+  scope :expired, -> {where('is_closed is false and ((unfinished is null and expires_at < now()) or (unfinished is not null and unfinished < now()))')}
+
   def disagreed_count
     self.challenges.find_all_by_agree(false).count
   end
