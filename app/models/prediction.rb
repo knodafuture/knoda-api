@@ -17,7 +17,7 @@ class Prediction < ActiveRecord::Base
 
   validates :tag_list, presence: true
   validate  :max_tag_count
-  validate  :tag_existence
+  validate  :tag_existence, :on => :create
   validate  :expires_at_is_not_past, :on => :create
   validate  :new_expires_at_is_not_past, :on => :update
   validate  :unfinished_is_not_past, :on => :update
