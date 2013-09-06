@@ -141,8 +141,9 @@ class User < ActiveRecord::Base
   end
   
   def alerts_count
-    self.challenges.where(is_finished: true, seen: false).count +
-    self.predictions.where("is_closed is false and expires_at <= ?", Time.now).count
+    #self.challenges.where(is_finished: true, seen: false).count +
+    #self.predictions.where("is_closed is false and expires_at <= ?", Time.now).count
+    self.challenges.notifications.unviewed.count
   end
   
   def send_signup_email
