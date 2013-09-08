@@ -12,16 +12,32 @@ namespace PushSharp.Sample
 {
 	class Program
 	{
-		const string certPassword = "111";
-		const bool isProduction = true;
-
 		static int Main(string[] args)
 		{	
 			// check for the first argument
-			if (args.Length < 1) {
-				Console.Write ("Error: Please specify input file\n");
+			if (args.Length < 4) {
+				Console.Write ("Error: Invalid arguments\n");
+				Console.Write ("Usage: apns-send.exe {sandbox,production} certificate.p12 password messages-file\n\n");
 				return 1;
 			}
+
+			if (!File.Exists (args [1])) {
+				Console.Write ("Error: Certificate file does not exist\n");
+				return 2;
+			}
+
+			if (!File.Exists (args [3])) {
+				Console.Write ("Error: Messages file does not exist\n");
+				return 3;
+			}
+
+			string appleCertFile = args [1];
+			string appleCertPassword = args [2];
+			string messagesFile = args [3];
+
+			bool isProduction = (args [0] == "production");
+
+			Debug (String.Format ("Mode {0}", isProduction ? "production" : "sandbox"));
 
 			//Create our push services broker
 			var push = new PushBroker();
@@ -54,19 +70,19 @@ namespace PushSharp.Sample
 			// IMPORTANT: Make sure you use the right Push certificate.  Apple allows you to generate one for connecting to Sandbox,
 			//   and one for connecting to Production.  You must use the right one, to match the provisioning profile you build your
 			//   app with!
-			var appleCert = File.ReadAllBytes(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "./certificate.p12"));
+			var appleCert = File.ReadAllBytes(appleCertFile);
 			//IMPORTANT: If you are using a Development provisioning Profile, you must use the Sandbox push notification server 
 			//  (so you would leave the first arg in the ctor of ApplePushChannelSettings as 'false')
 			//  If you are using an AdHoc or AppStore provisioning profile, you must use the Production push notification server
 			//  (so you would change the first arg in the ctor of ApplePushChannelSettings to 'true')
-			push.RegisterAppleService(new ApplePushChannelSettings(isProduction, appleCert, certPassword)); //Extension method
+			push.RegisterAppleService(new ApplePushChannelSettings(isProduction, appleCert, appleCertPassword)); //Extension method
 			//Fluent construction of an iOS notification
 			//IMPORTANT: For iOS you MUST MUST MUST use your own DeviceToken here that gets generated within your iOS app itself when the Application Delegate
 			//  for registered for remote notifications is called, and the device token is passed back to you
 
 			Debug ("Reading messages from input file");
 
-			System.IO.StreamReader file = new System.IO.StreamReader(args[0]);
+			System.IO.StreamReader file = new System.IO.StreamReader(messagesFile);
 			string line;
 			while ((line = file.ReadLine()) != null) {
 				string[] words = line.Split (' ');
