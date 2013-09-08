@@ -1,37 +1,65 @@
 namespace :apns do
-  desc "TODO"
-  task send: :environment do
-    pusher = Grocer.pusher(
-	  certificate: "#{Rails.root}/certs/certificate.pem", 
-	)
+    # Export notifications
+    task export: :environment do
+        sandbox = ENV['sandbox'] == "yes"
 
-	predictions = Prediction.select("user_id, count(id) as total_predictions").
-		where("notified_at is null and is_closed is false and expires_at < now()").
-		group("user_id").
-		order("user_id DESC")
+        predictions = Prediction.select("user_id, count(id) as total_predictions").
+            unnotified.
+            expired.
+            group("user_id").
+            order("user_id DESC")
 
-	predictions.each do |p|
-		message = case p.total_predictions
-			when 1
-				"You have new expired prediction"
-			else
-				"You have #{p.total_predictions} new expired predictions"
-		end
+        predictions.each do |p|
+            next unless p.user.notifications
+		
+            p.user.apple_device_tokens.where(sandbox: sandbox).each do |token|
+                print("#{token.token} #{p.total_predictions} #{p.user.alerts_count}\n")
+            end
 
-		p.user.apple_device_tokens.each do |token|
-			notification = Grocer::Notification.new(
-				device_token: token.token,
-				alert: message,
-				badge: p.user.alerts_count,
-			)
+            if not sandbox
+                p.user.predictions.expired.unnotified.update_all(notified_at: DateTime.now)
+            end
+        end
+    end
 
-			Rails.logger.debug "sending notification to #{p.user.username} with message: #{message}"
+    # Process Apple feedback
+    task feedback: :environment do
+        feedback = Grocer.feedback(
+            certificate: "#{Rails.root}/certs/certificate_production.pem",
+            gateway:     "feedback.push.apple.com",
+            retries:     3,
+        )
 
-			pusher.push(notification)
-		end
+        feedback.each do |attempt|
+            print("token #{attempt.device_token}\n")
 
-		p.user.predictions.where("notified_at is null and is_closed is false and expires_at < now()").
-			update_all(notified_at: DateTime.now())
-	end
-  end
+            token = AppleDeviceToken.find_by_token(attempt.device_token)
+            if token && token.timestamp > token.created_at
+                 print("token #{token.token} unsubscribe\n")
+                 token.delete			
+            end
+        end
+    end
+    
+    # Process failed notifications
+    task process_failed: :environment do
+       unless ENV['file']
+           print("Please specify file\n")
+           exit 1
+       end
+
+       t = DateTime.now
+
+       File.open(ENV['file']).read.each_line do |line|
+           line = line.chomp
+           if line.length > 1
+              print("-> #{line}\n");
+              token = AppleDeviceToken.find_by_token(line)
+              if token && token.created_at < t
+                  print("token #{token.token} unsubscribe\n")
+                  token.delete
+              end
+           end
+       end
+    end
 end
