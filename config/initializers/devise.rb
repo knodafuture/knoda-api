@@ -4,7 +4,7 @@ Devise.setup do |config|
   # ==> Mailer Configuration
   # Configure the e-mail address which will be shown in Devise::Mailer,
   # note that it will be overwritten if you use your own mailer class with default "from" parameter.
-  config.mailer_sender = "please-change-me-at-config-initializers-devise@example.com"
+  config.mailer_sender = "support@knoda.com"
 
   # Configure the class responsible to send e-mails.
   # config.mailer = "Devise::Mailer"
@@ -132,7 +132,7 @@ Devise.setup do |config|
   # one (and only one) @ exists in the given string. This is mainly
   # to give user feedback and not to assert the e-mail validity.
   # config.email_regexp = /\A[^@]+@[^@]+\z/
-  config.email_regexp = /\A[a-z0-9_][a-z0-9\.\_\-\+]*@[a-z0-9\.\_\-]+\.[a-z0-9]+\z/i
+  config.email_regexp = /\A[a-z0-9_][+a-z0-9\.\_\-]*@[a-z0-9\.\_\-]+\.[a-z0-9]+\z/i
 
   # ==> Configuration for :timeoutable
   # The time you want to timeout the user session without activity. After this
