@@ -45,6 +45,6 @@ class Api::PasswordsController < ApplicationController
 
   def invalid_current_password
     warden.custom_failure!
-    render :json=> {:success=>false, :message=>"Error with your current password"}, :status=>401
+    render :json=> {:success=>false, :message=>"Error with your current password"}, :status=>422
   end
 end
