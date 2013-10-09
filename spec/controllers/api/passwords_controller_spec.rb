@@ -40,7 +40,7 @@ describe Api::PasswordsController do
         current_password: user.password_confirmation+"_invalid", 
         new_password:     user.password_confirmation.reverse}, :format => :json
       
-      response.status.should eq(401);
+      response.status.should eq(422);
     end
     
     it "should not change password with invalid new password" do
