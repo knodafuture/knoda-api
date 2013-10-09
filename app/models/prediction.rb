@@ -24,7 +24,7 @@ class Prediction < ActiveRecord::Base
   #validate  :is_not_settled, :on => :update, :unless => :in_bs
   
   validates_length_of :body, :maximum => 300
-  validates_uniqueness_of :body
+  #validates_uniqueness_of :body
   
   attr_accessor :in_bs
 
