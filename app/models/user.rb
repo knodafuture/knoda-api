@@ -23,7 +23,9 @@ class User < ActiveRecord::Base
          :authentication_keys => [:login]
          
   validates_presence_of   :username
-  validates_uniqueness_of :username
+  validates_uniqueness_of :username, :case_sensitive => false
+
+
   validates_format_of     :username, :with => /\A[a-zA-Z0-9_]{1,15}\z/
   
   has_attached_file :avatar, :styles => { :big => "344х344>", :small => "100x100>", :thumb => "40x40>" }
