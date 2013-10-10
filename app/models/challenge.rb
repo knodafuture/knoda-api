@@ -59,7 +59,11 @@ class Challenge < ActiveRecord::Base
   end
   
   def prediction_market_points
-    self.prediction.prediction_market_points
+    if self.agree == self.prediction.reload.outcome
+      self.prediction.prediction_market_points
+    else
+      0
+    end
   end
   
   def total_points
