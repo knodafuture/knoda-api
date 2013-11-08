@@ -1,6 +1,7 @@
 class PredictionSerializer < ActiveModel::Serializer
   attributes :id, :body, :outcome, :expires_at, :created_at, :closed_at
   attributes :agreed_count, :disagreed_count
+  attributes :comment_count
   attributes :market_size, :prediction_market
   
   attributes :user_id, :username, :user_avatar

@@ -83,6 +83,12 @@ class Api::PredictionsController < ApplicationController
       respond_with(@prediction.errors, status: 422)
     end
   end
+
+  def comment
+    authorize_action_for(@prediction)
+    @comment = current_user.comments.create(prediction: @prediction)
+    respond_with(@comment)
+  end
   
   def bs
     authorize_action_for(@prediction)
@@ -106,6 +112,9 @@ class Api::PredictionsController < ApplicationController
   end
   
   def prediction_create_params
+    logger.info 'create params'
+    logger.info params.require(:prediction)
+    logger.info 'create params 2'
     params.require(:prediction).permit(:body, :expires_at, :tag_list => [])
   end
   

@@ -25,6 +25,7 @@ Knoda::Application.routes.draw do
         post 'disagree'
         post 'realize'
         post 'unrealize'
+        post 'comment'
         get  'history_agreed'
         get  'history_disagreed'
         post 'bs'
@@ -45,6 +46,8 @@ Knoda::Application.routes.draw do
     resource  :password,      :only => [:create, :update]
     
     resources :apple_device_tokens, :only => [:index, :show, :create, :destroy]
+
+    resources :comments, :only => [:index]
   end
 
   devise_for :users, skip: :registrations

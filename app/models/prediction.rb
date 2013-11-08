@@ -11,6 +11,7 @@ class Prediction < ActiveRecord::Base
   
   has_many :challenges, :dependent => :destroy
   has_many :voters, through: :challenges, class_name: "User", source: 'user'
+  has_many :comments, :dependent => :destroy
 
   validates :body, presence: true
   validates :expires_at, presence: true
@@ -44,6 +45,10 @@ class Prediction < ActiveRecord::Base
 
   def agreed_count
     self.challenges.find_all_by_agree(true).count
+  end
+
+  def comment_count
+    self.comments.count
   end
   
   def market_size

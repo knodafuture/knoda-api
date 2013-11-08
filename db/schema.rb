@@ -11,7 +11,28 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130719132325) do
+ActiveRecord::Schema.define(version: 20131103215746) do
+
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
+  create_table "apple_device_tokens", force: true do |t|
+    t.integer  "user_id"
+    t.string   "token"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.boolean  "sandbox",    default: false
+  end
+
+  add_index "apple_device_tokens", ["user_id", "token"], name: "index_apple_device_tokens_on_user_id_and_token", unique: true, using: :btree
+
+  create_table "badges", force: true do |t|
+    t.integer  "user_id"
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.boolean  "seen",       default: false
+  end
 
   create_table "challenges", force: true do |t|
     t.integer  "user_id"
@@ -20,20 +41,36 @@ ActiveRecord::Schema.define(version: 20130719132325) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "seen",          default: false
+    t.boolean  "is_own",        default: false
+    t.boolean  "is_right",      default: false
+    t.boolean  "is_finished",   default: false
+    t.boolean  "bs",            default: false
   end
 
   add_index "challenges", ["prediction_id"], name: "index_challenges_on_prediction_id", using: :btree
   add_index "challenges", ["user_id", "prediction_id"], name: "index_challenges_on_user_id_and_prediction_id", unique: true, using: :btree
   add_index "challenges", ["user_id"], name: "index_challenges_on_user_id", using: :btree
 
+  create_table "comments", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "prediction_id"
+    t.string   "text"
+    t.boolean  "seen",          default: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "predictions", force: true do |t|
     t.integer  "user_id"
-    t.string   "body"
-    t.date     "expires_at"
+    t.text     "body"
+    t.datetime "expires_at"
     t.boolean  "outcome"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "closed_at"
+    t.boolean  "is_closed",   default: false
+    t.datetime "notified_at"
+    t.datetime "unfinished"
   end
 
   create_table "taggings", force: true do |t|
@@ -52,6 +89,15 @@ ActiveRecord::Schema.define(version: 20130719132325) do
   create_table "tags", force: true do |t|
     t.string "name"
   end
+
+  create_table "topics", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.boolean  "hidden",     default: false
+  end
+
+  add_index "topics", ["name"], name: "index_topics_on_name", unique: true, using: :btree
 
   create_table "users", force: true do |t|
     t.string   "email",                  default: "",    null: false
@@ -75,9 +121,11 @@ ActiveRecord::Schema.define(version: 20130719132325) do
     t.integer  "avatar_file_size"
     t.datetime "avatar_updated_at"
     t.integer  "points",                 default: 0
+    t.integer  "streak",                 default: 0
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
+  add_index "users", ["username"], name: "index_users_on_username", unique: true, using: :btree
 
 end
