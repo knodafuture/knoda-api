@@ -67,3 +67,4 @@ gem 'acts-as-taggable-on', '2.4.1'
 gem 'grocer', '0.4.1'
 
 
+ruby '2.0.0'
