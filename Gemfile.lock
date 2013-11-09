@@ -212,7 +212,7 @@ DEPENDENCIES
   pg (= 0.15.1)
   pry-rails (= 0.3.1)
   rails (= 4.0.0)
-  rails_12factor
+  rails_12factor (= 0.0.2)
   rspec-rails (~> 2.12)
   sass-rails (~> 4.0.0)
   sdoc
