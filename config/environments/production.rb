@@ -8,7 +8,7 @@ Knoda::Application.configure do
   config.action_mailer.delivery_method = :smtp
     config.action_mailer.smtp_settings = {
         :address => "email-smtp.us-east-1.amazonaws.com",
-        :user_name => "AKIAJ3KKFBKQTBGBOUHA"
+        :user_name => "AKIAJ3KKFBKQTBGBOUHA",
         :password => "AoyGphCu+M4KOhY2BPoOU8VZzuz51RahiNNYARkUWHVY",
         :authentication => :login,
         :enable_starttls_auto => true
