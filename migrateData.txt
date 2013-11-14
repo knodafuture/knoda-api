@@ -18,3 +18,5 @@ restore database
 PGPASSWORD=qLqJs50-uKWvTJk2QducXYGOrZ pg_restore --verbose --clean --no-acl --no-owner -h ec2-54-225-89-169.compute-1.amazonaws.com -U aesvlragebajhi -d d93acd4c13pndo -p 5432 knodaDump.dat
 
 
+// Other notes
+http://www.thegeekstuff.com/2009/01/how-to-backup-and-restore-postgres-database-using-pg_dump-and-psql/
