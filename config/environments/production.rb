@@ -1,4 +1,5 @@
 Knoda::Application.configure do
+  config.assets.initialize_on_precompile = false
   config.log_level = :debug
   config.eager_load = true
   config.action_mailer.default_url_options = { :host => "localhost" }
