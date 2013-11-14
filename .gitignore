@@ -28,4 +28,6 @@
 
 /.idea/*
 
+/public/system/*
+
 .DS_Store
