@@ -1,0 +1,20 @@
+migrateData.txt
+
+How to take a database snapshot of current Test environment
+
+ssh root@54.213.86.248
+pg_dump -h localhost knoda_development -U adam -F c -f knodaDump.sql
+scp -r root@54.213.86.248:~/knodaDump.sql ~/knodaDump.sql
+
+To make a copy of the images of current Test environment
+ssh root@54.213.86.248
+cd /home/user
+tar -zcvf images.tar.gz knoda/public/system
+scp -r root@54.213.86.248:/home/user/images.tar.gz ~/images.tar.gz
+
+Copy contents of the tar file to s3
+
+restore database
+PGPASSWORD=qLqJs50-uKWvTJk2QducXYGOrZ pg_restore --verbose --clean --no-acl --no-owner -h ec2-54-225-89-169.compute-1.amazonaws.com -U aesvlragebajhi -d d93acd4c13pndo -p 5432 knodaDump.dat
+
+
