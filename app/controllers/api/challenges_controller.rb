@@ -7,6 +7,8 @@ class Api::ChallengesController < ApplicationController
   
   def index
     case (params[:list])
+      when 'ownedAndPicked'
+        @challenges = current_user.challenges.ownedAndPicked
       when 'own'
         @challenges = current_user.challenges.own
       when 'own_unviewed'
