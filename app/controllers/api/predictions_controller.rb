@@ -1,3 +1,5 @@
+require 'bitly'
+
 class Api::PredictionsController < ApplicationController
   skip_before_filter :verify_authenticity_token
   before_action :set_prediction, :except => [:index, :create]
@@ -21,9 +23,9 @@ class Api::PredictionsController < ApplicationController
       each_serializer: PredictionFeedSerializer,
       meta: pagination_meta(@predictions))
   end
-  
+
   def create
-    @prediction = current_user.predictions.create(prediction_create_params)  
+    @prediction = current_user.predictions.create(prediction_create_params)      
     respond_with(@prediction)
   end
   

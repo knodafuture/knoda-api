@@ -6,6 +6,7 @@ class Prediction < ActiveRecord::Base
   
   after_create :prediction_create_badges
   after_create :create_own_challenge
+  after_create :shortenUrl
 
   belongs_to :user
   
@@ -172,5 +173,12 @@ class Prediction < ActiveRecord::Base
   
   def prediction_create_badges
     self.user.prediction_create_badges
+  end
+
+  def shortenUrl
+    bitly = Bitly.new('adamnengland','R_098b05120c29c43ad74c6b6a0e7fcf64')
+    page_url = bitly.shorten("#{Rails.application.config.knoda_web_url}/predictions/#{self.id}/share")
+    self.short_url = page_url.short_url
+    self.save()
   end
 end

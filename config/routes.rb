@@ -21,6 +21,7 @@ Knoda::Application.routes.draw do
     end
     resources :predictions,   :only => [:index, :show, :create, :update, :destroy] do
       member do
+        get 'shorten'
         post 'agree'
         post 'disagree'
         post 'realize'
