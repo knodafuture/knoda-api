@@ -7,7 +7,7 @@ class Api::CommentsController < ApplicationController
       when 'own'
         @comments = current_user.comments
       when 'prediction'
-        @comments = Comment.joins(:user).where(prediction_id: params[:id])
+        @comments = Comment.joins(:user).where(prediction_id: params[:prediction_id])
       else
         @comments = Comment.recent
     end

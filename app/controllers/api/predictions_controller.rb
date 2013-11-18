@@ -87,9 +87,8 @@ class Api::PredictionsController < ApplicationController
   end
 
   def comment
-    #authorize_action_for(@prediction)
+    authorize_action_for(@prediction)
     @comment = current_user.comments.create(prediction: @prediction, text: params[:comment][:text])
-    logger.info @comment.inspect
     respond_with(@comment, :location => api_comments_url)
   end
   
