@@ -41,4 +41,8 @@ class PredictionAuthorizer < ApplicationAuthorizer
     (resource.is_expired? && resource.is_closed?) &&
       !user.challenges.where("prediction_id = ? and is_own is false and bs is not true", resource.id).blank?
   end
+
+  def commentable_by?(user)
+    true
+  end
 end
