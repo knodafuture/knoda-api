@@ -1,8 +1,8 @@
 class CommentSerializer < ActiveModel::Serializer
   attributes :id, :text, :created_at
   attributes :user_id, :username, :user_avatar
-  attributes :agreed
-
+  attributes :challenge
+  
   self.root = false
   
   def settled
