@@ -21,8 +21,8 @@ class CommentSerializer < ActiveModel::Serializer
     object.user.avatar_image
   end
 
-  def agreed
-    [true, false].sample
+  def challenge
+    object.user.challenges.where(prediction_id: object.prediction_id).first
   end
   
 end
