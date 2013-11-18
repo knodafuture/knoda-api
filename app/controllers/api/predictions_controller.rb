@@ -122,13 +122,10 @@ class Api::PredictionsController < ApplicationController
   end
   
   def prediction_create_params
-    logger.info 'create params'
-    logger.info params.require(:prediction)
-    logger.info 'create params 2'
-    params.require(:prediction).permit(:body, :expires_at, :tag_list => [])
+    params.require(:prediction).permit(:body, :expires_at, :resolution_date, :tag_list => [])
   end
   
   def prediction_update_params
-    params.require(:prediction).permit(:unfinished)
+    params.require(:prediction).permit(:unfinished, :resoultion_date)
   end
 end
