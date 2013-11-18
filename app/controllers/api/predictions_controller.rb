@@ -54,15 +54,23 @@ class Api::PredictionsController < ApplicationController
   
   def agree
     authorize_action_for(@prediction)
-    
-    @challenge = current_user.challenges.create(prediction: @prediction, agree: true)
-    respond_with(@challenge)
+    @challenge = current_user.challenges.where(prediction: @prediction).first
+    if @challenge
+      @challenge.update(agree: true)
+    else
+      @challenge = current_user.challenges.create(prediction: @prediction, agree: true)
+    end
+    respond_with(@challenge)    
   end
   
   def disagree
     authorize_action_for(@prediction)
-    
-    @challenge = current_user.challenges.create(prediction: @prediction, agree: false)
+    @challenge = current_user.challenges.where(prediction: @prediction).first
+    if @challenge
+      @challenge.update(agree: false)
+    else
+      @challenge = current_user.challenges.create(prediction: @prediction, agree: false)
+    end
     respond_with(@challenge)
   end
   
