@@ -9,6 +9,8 @@ class PredictionSerializer < ActiveModel::Serializer
   attributes :settled
 
   attributes :unfinished
+
+  attributes :is_ready_for_resolution
   
   has_many :tags
 
@@ -28,5 +30,9 @@ class PredictionSerializer < ActiveModel::Serializer
   
   def user_avatar
     object.user.avatar_image
+  end
+
+  def is_ready_for_resolution
+    object.resolution_date != nil && object.resolution_date.past?
   end
 end
