@@ -3,7 +3,7 @@ namespace :apns do
     task push: :environment do
       pusher = Grocer.pusher(
         certificate: Rails.application.config.apns.certificate,
-        gateway:     Rails.application.config.apns.gateway
+        gateway:     Rails.application.config.apns.gateway,
         port:        2195,                     # optional
         retries:     3                         # optional
       )
