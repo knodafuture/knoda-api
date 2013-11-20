@@ -4,8 +4,8 @@ namespace :apns do
       pusher = Grocer.pusher(
         certificate: Rails.application.config.apns.certificate,
         gateway:     Rails.application.config.apns.gateway,
-        port:        2195,                     # optional
-        retries:     3                         # optional
+        port:        2195,
+        retries:     3
       )
 
       predictions = Prediction.select("user_id, count(id) as total_predictions").
