@@ -33,7 +33,7 @@ Knoda::Application.configure do
   config.reports_mailer_to = "example@example.com"
   config.user_mailer_from = "example@example.com"
   config.apns = {
-    :certificate = "#{Rails.root}/certs/certificate_production.pem"
-    :gateway = "gateway.sandbox.push.apple.com"
+    :certificate => "#{Rails.root}/certs/certificate_production.pem"
+    :gateway => "gateway.sandbox.push.apple.com"
   }
 end
