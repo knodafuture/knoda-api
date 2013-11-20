@@ -1,4 +1,26 @@
 namespace :apns do
+
+    task push: :environment do
+      pusher = Grocer.pusher(
+        certificate: "#{Rails.root}/certs/certificate_production.pem",
+        gateway:     "gateway.push.apple.com",
+        port:        2195,                     # optional
+        retries:     3                         # optional
+      )
+
+      notification = Grocer::Notification.new(
+        device_token:      "d62ce42a25fc969711b6475a82910dedc4987207bdbac84e028d16fbadc4a403",
+        alert:             "Hello from Grocer!",
+        badge:             42,
+        sound:             "siren.aiff",         # optional
+        expiry:            Time.now + 60*60,     # optional; 0 is default, meaning the message is not stored
+        identifier:        1234,                 # optional
+        content_available: true                  # optional; any truthy value will set 'content-available' to 1
+      )
+
+      pusher.push(notification)      
+    end
+
     # Export notifications
     task export: :environment do
         sandbox = ENV['sandbox'] == "yes"
