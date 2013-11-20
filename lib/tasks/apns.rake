@@ -1,24 +1,40 @@
 namespace :apns do
 
     task push: :environment do
+      if RAILS_ENV == 'production'
+        certificate = "#{Rails.root}/certs/certificate_production.pem" 
+        gateway = "gateway.push.apple.com"
+      else
+        certificate = "#{Rails.root}/certs/certificate_development.pem"
+        gateway = "gateway.sandbox.push.apple.com"
+      end
       pusher = Grocer.pusher(
-        certificate: "#{Rails.root}/certs/certificate_production.pem",
+        certificate: certificate,
         gateway:     "gateway.push.apple.com",
         port:        2195,                     # optional
         retries:     3                         # optional
       )
 
-      notification = Grocer::Notification.new(
-        device_token:      "d62ce42a25fc969711b6475a82910dedc4987207bdbac84e028d16fbadc4a403",
-        alert:             "Hello from Grocer!",
-        badge:             42,
-        sound:             "siren.aiff",         # optional
-        expiry:            Time.now + 60*60,     # optional; 0 is default, meaning the message is not stored
-        identifier:        1234,                 # optional
-        content_available: true                  # optional; any truthy value will set 'content-available' to 1
-      )
-
-      pusher.push(notification)      
+      predictions = Prediction.select("user_id, count(id) as total_predictions").
+          unnotified.
+          expired.
+          group("user_id").
+          order("user_id DESC")
+      predictions.each do |p|
+        =begin
+        next unless p.user.notifications
+        p.user.apple_device_tokens.where(sandbox: sandbox).each do |token|
+          notification = Grocer::Notification.new(
+                  device_token:      token.token,
+                  alert:             "You have predictions ready for resolution",
+                  badge:             p.user.alerts_count
+                )
+          pusher.push(notification)   
+        end
+        p.user.predictions.expired.unnotified.update_all(notified_at: DateTime.now)
+        =end
+        print('send notification');
+      end
     end
 
     # Export notifications
