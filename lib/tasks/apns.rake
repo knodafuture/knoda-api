@@ -1,16 +1,9 @@
 namespace :apns do
 
     task push: :environment do
-      if RAILS_ENV == 'production'
-        certificate = "#{Rails.root}/certs/certificate_production.pem" 
-        gateway = "gateway.push.apple.com"
-      else
-        certificate = "#{Rails.root}/certs/certificate_development.pem"
-        gateway = "gateway.sandbox.push.apple.com"
-      end
       pusher = Grocer.pusher(
-        certificate: certificate,
-        gateway:     "gateway.push.apple.com",
+        certificate: Rails.application.config.apns.certificate,
+        gateway:     Rails.application.config.apns.gateway
         port:        2195,                     # optional
         retries:     3                         # optional
       )

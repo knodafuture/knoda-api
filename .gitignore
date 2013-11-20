@@ -21,7 +21,6 @@
 /.sass-cache
 /tmp
 /config/database.yml
-/config/environments/development.rb
 /config/environments/test.rb
 /config/deploy/development.rb
 /config/deploy/staging.rb
