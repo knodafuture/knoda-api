@@ -25,7 +25,7 @@ Knoda::Application.configure do
   Paperclip::Attachment.default_options[:url] = ':s3_domain_url'
   Paperclip::Attachment.default_options[:path] = '/:class/:attachment/:id_partition/:style/:filename'
   config.apns = {
-    :certificate => "#{Rails.root}/certs/certificate_development.pem"
+    :certificate => "#{Rails.root}/certs/certificate_development.pem",
     :gateway => "gateway.push.apple.com"
   }
 end
