@@ -26,4 +26,5 @@ Knoda::Application.configure do
   Paperclip::Attachment.default_options[:path] = '/:class/:attachment/:id_partition/:style/:filename'
   config.apns_certificate = "#{Rails.root}/certs/certificate_production.pem"
   config.apns_gateway = "gateway.push.apple.com"
+  config.apns_sandbox = false
 end

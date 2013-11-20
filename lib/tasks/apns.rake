@@ -15,7 +15,7 @@ namespace :apns do
           order("user_id DESC")
       predictions.each do |p|
         next unless p.user.notifications
-        p.user.apple_device_tokens.where(sandbox: sandbox).each do |token|
+        p.user.apple_device_tokens.where(sandbox: Rails.application.config.apns_sandbox).each do |token|
         #  notification = Grocer::Notification.new(
         #          device_token:      token.token,
         #          alert:             "You have predictions ready for resolution",
