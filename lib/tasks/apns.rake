@@ -10,21 +10,20 @@ namespace :apns do
 
       predictions = Prediction.select("user_id, count(id) as total_predictions").
           unnotified.
-          expired.
+          readyForResolution.
           group("user_id").
           order("user_id DESC")
       predictions.each do |p|
         next unless p.user.notifications
         p.user.apple_device_tokens.where(sandbox: Rails.application.config.apns_sandbox).each do |token|
-        #  notification = Grocer::Notification.new(
-        #          device_token:      token.token,
-        #          alert:             "You have predictions ready for resolution",
-        #          badge:             p.user.alerts_count
-        #        )
-        #  pusher.push(notification)   
-        print('send notification');
+          notification = Grocer::Notification.new(
+                  device_token:      token.token,
+                  alert:             "You have predictions ready for resolution",
+                  badge:             p.user.alerts_count
+                )
+          pusher.push(notification)   
         end
-        #p.user.predictions.expired.unnotified.update_all(notified_at: DateTime.now)
+        p.user.predictions.expired.unnotified.update_all(notified_at: DateTime.now)
       end
     end
 
