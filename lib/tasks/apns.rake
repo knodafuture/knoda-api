@@ -21,19 +21,17 @@ namespace :apns do
           group("user_id").
           order("user_id DESC")
       predictions.each do |p|
-        =begin
         next unless p.user.notifications
         p.user.apple_device_tokens.where(sandbox: sandbox).each do |token|
-          notification = Grocer::Notification.new(
-                  device_token:      token.token,
-                  alert:             "You have predictions ready for resolution",
-                  badge:             p.user.alerts_count
-                )
-          pusher.push(notification)   
-        end
-        p.user.predictions.expired.unnotified.update_all(notified_at: DateTime.now)
-        =end
+        #  notification = Grocer::Notification.new(
+        #          device_token:      token.token,
+        #          alert:             "You have predictions ready for resolution",
+        #          badge:             p.user.alerts_count
+        #        )
+        #  pusher.push(notification)   
         print('send notification');
+        end
+        #p.user.predictions.expired.unnotified.update_all(notified_at: DateTime.now)
       end
     end
 
