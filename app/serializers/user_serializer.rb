@@ -45,20 +45,4 @@ class UserSerializer < ActiveModel::Serializer
   def include_badges?
     object.id == current_user.id
   end
-  
-  def include_won?
-    object.id == current_user.id
-  end
-  
-  def include_lost?
-    object.id == current_user.id
-  end
-  
-  def include_winning_percentage?
-    object.id == current_user.id
-  end
-  
-  def include_streak?
-    object.id == current_user.id
-  end
 end
