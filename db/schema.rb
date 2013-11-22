@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131122051818) do
+ActiveRecord::Schema.define(version: 20131122232308) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -77,7 +77,7 @@ ActiveRecord::Schema.define(version: 20131122051818) do
     t.datetime "notified_at"
     t.string   "short_url"
     t.datetime "resolutionDate"
-    t.datetime "resolution_date"
+    t.datetime "resolution_date",                 null: false
   end
 
   add_index "predictions", ["user_id"], name: "index_predictions_on_user_id", using: :btree
