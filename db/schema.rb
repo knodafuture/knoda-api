@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131122025056) do
+ActiveRecord::Schema.define(version: 20131122051818) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -33,6 +33,8 @@ ActiveRecord::Schema.define(version: 20131122025056) do
     t.datetime "updated_at"
     t.boolean  "seen",       default: false
   end
+
+  add_index "badges", ["user_id"], name: "index_badges_on_user_id", using: :btree
 
   create_table "challenges", force: true do |t|
     t.integer  "user_id"
@@ -60,6 +62,9 @@ ActiveRecord::Schema.define(version: 20131122025056) do
     t.datetime "updated_at"
   end
 
+  add_index "comments", ["prediction_id"], name: "index_comments_on_prediction_id", using: :btree
+  add_index "comments", ["user_id"], name: "index_comments_on_user_id", using: :btree
+
   create_table "predictions", force: true do |t|
     t.integer  "user_id"
     t.text     "body"
@@ -74,6 +79,8 @@ ActiveRecord::Schema.define(version: 20131122025056) do
     t.datetime "resolutionDate"
     t.datetime "resolution_date"
   end
+
+  add_index "predictions", ["user_id"], name: "index_predictions_on_user_id", using: :btree
 
   create_table "taggings", force: true do |t|
     t.integer  "tag_id"
