@@ -208,25 +208,25 @@ describe Api::PredictionsController do
 
   describe "PATCH update" do
     describe "as owner of prediction" do
-      it "should update unfinished" do
+      it "should update resolution_date" do
         user1.reset_authentication_token!
         user1.save
 
         user1_prediction.save!
         user2_prediction.save!
         
-        patch :update, {id: user1_prediction.id, format: :json, auth_token: user1_token, prediction: {unfinished: DateTime.now + 10.days}}
+        patch :update, {id: user1_prediction.id, format: :json, auth_token: user1_token, prediction: {resolution_date: DateTime.now + 10.days}}
         response.status.should eq(204)
       end
       
-      it "should not update unfinished" do
+      it "should not update resolution_date" do
         user1.reset_authentication_token!
         user1.save
 
         user1_prediction.save!
         user2_prediction.save!
         
-        patch :update, {id: user1_prediction.id, format: :json, auth_token: user1_token, prediction: {unfinished: DateTime.now - 10.days}}
+        patch :update, {id: user1_prediction.id, format: :json, auth_token: user1_token, prediction: {resolution_date: DateTime.now - 10.days}}
         response.status.should eq(422)
       end
     end
@@ -239,7 +239,7 @@ describe Api::PredictionsController do
         user1_prediction.save!
         user2_prediction.save!
         
-        patch :update, {id: user2_prediction.id, format: :json, auth_token: user1_token, prediction: {unfinished: DateTime.now + 10.days}}
+        patch :update, {id: user2_prediction.id, format: :json, auth_token: user1_token, prediction: {resolution_date: DateTime.now + 10.days}}
         response.status.should eq(403)
       end
     end

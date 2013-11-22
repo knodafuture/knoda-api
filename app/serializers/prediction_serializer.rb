@@ -7,11 +7,7 @@ class PredictionSerializer < ActiveModel::Serializer
   attributes :user_id, :username, :user_avatar
   attributes :expired
   attributes :settled
-
-  attributes :unfinished
-
   attributes :is_ready_for_resolution
-  
   has_many :tags
 
   self.root = false

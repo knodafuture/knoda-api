@@ -22,11 +22,9 @@ class Prediction < ActiveRecord::Base
   validate  :tag_existence, :on => :create
   validate  :expires_at_is_not_past, :on => :create
   validate  :new_expires_at_is_not_past, :on => :update
-  validate  :unfinished_is_not_past, :on => :update
-  #validate  :is_not_settled, :on => :update, :unless => :in_bs
+  validate  :resolution_is_not_past, :on => :update
   
   validates_length_of :body, :maximum => 300
-  #validates_uniqueness_of :body
   
   attr_accessor :in_bs
 
@@ -38,7 +36,7 @@ class Prediction < ActiveRecord::Base
   scope :id_lt, -> (i) {where('predictions.id < ?', i) if i}
 
   scope :unnotified, -> {where('notified_at is null')}
-  scope :expired, -> {where('is_closed is false and ((unfinished is null and expires_at < now()) or (unfinished is not null and unfinished < now()))')}
+  scope :expired, -> {where('is_closed is false and ((resolution_date is null and expires_at < now()) or (resolution_date is not null and resolution_date < now()))')}
   scope :readyForResolution, -> {where('is_closed is false and ((resolution_date is not null and resolution_date < now()))')}
 
   def disagreed_count
@@ -149,10 +147,10 @@ class Prediction < ActiveRecord::Base
     end
   end
 
-  def unfinished_is_not_past
-    if self.unfinished_changed?
-      errors[:unfinished] << "is past" if self.unfinished < self.expires_at
-      errors[:unfinished] << "is past" if self.unfinished.past?
+  def resolution_is_not_past
+    if self.resolution_date_changed?
+      errors[:resolution_date] << "is past" if self.resolution_date < self.expires_at
+      errors[:resolution_date] << "is past" if self.resolution_date.past?
     end
   end
 

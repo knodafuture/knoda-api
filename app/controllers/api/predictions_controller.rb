@@ -126,6 +126,6 @@ class Api::PredictionsController < ApplicationController
   end
   
   def prediction_update_params
-    params.require(:prediction).permit(:unfinished, :resoultion_date => nil)
+    params.require(:prediction).permit(:resoultion_date => nil)
   end
 end
