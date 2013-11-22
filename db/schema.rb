@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131118234136) do
+ActiveRecord::Schema.define(version: 20131122025056) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -70,7 +70,6 @@ ActiveRecord::Schema.define(version: 20131118234136) do
     t.datetime "closed_at"
     t.boolean  "is_closed",       default: false
     t.datetime "notified_at"
-    t.datetime "unfinished"
     t.string   "short_url"
     t.datetime "resolutionDate"
     t.datetime "resolution_date"
