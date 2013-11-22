@@ -3,6 +3,7 @@ class PredictionFeedSerializer < PredictionSerializer
   
   attributes :my_challenge
   attributes :my_points
+  attributes :resolution_date
   
   def my_challenge
     current_user.challenges.where(prediction_id: object.id).first
