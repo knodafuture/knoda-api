@@ -122,10 +122,10 @@ class Api::PredictionsController < ApplicationController
   end
   
   def prediction_create_params
-    params.require(:prediction).permit(:body, :expires_at, :resolution_date => nil, :tag_list => [])
+    params.require(:prediction).permit(:body, :expires_at, :resolution_date, :tag_list => [])
   end
   
   def prediction_update_params
-    params.require(:prediction).permit(:resoultion_date => nil)
+    params.require(:prediction).permit(:resoultion_date)
   end
 end
