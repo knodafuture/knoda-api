@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131122232308) do
+ActiveRecord::Schema.define(version: 20131123222800) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -56,8 +56,8 @@ ActiveRecord::Schema.define(version: 20131122232308) do
   create_table "comments", force: true do |t|
     t.integer  "user_id"
     t.integer  "prediction_id"
-    t.string   "text"
-    t.boolean  "seen",          default: false
+    t.string   "text",          limit: 300
+    t.boolean  "seen",                      default: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
