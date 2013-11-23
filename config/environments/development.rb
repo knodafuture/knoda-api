@@ -27,7 +27,7 @@ Knoda::Application.configure do
   # number of complex assets.
   config.assets.debug = true
 
-  config.action_mailer.default_url_options = { :host => "localhost" }
+  config.action_mailer.default_url_options = config.action_mailer.default_url_options = { :host => (ENV['HOST'] || "localhost") }
 
   config.reports_mailer_from = "example@example.com"
   config.reports_mailer_to = "example@example.com"
