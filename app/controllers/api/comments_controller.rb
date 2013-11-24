@@ -7,7 +7,7 @@ class Api::CommentsController < ApplicationController
       when 'own'
         @comments = current_user.comments.order('created_at desc')
       when 'prediction'
-        @comments = Comment.joins(:user).where(prediction_id: params[:prediction_id]).order('created_at desc')
+        @comments = Comment.joins(:user).where(prediction_id: params[:prediction_id]).order('created_at asc')
       else
         @comments = Comment.recent
     end
