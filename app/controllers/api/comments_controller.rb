@@ -5,9 +5,9 @@ class Api::CommentsController < ApplicationController
   def index
     case (params[:list])
       when 'own'
-        @comments = current_user.comments
+        @comments = current_user.comments.order('created_at desc')
       when 'prediction'
-        @comments = Comment.joins(:user).where(prediction_id: params[:prediction_id])
+        @comments = Comment.joins(:user).where(prediction_id: params[:prediction_id]).order('created_at desc')
       else
         @comments = Comment.recent
     end
