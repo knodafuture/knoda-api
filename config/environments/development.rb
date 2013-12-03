@@ -35,4 +35,5 @@ Knoda::Application.configure do
   config.apns_certificate = "#{Rails.root}/certs/certificate_development.pem"
   config.apns_gateway = "gateway.sandbox.push.apple.com"
   config.apns_sandbox = true
+  config.log_level = :debug
 end

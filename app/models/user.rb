@@ -43,11 +43,13 @@ class User < ActiveRecord::Base
   end
   
   def won
-    self.challenges.where({is_finished: true, is_right: true}).count
+    r = self.challenges.select { |c| c.is_finished == true and c.is_right == true}
+    r.length
   end
   
   def lost
-    self.challenges.where({is_finished: true, is_right: false}).count
+    r = self.challenges.select { |c| c.is_finished == true and c.is_right == false}
+    r.length    
   end
   
   def avatar_image
@@ -90,7 +92,7 @@ class User < ActiveRecord::Base
   end
   
   def prediction_create_badges
-    case self.predictions.count
+    case self.predictions.size
       when 1
         # first prediction badge
         self.badges.create(:name => '1_prediction')
