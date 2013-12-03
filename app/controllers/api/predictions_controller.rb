@@ -10,9 +10,9 @@ class Api::PredictionsController < ApplicationController
   
   def index
     if params[:tag]
-      @predictions = Prediction.recent.tagged_with(params[:tag])
+      @predictions = Prediction.recent.latest.tagged_with(params[:tag])
     elsif params[:recent]
-      @predictions = Prediction.recent
+      @predictions = Prediction.recent.latest
     else
       @predictions = current_user.predictions
     end

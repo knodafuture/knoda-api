@@ -28,7 +28,7 @@ class Prediction < ActiveRecord::Base
   
   attr_accessor :in_bs
 
-  scope :recent, lambda {{ :conditions => ["predictions.expires_at >= now()"], :order => "predictions.created_at DESC" } }
+  scope :recent, -> {where("predictions.expires_at >= now()")}
   scope :expiring, lambda { { :conditions => ["predictions.expires_at >= now()"], :order => "predictions.expires_at ASC" } }
   
   scope :latest, -> { order('created_at DESC') }
@@ -40,19 +40,21 @@ class Prediction < ActiveRecord::Base
   scope :readyForResolution, -> {where('is_closed is false and ((resolution_date is not null and resolution_date < now()))')}
 
   def disagreed_count
-    self.challenges.find_all_by_agree(false).count
+    d = self.challenges.select { |c| c.agree == false}
+    d.length
   end
 
   def agreed_count
-    self.challenges.find_all_by_agree(true).count
+    a = self.challenges.select { |c| c.agree == true}
+    a.length
   end
 
   def comment_count
-    self.comments.count
+    self.comments.length
   end
   
   def market_size
-    self.challenges.count
+    self.challenges.length
   end
   
   def prediction_market
