@@ -11,7 +11,7 @@ class Challenge < ActiveRecord::Base
   
   after_create :challenge_create_badges
   
-  scope :ownedAndPicked, -> {joins(:prediction).order('created_at DESC')}
+  scope :ownedAndPicked, -> {order('created_at DESC')}
   scope :own, -> {joins(:prediction).where(is_own: true).order('created_at DESC')}
   scope :picks, -> {joins(:prediction).where(is_own: false).order('created_at DESC')}
   scope :completed, -> {joins(:prediction).where(is_own: false, is_finished: true).order('expires_at DESC')}
