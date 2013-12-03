@@ -12,7 +12,7 @@ class Api::PredictionsController < ApplicationController
     if params[:tag]
       @predictions = Prediction.recent.latest.tagged_with(params[:tag])
     elsif params[:recent]
-      @predictions = Prediction.recent.latest
+      @predictions = Prediction.includes(:challenges, :comments).recent.latest
     else
       @predictions = current_user.predictions
     end
