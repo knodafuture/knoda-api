@@ -8,8 +8,8 @@ class User < ActiveRecord::Base
   before_update :send_email_if_username_was_changed
   before_update :send_email_if_email_was_changed
   
-  has_many :predictions, :dependent => :destroy
-  has_many :challenges, :dependent => :destroy
+  has_many :predictions, inverse_of: :user, :dependent => :destroy
+  has_many :challenges, inverse_of: :user, :dependent => :destroy
   has_many :badges, :dependent => :destroy
   has_many :voted_predictions, through: :challenges, class_name: "Prediction", source: 'prediction'
   has_many :apple_device_tokens, :dependent => :destroy

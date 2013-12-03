@@ -1,6 +1,6 @@
 class Comment < ActiveRecord::Base
-  belongs_to :user
-  belongs_to :prediction
+  belongs_to :user, inverse_of: :comments
+  belongs_to :prediction, inverse_of: :comments
 
   validates :user_id, presence: true
   validates :prediction_id, presence: true

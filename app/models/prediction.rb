@@ -8,11 +8,11 @@ class Prediction < ActiveRecord::Base
   after_create :create_own_challenge
   after_create :shortenUrl
 
-  belongs_to :user
+  belongs_to :user, inverse_of: :predictions
   
-  has_many :challenges, :dependent => :destroy
+  has_many :challenges, inverse_of: :prediction, :dependent => :destroy
   has_many :voters, through: :challenges, class_name: "User", source: 'user'
-  has_many :comments, :dependent => :destroy
+  has_many :comments, inverse_of: :prediction, :dependent => :destroy
 
   validates :body, presence: true
   validates :expires_at, presence: true
