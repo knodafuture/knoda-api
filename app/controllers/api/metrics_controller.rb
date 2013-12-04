@@ -3,7 +3,8 @@ class Api::MetricsController < ApplicationController
 
   def index    
     users = { :current => User.count, :lag7 => User.where("created_at < :start_date",{start_date: 7.days.ago}).count}
-    interaction = { :current => ((Comment.count + Challenge.count) /Prediction.count)}
-    render :json => {:userMetrics => users,  :interactionMetrics => interaction, :status => "whatever"}
+    commentRatio = { :current => ((Comment.count.to_f) / (Prediction.count.to_f))}
+    challengeRatio = { :current => ((Challenge.count.to_f) / (Prediction.count.to_f))}
+    render :json => {:userMetrics => users,  :commentRatio => commentRatio, :challengeRatio => challengeRatio, :status => "whatever"}
   end
 end
