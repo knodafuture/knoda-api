@@ -1,14 +1,18 @@
 require "spec_helper"
 
 describe UserMailer do
+  require 'mail'
+  address = Mail::Address.new "support@knoda.com"
+  address.display_name = "Knoda"    
+    
   describe "signup" do
     let(:user) { FactoryGirl.create(:user) }
     let(:mail) { UserMailer.signup(user) }
 
     it "renders the headers" do
       mail.subject.should eq("Signup")
-      mail.to.should eq([user.email])
-      mail.from.should eq([Knoda::Application.config.user_mailer_from])
+      mail.to.should eq([user.email])  
+      mail.from.should eq([address.format])
     end
 
     it "renders the body" do
@@ -23,7 +27,7 @@ describe UserMailer do
     it "renders the headers" do
       mail.subject.should eq("Email was changed")
       mail.to.should eq([user.email])
-      mail.from.should eq([Knoda::Application.config.user_mailer_from])
+      mail.from.should eq([address.format])
     end
 
     it "renders the body" do
@@ -38,7 +42,7 @@ describe UserMailer do
     it "renders the headers" do
       mail.subject.should eq("Username was changed")
       mail.to.should eq([user.email])
-      mail.from.should eq([Knoda::Application.config.user_mailer_from])
+      mail.from.should eq([address.format])
     end
 
     it "renders the body" do

@@ -1,7 +1,7 @@
 class UserMailer < ActionMailer::Base
   require 'mail'
-  address = Mail::Address.new Knoda::Application.config.user_mailer_from
-  address.display_name = "Knoda"
+  address = Mail::Address.new "support@knoda.com"
+  address.display_name = "Knoda"    
   default from: address.format
 
   # Subject can be set in your I18n file at config/locales/en.yml

@@ -29,9 +29,8 @@ Knoda::Application.configure do
 
   config.action_mailer.default_url_options = config.action_mailer.default_url_options = { :host => (ENV['HOST'] || "localhost") }
 
-  config.reports_mailer_from = "example@example.com"
-  config.reports_mailer_to = "example@example.com"
-  config.user_mailer_from = "example@example.com"
+  config.reports_mailer_from = "support@knoda.com"
+  config.reports_mailer_to = "support@knoda.com"
   config.apns_certificate = "#{Rails.root}/certs/certificate_development.pem"
   config.apns_gateway = "gateway.sandbox.push.apple.com"
   config.apns_sandbox = true
