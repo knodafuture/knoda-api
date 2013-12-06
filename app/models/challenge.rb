@@ -60,7 +60,7 @@ class Challenge < ActiveRecord::Base
   end
   
   def prediction_market_points
-    if self.agree == self.prediction.reload.outcome
+    if self.agree == self.prediction.reload.outcome and self.is_own
       self.prediction.prediction_market_points
     else
       0
@@ -72,7 +72,6 @@ class Challenge < ActiveRecord::Base
     if self.is_own
       p += self.market_size_points
     end
-    
     return p
   end
   

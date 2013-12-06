@@ -4,8 +4,8 @@ describe Api::ChallengesController do
   let(:topic) {FactoryGirl.create(:topic)}
   let(:user1) {FactoryGirl.create(:user)}
   let(:user2) {FactoryGirl.create(:user)}
-  let(:user1_prediction) {user1.predictions.build(body: "body1", expires_at: DateTime.now + 10.days, tag_list: [topic.name])}
-  let(:user2_prediction) {user2.predictions.build(body: "body2", expires_at: DateTime.now + 10.days, tag_list: [topic.name])}
+  let(:user1_prediction) {user1.predictions.build(body: "body1", expires_at: DateTime.now + 10.days, tag_list: [topic.name], resolution_date: DateTime.now)}
+  let(:user2_prediction) {user2.predictions.build(body: "body2", expires_at: DateTime.now + 10.days, tag_list: [topic.name], resolution_date: DateTime.now)}
   let(:user1_token) {user1.authentication_token}
   let(:user2_token) {user2.authentication_token}
   

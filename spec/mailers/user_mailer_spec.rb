@@ -1,7 +1,8 @@
 require "spec_helper"
+require 'mail'
 
 describe UserMailer do
-  require 'mail'
+  
   address = Mail::Address.new "support@knoda.com"
   address.display_name = "Knoda"    
     
