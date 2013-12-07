@@ -29,7 +29,7 @@ class User < ActiveRecord::Base
 
   validates_format_of     :username, :with => /\A[a-zA-Z0-9_]{1,15}\z/
   
-  has_attached_file :avatar, :styles => { :big => "344х344>", :small => "100x100>", :thumb => "40x40>" }
+  has_attached_file :avatar, :styles => { :big => "344х344>", :small => "100x100>"}
   
   attr_accessor :login
   
