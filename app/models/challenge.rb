@@ -11,7 +11,7 @@ class Challenge < ActiveRecord::Base
   
   after_create :challenge_create_badges
   
-  scope :ownedAndPicked, -> {order('created_at DESC')}
+  scope :ownedAndPicked, -> {includes(:prediction, :user).order('created_at DESC')}
   scope :own, -> {joins(:prediction).where(is_own: true).order('created_at DESC')}
   scope :picks, -> {joins(:prediction).where(is_own: false).order('created_at DESC')}
   scope :completed, -> {joins(:prediction).where(is_own: false, is_finished: true).order('expires_at DESC')}
@@ -48,7 +48,7 @@ class Challenge < ActiveRecord::Base
   end
   
   def outcome_points
-    if self.agree == self.prediction.reload.outcome
+    if self.agree == self.prediction.outcome
       10
     else
       0
@@ -60,7 +60,7 @@ class Challenge < ActiveRecord::Base
   end
   
   def prediction_market_points
-    if self.agree == self.prediction.reload.outcome and self.is_own
+    if self.agree == self.prediction.outcome and self.is_own
       self.prediction.prediction_market_points
     else
       0

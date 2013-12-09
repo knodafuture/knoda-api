@@ -6,9 +6,12 @@ class PredictionFeedSerializer < PredictionSerializer
   attributes :resolution_date
   
   def my_challenge
-    #current_user.challenges.where(prediction_id: object.id).first
-    l = current_user.challenges.select { |c| c.prediction_id == object.id}
-    l.first    
+    l = object.challenges.select { |c| c.user_id == current_user.id}
+    if l.length > 0
+      return l[0]
+    else
+      return nil
+    end
   end
   
   def my_points
