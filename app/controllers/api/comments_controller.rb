@@ -11,7 +11,6 @@ class Api::CommentsController < ApplicationController
       else
         @comments = Comment.recent
     end
-    @comments = @comments.id_lt(param_id_lt)
 
     respond_with(@comments.offset(param_offset).limit(param_limit), 
       meta: pagination_meta(@comments))
