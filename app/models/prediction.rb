@@ -35,9 +35,10 @@ class Prediction < ActiveRecord::Base
   
   scope :id_lt, -> (i) {where('predictions.id < ?', i) if i}
 
-  scope :unnotified, -> {where('notified_at is null')}
-  scope :expired, -> {where('is_closed is false and ((resolution_date is null and expires_at < now()) or (resolution_date is not null and resolution_date < now()))')}
-  scope :readyForResolution, -> {where('is_closed is false and ((resolution_date is not null and resolution_date < now()))')}
+  scope :unnotified, -> {where('push_notified_at is null')}
+  scope :expired, -> {where('is_closed is false and resolution_date is not null and resolution_date < now()')}
+  scope :readyForResolution, -> {where('is_closed is false and resolution_date < now()')}
+  scope :notAlerted, -> {where('activity_sent_at is null')}
 
   def disagreed_count
     d = self.challenges.select { |c| c.agree == false}
@@ -58,7 +59,12 @@ class Prediction < ActiveRecord::Base
   end
   
   def prediction_market
-    (self.agreed_count.fdiv(self.market_size) * 100.0).round(2)
+    return (self.agreed_count.fdiv(self.market_size) * 100.0).round(2)
+    #if self.challenges.own.agree == self.outcome
+    #  return (self.agreed_count.fdiv(self.market_size) * 100.0).round(2)
+    #else
+    #  return (self.disagreed_count.fdiv(self.market_size) * 100.0).round(2)
+    #end
   end
   
   def market_size_points

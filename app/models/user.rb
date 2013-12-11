@@ -14,6 +14,7 @@ class User < ActiveRecord::Base
   has_many :voted_predictions, through: :challenges, class_name: "Prediction", source: 'prediction'
   has_many :apple_device_tokens, :dependent => :destroy
   has_many :comments, :dependent => :destroy
+  has_many :activities, :dependent => :destroy
   
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,

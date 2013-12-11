@@ -23,7 +23,7 @@ namespace :apns do
           )
           pusher.push(notification)   
         end
-        p.user.predictions.expired.unnotified.update_all(notified_at: DateTime.now)
+        p.user.predictions.expired.unnotified.update_all(push_notified_at: DateTime.now)
       end
     end
 
@@ -45,7 +45,7 @@ namespace :apns do
             end
 
             if not sandbox
-                p.user.predictions.expired.unnotified.update_all(notified_at: DateTime.now)
+                p.user.predictions.expired.unnotified.update_all(push_notified_at: DateTime.now)
             end
         end
     end

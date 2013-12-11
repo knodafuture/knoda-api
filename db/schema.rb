@@ -11,10 +11,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131123222800) do
+ActiveRecord::Schema.define(version: 20131212030536) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "activities", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "prediction_id"
+    t.text     "prediction_body"
+    t.string   "activity_type"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.boolean  "seen",            default: false
+    t.text     "title"
+  end
+
+  add_index "activities", ["user_id"], name: "index_activities_on_user_id", using: :btree
 
   create_table "apple_device_tokens", force: true do |t|
     t.integer  "user_id"
@@ -73,11 +86,12 @@ ActiveRecord::Schema.define(version: 20131123222800) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "closed_at"
-    t.boolean  "is_closed",       default: false
-    t.datetime "notified_at"
+    t.boolean  "is_closed",        default: false
+    t.datetime "push_notified_at"
     t.string   "short_url"
     t.datetime "resolutionDate"
-    t.datetime "resolution_date",                 null: false
+    t.datetime "resolution_date",                  null: false
+    t.datetime "activity_sent_at"
   end
 
   add_index "predictions", ["user_id"], name: "index_predictions_on_user_id", using: :btree
