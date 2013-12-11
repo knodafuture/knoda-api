@@ -21,8 +21,8 @@ class Challenge < ActiveRecord::Base
   scope :unviewed, -> {where(seen: false)}
   scope :expired, -> {joins(:prediction).where("is_own is true and is_closed is false and ((resolution_date is null and expires_at < ?) or (resolution_date is not null and resolution_date < ?))", Time.now, Time.now).order("expires_at DESC")}
   
-  scope :agreed_by_users, ->{where(agree: true, is_own: false).order('created_at DESC')}
-  scope :disagreed_by_users, ->{where(agree: false, is_own: false).order('created_at DESC')}
+  scope :agreed_by_users, ->{where(agree: true).order('created_at DESC')}
+  scope :disagreed_by_users, ->{where(agree: false).order('created_at DESC')}
   
   scope :notifications, -> {joins(:prediction).
     where("((is_own IS FALSE) and (is_finished IS TRUE)) or ((is_own IS TRUE) and ((resolution_date is null and expires_at < now()) or (resolution_date is not null and resolution_date < now())))").
