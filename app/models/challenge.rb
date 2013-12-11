@@ -102,6 +102,8 @@ class Challenge < ActiveRecord::Base
   end
   
   def challenge_create_badges
-    self.user.challenge_create_badges
+    if not self.is_own
+      self.user.challenge_create_badges
+    end
   end
 end
