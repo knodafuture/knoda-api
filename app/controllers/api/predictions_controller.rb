@@ -103,9 +103,13 @@ class Api::PredictionsController < ApplicationController
   def bs
     authorize_action_for(@prediction)
     
-    @challenge = current_user.challenges.where(prediction: @prediction, is_own: false).first
+    @challenge = current_user.challenges.where(prediction: @prediction).first
     @challenge.update(bs: true)
-    @challenge.prediction.request_for_bs
+    if not @challenge.is_own
+      @challenge.prediction.request_for_bs
+    else
+      @challenge.prediction.revert
+    end
     
     head :no_content
   end

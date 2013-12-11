@@ -109,7 +109,6 @@ class Prediction < ActiveRecord::Base
   
   def revert
     self.in_bs = true
-    
     self.challenges.each do |c|
       c.user.update({points: c.user.points - c.total_points})
       c.update({is_right: false, is_finished: false, bs: false})
