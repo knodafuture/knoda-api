@@ -25,7 +25,7 @@ class Challenge < ActiveRecord::Base
   scope :disagreed_by_users, ->{where(agree: false).order('created_at DESC')}
   
   scope :notifications, -> {joins(:prediction).
-    where("((is_own IS FALSE) and (is_finished IS TRUE)) or ((is_own IS TRUE) and ((resolution_date is null and expires_at < now()) or (resolution_date is not null and resolution_date < now())))").
+    where("((is_own IS FALSE) and (is_finished IS TRUE)) or ((is_own IS TRUE) and (resolution_date < now()))").
     order("CASE WHEN is_finished IS TRUE THEN predictions.closed_at ELSE predictions.expires_at END DESC")
   }
   
