@@ -59,12 +59,12 @@ class Prediction < ActiveRecord::Base
   end
   
   def prediction_market
-    return (self.agreed_count.fdiv(self.market_size) * 100.0).round(2)
-    #if self.challenges.own.agree == self.outcome
-    #  return (self.agreed_count.fdiv(self.market_size) * 100.0).round(2)
-    #else
-    #  return (self.disagreed_count.fdiv(self.market_size) * 100.0).round(2)
-    #end
+    #return (self.agreed_count.fdiv(self.market_size) * 100.0).round(2)
+    if self.challenges.own.first.agree == self.outcome
+      return (self.agreed_count.fdiv(self.market_size) * 100.0).round(2)
+    else
+      return (self.disagreed_count.fdiv(self.market_size) * 100.0).round(2)
+    end
   end
   
   def market_size_points
