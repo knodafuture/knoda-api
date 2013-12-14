@@ -23,7 +23,7 @@ class Api::ActivityfeedController < ApplicationController
   end
 
   def seen
-    current_user.activities.where(id: params[:ids]).update_all(seen: true)
+    current_user.activities.where(id: params[:ids][0].split(',')).update_all(seen: true)
     head :no_content
   end  
 
