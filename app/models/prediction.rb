@@ -107,11 +107,10 @@ class Prediction < ActiveRecord::Base
   def close_as(outcome)
     if self.update({outcome: outcome, is_closed: true, closed_at: Time.now})
       self.user.outcome_badges
-      
       self.challenges.each do |c|
         c.close
+      Activity.where(user_id: self.user.id, prediction_id: self.id, activity_type: 'EXPIRED').delete_all
       end
-      
       true
     else
       false
