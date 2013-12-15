@@ -41,7 +41,8 @@ class Api::ChallengesController < ApplicationController
         @challenges = current_user.challenges
     end
 
-    @challenges = @challenges.created_at_lt(param_created_at_lt)
+    @challenges = @challenges.id_lt(param_id_lt)
+    #@challenges = @challenges.created_at_lt(param_created_at_lt)
        
     respond_with(@challenges.offset(param_offset).limit(param_limit), 
       meta: pagination_meta(@challenges))
