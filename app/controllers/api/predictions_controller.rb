@@ -31,8 +31,10 @@ class Api::PredictionsController < ApplicationController
   
   def update
     authorize_action_for(@prediction)
-    
-    @prediction.update(prediction_update_params)
+    p = prediction_update_params
+    p[:activity_sent_at] = nil
+    @prediction.update(p)
+    Activity.where(user_id: @prediction.user.id, prediction_id: @prediction.id, activity_type: 'EXPIRED').delete_all
     respond_with(@prediction, serializer: PredictionFeedSerializer)
   end
   
