@@ -20,6 +20,7 @@ class Comment < ActiveRecord::Base
       a.title = (commentingUsers.length == 1) ? "#{commentingUsers.length} person commented on" : "#{commentingUsers.length} people commented on"
       a.prediction_body = self.prediction.body
       a.created_at = DateTime.now
+      a.seen = false
       a.save
     end
     Comment.select('user_id').where("prediction_id = ?", self.prediction.id).group("user_id").each do |c|
@@ -28,6 +29,7 @@ class Comment < ActiveRecord::Base
         a.title = (commentingUsers.length == 1) ? "#{commentingUsers.length} person commented on" : "#{commentingUsers.length} people commented on"        
         a.prediction_body = self.prediction.body
         a.created_at = DateTime.now
+        a.seen = false
         a.save      
       end
     end
