@@ -1,5 +1,6 @@
 class User < ActiveRecord::Base
   # Adds `can_create?(resource)`, etc
+  searchkick
   include Authority::UserAbilities
   
   after_create :registration_badges
@@ -165,4 +166,11 @@ class User < ActiveRecord::Base
       UserMailer.email_was_changed(self).deliver
     end
   end
+
+  def search_data
+    {
+      username: username,
+      email: email
+    }
+  end  
 end
