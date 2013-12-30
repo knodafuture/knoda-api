@@ -7,6 +7,8 @@ Knoda::Application.routes.draw do
 
   # for iOS API
   namespace :api do
+    get 'search/users' => 'search#users'
+    get 'search/predictions' => 'search#predictions'    
     resources :apple_device_tokens, :only => [:index, :show, :create, :destroy]    
     resources :comments, :only => [:index]
     resources :metrics,       :only => [:index]
