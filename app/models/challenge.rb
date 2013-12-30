@@ -55,7 +55,11 @@ class Challenge < ActiveRecord::Base
   end
   
   def market_size_points
-    self.prediction.market_size_points
+    if self.is_own
+      self.prediction.market_size_points
+    else
+      0
+    end
   end
   
   def prediction_market_points
@@ -82,7 +86,7 @@ class Challenge < ActiveRecord::Base
     if self.is_own
       title = (self.agree == self.prediction.outcome) ? "You won #{self.total_points} points for" : "You lost but still got #{self.total_points} points for your prediction"
     else
-      title = (self.agree == self.prediction.outcome) ? "Your vote was right AND you earned #{self.total_points} points" : "Your vote was wrong BUT you earned #{self.total_points} points"
+      title = (self.agree == self.prediction.outcome) ? "Your vote was right and you earned #{self.total_points} points" : "Your vote was wrong but you earned #{self.total_points} points"
     end
     activity_type = (self.agree == self.prediction.outcome) ? 'WON' : 'LOST'
     Activity.create!(user: self.user, prediction_id: self.prediction.id, title: title, prediction_body: self.prediction.body, activity_type: activity_type);
