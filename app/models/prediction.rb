@@ -60,17 +60,13 @@ class Prediction < ActiveRecord::Base
   end
   
   def prediction_market
-    if self.agreed_count >= self.disagreed_count
+    #first, check if users challenge was correct, then
+    #if predictor was right, use agree percent, if it was wrong, use disagree percent
+    if self.outcome == true
       return (self.agreed_count.fdiv(self.market_size) * 100.0).round(2)
     else  
       return (self.disagreed_count.fdiv(self.market_size) * 100.0).round(2)
     end
-    #return (self.agreed_count.fdiv(self.market_size) * 100.0).round(2)
-    #if self.challenges.own.agree == self.outcome
-    #  
-    #else
-    #  
-    #end
   end
   
   def market_size_points
