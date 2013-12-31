@@ -1,6 +1,11 @@
 Knoda::Application.routes.draw do
   root 'mobile#index'
+
+  resources :challenges, only: [:index, :show]
+  resources :predictions
+
   get 'tags/:tag', to: 'predictions#index', as: :tag
+
   get 'users/sign_in'       => 'mobile#index'
   get 'users/sign_up'       => 'mobile#index'
   get 'users/password/new'  => 'mobile#index'
@@ -8,12 +13,8 @@ Knoda::Application.routes.draw do
   # for iOS API
   namespace :api do
     get 'search/users' => 'search#users'
-    get 'search/predictions' => 'search#predictions'    
-    resources :apple_device_tokens, :only => [:index, :show, :create, :destroy]    
-    resources :comments, :only => [:index]
+    get 'search/predictions' => 'search#predictions'
     resources :metrics,       :only => [:index]
-    resource  :profile,       :only => [:show, :update]
-    resource  :password,      :only => [:create, :update]    
     resources :registrations, :only => [:create]
     resources :topics,        :only => [:index]
     resources :challenges,    :only => [:index, :show] do
@@ -45,12 +46,20 @@ Knoda::Application.routes.draw do
         get 'predictions'
       end
     end
+    resource  :profile,       :only => [:show, :update]
+    resource  :password,      :only => [:create, :update]
+    
+    resources :apple_device_tokens, :only => [:index, :show, :create, :destroy]
+
+    resources :comments, :only => [:index]
     resources :activityfeed, :only => [:index] do
       collection do
         post 'seen'
       end
     end      
+
   end
+
   devise_for :users, skip: :registrations
   devise_scope :user do
     namespace :api do
@@ -61,6 +70,7 @@ Knoda::Application.routes.draw do
       end
       resource :registration, :only => [:create]
     end
+
     resource :registration,
       only: [:new, :create, :edit, :update],
       path: 'users',
