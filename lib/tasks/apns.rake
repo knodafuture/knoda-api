@@ -1,6 +1,7 @@
 namespace :apns do
 
     task push: :environment do
+      print 'started the push task'
       pusher = Grocer.pusher(
         certificate: Rails.application.config.apns_certificate,
         gateway:     Rails.application.config.apns_gateway,
@@ -39,7 +40,6 @@ namespace :apns do
 
         predictions.each do |p|
             next unless p.user.notifications
-		
             p.user.apple_device_tokens.where(sandbox: sandbox).each do |token|
                 print("#{token.token} #{p.total_predictions} #{p.user.alerts_count}\n")
             end
@@ -53,19 +53,20 @@ namespace :apns do
     # Process Apple feedback
     task feedback: :environment do
         feedback = Grocer.feedback(
-            certificate: "#{Rails.root}/certs/certificate_production.pem",
-            gateway:     "feedback.push.apple.com",
-            retries:     3,
+          certificate: Rails.application.config.apns_certificate,
+          gateway:     Rails.application.config.apns_gateway,
+          port:        2195,
+          retries:     3
         )
 
         feedback.each do |attempt|
-            print("token #{attempt.device_token}\n")
-
-            token = AppleDeviceToken.find_by_token(attempt.device_token)
-            if token && token.timestamp > token.created_at
-                 print("token #{token.token} unsubscribe\n")
-                 token.delete			
-            end
+            print attempt
+            #print("token #{attempt.device_token}\n")
+            #token = AppleDeviceToken.find_by_token(attempt.device_token)
+            #if token && token.timestamp > token.created_at
+            #     print("token #{token.token} unsubscribe\n")
+            #     token.delete			
+            #end
         end
     end
     
