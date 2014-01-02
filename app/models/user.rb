@@ -148,7 +148,8 @@ class User < ActiveRecord::Base
   end
   
   def alerts_count
-    self.challenges.notifications.unviewed.count
+    self.activities.unseen
+    #self.challenges.notifications.unviewed.count
   end
   
   def send_signup_email
