@@ -148,7 +148,7 @@ class User < ActiveRecord::Base
   end
   
   def alerts_count
-    self.activities.unseen
+    self.activities.unseen.count
     #self.challenges.notifications.unviewed.count
   end
   
