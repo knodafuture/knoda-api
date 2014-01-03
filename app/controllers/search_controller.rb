@@ -8,7 +8,7 @@ class Api::SearchController < ApplicationController
     @searchResults.each do |u|
       @users << u.to_model
     end
-    respond_with(@users, each_serializer: UserSerializer)
+    respond_with(@users, each_serializer: UserSerializer, root: "users")
   end
 
   def predictions
@@ -17,6 +17,6 @@ class Api::SearchController < ApplicationController
     @searchResults.each do |p|
       @predictions << p.to_model
     end
-    respond_with(@predictions, each_serializer: PredictionFeedSerializer)
+    respond_with(@predictions, each_serializer: PredictionFeedSerializer, root: "predictions")
   end
 end
