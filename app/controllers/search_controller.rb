@@ -3,12 +3,20 @@ class Api::SearchController < ApplicationController
   respond_to :json
   
   def users
-    @users = User.search params[:q], page: param_offset.to_i.fdiv(param_limit.to_i), per_page: param_limit, misspellings: {distance:2}
-    respond_with(@users, each_serializer: UserSerializer)
+    @users = []
+    @searchResults = User.search params[:q], page: param_offset.to_i.fdiv(param_limit.to_i), per_page: param_limit, misspellings: {distance:2}
+    @searchResults.each do |u|
+      @users << u.to_model
+    end
+    respond_with(@users, each_serializer: UserSerializer, root: "users")
   end
 
   def predictions
-    @predictions = Prediction.search params[:q], page: param_offset.to_i.fdiv(param_limit.to_i), per_page: param_limit, misspellings: {distance:2}
-    respond_with(@predictions, each_serializer: PredictionFeedSerializer)    
+    @predictions = []
+    @searchResults = Prediction.search params[:q], page: param_offset.to_i.fdiv(param_limit.to_i), per_page: param_limit, misspellings: {distance:2}
+    @searchResults.each do |p|
+      @predictions << p.to_model
+    end
+    respond_with(@predictions, each_serializer: PredictionFeedSerializer, root: "predictions")
   end
 end

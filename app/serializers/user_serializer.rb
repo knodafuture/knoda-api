@@ -1,5 +1,5 @@
 class UserSerializer < ActiveModel::Serializer
-  attributes :id, :username, :email, :created_at, :avatar_image, :notifications
+  attributes :id, :username, :email, :created_at, :avatar_image, :notifications, :verified_account
   attributes :points, :won, :lost, :winning_percentage
   attributes :streak
   attributes :total_predictions
