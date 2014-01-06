@@ -32,4 +32,33 @@ namespace :topics do
     end
   end
 
+  task order: :environment do
+    @t = Topic.find_by name: 'SPORTS'
+    @t.sort_order = 1
+    @t.save
+    @t = Topic.find_by name: 'ENTERTAINMENT'
+    @t.sort_order = 2
+    @t.save
+    @t = Topic.find_by name: 'PERSONAL'
+    @t.sort_order = 3
+    @t.save
+    @t = Topic.find_by name: 'BUSINESS'
+    @t.sort_order = 4
+    @t.save    
+    @t = Topic.find_by name: 'WEATHER'
+    @t.sort_order = 5
+    @t.save
+    @t = Topic.find_by name: 'POLITICS'
+    @t.sort_order = 6
+    @t.save    
+    @t = Topic.find_by name: 'STOCKS'
+    @t.sort_order = 7
+    @t.save
+    @t = Topic.find_by name: 'FUNNY'
+    @t.sort_order = 8
+    @t.save
+    @t = Topic.find_by name: 'OTHER'
+    @t.sort_order = 9
+    @t.save
+  end
 end
