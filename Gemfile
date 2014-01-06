@@ -38,6 +38,7 @@ gem 'active_model_serializers', '0.8.1'
 gem 'formtastic', '2.2.1'
 gem 'paperclip', '3.4.2'
 gem 'aws-sdk'
+gem 'authority', '2.6.0'
 
 group :development, :test do
   gem 'rspec-rails', '~> 2.12'
