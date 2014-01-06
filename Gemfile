@@ -27,22 +27,11 @@ gem 'turbolinks', '1.2.0'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 1.2'
 
-group :doc do
-  # bundle exec rake doc:rails generates the API under doc/api.
-  gem 'sdoc', require: false
-end
-
 # Use ActiveModel has_secure_password
 gem 'bcrypt-ruby', '~> 3.0.0'
 
 # Use unicorn as the app server
 gem 'unicorn'
-
-# Use Capistrano for deployment
-gem 'capistrano', '2.15.5', group: :development
-
-# Use debugger
-# gem 'debugger', group: [:development, :test]
 
 # Other required modules
 gem 'devise', '3.0.0.rc'
@@ -70,5 +59,6 @@ gem 'grocer', '0.4.1'
 gem 'rails_12factor', '0.0.2'
 gem 'newrelic_rpm'
 gem "searchkick"
+gem 'knoda_core', :git => "https://knoda:knoda2013!@bitbucket.org/knoda/knoda_core.git"
 
 ruby '2.0.0'

@@ -3,8 +3,9 @@ class Api::SearchController < ApplicationController
   respond_to :json
   
   def users
+    limit = param_limit || 5
     @users = []
-    @searchResults = User.search params[:q], page: param_offset.to_i.fdiv(param_limit.to_i), per_page: param_limit, misspellings: {distance:1}, partial: true
+    @searchResults = User.search params[:q], page: param_offset.to_i.fdiv(limit.to_i), per_page: limit, misspellings: {distance:1}, partial: true
     @searchResults.each do |u|
       @users << u.to_model
     end
@@ -12,8 +13,9 @@ class Api::SearchController < ApplicationController
   end
 
   def predictions
+    limit = param_limit || 50
     @predictions = []
-    @searchResults = Prediction.search params[:q], page: param_offset.to_i.fdiv(param_limit.to_i), per_page: param_limit, misspellings: {distance:2}, partial: true
+    @searchResults = Prediction.search params[:q], page: param_offset.to_i.fdiv(limit.to_i), per_page: limit, misspellings: {distance:2}, partial: true
     @searchResults.each do |p|
       @predictions << p.to_model
     end

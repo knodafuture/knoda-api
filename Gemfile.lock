@@ -1,3 +1,10 @@
+GIT
+  remote: https://knoda:knoda2013!@bitbucket.org/knoda/knoda_core.git
+  revision: 020be125a277a05a9d735e1f13e92f9d10ba81e0
+  specs:
+    knoda_core (0.0.1)
+      rails (~> 4.0.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -45,12 +52,6 @@ GEM
       multi_json (~> 1.3)
       oauth2 (>= 0.5.0, < 0.9)
     builder (3.1.4)
-    capistrano (2.15.5)
-      highline
-      net-scp (>= 1.0.0)
-      net-sftp (>= 2.0.0)
-      net-ssh (>= 2.0.14)
-      net-ssh-gateway (>= 1.1.0)
     climate_control (0.0.3)
       activesupport (>= 3.0)
     cocaine (0.5.1)
@@ -85,7 +86,6 @@ GEM
       actionpack (>= 3.0)
     grocer (0.4.1)
     hashr (0.0.22)
-    highline (1.6.19)
     hike (1.2.3)
     httparty (0.12.0)
       json (~> 1.8)
@@ -111,13 +111,6 @@ GEM
     multi_json (1.7.7)
     multi_xml (0.5.5)
     multipart-post (1.2.0)
-    net-scp (1.1.2)
-      net-ssh (>= 2.6.5)
-    net-sftp (2.1.2)
-      net-ssh (>= 2.6.5)
-    net-ssh (2.6.8)
-    net-ssh-gateway (1.2.0)
-      net-ssh (>= 2.6.5)
     newrelic_rpm (3.6.9.171)
     nokogiri (1.5.10)
     oauth2 (0.8.1)
@@ -164,8 +157,6 @@ GEM
       thor (>= 0.18.1, < 2.0)
     raindrops (0.12.0)
     rake (10.1.0)
-    rdoc (3.12.2)
-      json (~> 1.4)
     rest-client (1.6.7)
       mime-types (>= 1.16)
     rspec-core (2.14.0)
@@ -184,9 +175,6 @@ GEM
       railties (>= 4.0.0.beta, < 5.0)
       sass (>= 3.1.10)
       sprockets-rails (~> 2.0.0)
-    sdoc (0.3.20)
-      json (>= 1.1.3)
-      rdoc (~> 3.10)
     searchkick (0.3.5)
       tire
       tire-contrib
@@ -245,7 +233,6 @@ DEPENDENCIES
   aws-sdk
   bcrypt-ruby (~> 3.0.0)
   bitly (= 0.9.0)
-  capistrano (= 2.15.5)
   coffee-rails (~> 4.0.0)
   devise (= 3.0.0.rc)
   factory_girl_rails (= 4.2.1)
@@ -254,6 +241,7 @@ DEPENDENCIES
   grocer (= 0.4.1)
   jbuilder (~> 1.2)
   jquery-rails (= 3.0.2)
+  knoda_core!
   newrelic_rpm
   paperclip (= 3.4.2)
   pg (= 0.15.1)
@@ -262,7 +250,6 @@ DEPENDENCIES
   rails_12factor (= 0.0.2)
   rspec-rails (~> 2.12)
   sass-rails (~> 4.0.0)
-  sdoc
   searchkick
   simplecov (= 0.7.1)
   turbolinks (= 1.2.0)
