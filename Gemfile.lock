@@ -1,5 +1,6 @@
-PATH
-  remote: ../knoda_core
+GIT
+  remote: https://knoda:knoda2013!@bitbucket.org/knoda/knoda_core.git
+  revision: 52721746332926dd9e7771e2cac7a15f3186caea
   specs:
     knoda_core (0.0.1)
       authority (= 2.6.0)
