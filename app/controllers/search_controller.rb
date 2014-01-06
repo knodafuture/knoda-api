@@ -5,7 +5,7 @@ class Api::SearchController < ApplicationController
   def users
     limit = param_limit || 5
     @users = []
-    @searchResults = User.search params[:q], page: param_offset.to_i.fdiv(limit.to_i), per_page: limit, misspellings: {distance:1}, partial: true
+    @searchResults = User.search params[:q], fields: [:username], page: param_offset.to_i.fdiv(limit.to_i), per_page: limit, misspellings: {distance:1}, partial: true
     @searchResults.each do |u|
       @users << u.to_model
     end
