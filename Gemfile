@@ -60,5 +60,7 @@ gem 'rails_12factor', '0.0.2'
 gem 'newrelic_rpm'
 gem "searchkick"
 gem 'knoda_core', :git => "https://knoda:knoda2013!@bitbucket.org/knoda/knoda_core.git"
+# Use this to test local core engine changes
+#gem 'knoda_core', :path => "../knoda_core"
 
 ruby '2.0.0'

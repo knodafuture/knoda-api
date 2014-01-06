@@ -1,8 +1,12 @@
-GIT
-  remote: https://knoda:knoda2013!@bitbucket.org/knoda/knoda_core.git
-  revision: 020be125a277a05a9d735e1f13e92f9d10ba81e0
+PATH
+  remote: ../knoda_core
   specs:
     knoda_core (0.0.1)
+      authority (= 2.6.0)
+      aws-sdk
+      bitly (= 0.9.0)
+      devise (= 3.0.0.rc)
+      paperclip (= 3.4.2)
       rails (~> 4.0.0)
 
 GEM
