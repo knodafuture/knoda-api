@@ -3,7 +3,8 @@ class Api::ProfilesController < ApplicationController
   respond_to :json
 
   def show
-    respond_with current_user
+    @user = current_user
+    respond_with @user
   end
   
   def update

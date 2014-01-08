@@ -18,15 +18,13 @@ class Api::PredictionsController < ApplicationController
     end
     
     @predictions = @predictions.id_lt(param_id_lt)
-        
-    respond_with(@predictions.offset(param_offset).limit(param_limit), 
-      each_serializer: PredictionFeedSerializer,
-      meta: pagination_meta(@predictions))
+    @meta = pagination_meta(@predictions)    
+    respond_with(@predictions.offset(param_offset).limit(param_limit))
   end
 
   def create
     @prediction = current_user.predictions.create(prediction_create_params)      
-    respond_with(@prediction)
+    respond_with @prediction
   end
   
   def update
@@ -35,23 +33,21 @@ class Api::PredictionsController < ApplicationController
     p[:activity_sent_at] = nil
     @prediction.update(p)
     Activity.where(user_id: @prediction.user.id, prediction_id: @prediction.id, activity_type: 'EXPIRED').delete_all
-    respond_with(@prediction, serializer: PredictionFeedSerializer)
+    respond_with @prediction
   end
   
   def show
-    respond_with(@prediction, serializer: PredictionFeedSerializer)
+    respond_with(@prediction)
   end
   
   def history_agreed
-    respond_with(@prediction.challenges.agreed_by_users.limit(50), 
-      each_serializer: ChallengeHistorySerializer,
-      root: 'challenges')
+    @challenges = @prediction.challenges.agreed_by_users.limit(50)
+    respond_with @challenges
   end
   
   def history_disagreed
-    respond_with(@prediction.challenges.disagreed_by_users.limit(50), 
-      each_serializer: ChallengeHistorySerializer,
-      root: 'challenges')
+    @challenges = @prediction.challenges.disagreed_by_users.limit(50)
+    respond_with @challenges
   end
   
   def agree
@@ -62,7 +58,7 @@ class Api::PredictionsController < ApplicationController
     else
       @challenge = current_user.challenges.create(prediction: @prediction, agree: true)
     end
-    respond_with(@challenge)    
+    respond_with @challenge
   end
   
   def disagree
@@ -73,14 +69,14 @@ class Api::PredictionsController < ApplicationController
     else
       @challenge = current_user.challenges.create(prediction: @prediction, agree: false)
     end
-    respond_with(@challenge)
+    respond_with @challenge
   end
   
   def realize
     authorize_action_for(@prediction)
     
     if @prediction.close_as(true)
-      respond_with(@prediction)
+      respond_with @prediction
     else
       render json: @prediction.errors, status: 422
     end
@@ -90,7 +86,7 @@ class Api::PredictionsController < ApplicationController
     authorize_action_for(@prediction)
     
     if @prediction.close_as(false)
-      respond_with(@prediction)
+      respond_with @prediction, :view => 'api/predictions/show'
     else
       respond_with(@prediction.errors, status: 422)
     end
@@ -99,7 +95,7 @@ class Api::PredictionsController < ApplicationController
   def comment
     authorize_action_for(@prediction)
     @comment = current_user.comments.create(prediction: @prediction, text: params[:comment][:text])
-    respond_with(@comment, :location => api_comments_url)
+    respond_with @comment, :location => api_comments_url
   end
   
   def bs
@@ -118,7 +114,7 @@ class Api::PredictionsController < ApplicationController
   
   def challenge
     @challenge = current_user.challenges.where(prediction: @prediction).first
-    respond_with(@challenge)
+    respond_with @challenge
   end
   
   private

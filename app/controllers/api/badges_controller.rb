@@ -5,7 +5,8 @@ class Api::BadgesController < ApplicationController
   respond_to :json
   
   def index
-    respond_with(current_user.badges)
+    @badges = current_user.badges
+    respond_with(@badges)
   end
   
   def recent

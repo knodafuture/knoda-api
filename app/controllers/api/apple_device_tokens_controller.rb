@@ -5,11 +5,13 @@ class Api::AppleDeviceTokensController < ApplicationController
   authorize_actions_for AppleDeviceToken, :only => ['index', 'create', 'show']
   
   def index    
-    respond_with(current_user.apple_device_tokens)
+    @tokens = current_user.apple_device_tokens
+    respond_with(@tokens)
   end
   
   def show
-    respond_with(current_user.apple_device_tokens.find(params[:id]))
+    @token = current_user.apple_device_tokens.find(params[:id])
+    respond_with(@token)
   end
   
   def create  

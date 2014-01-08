@@ -1,0 +1,1 @@
+json.partial! 'api/apple_device_tokens/token', token: @token

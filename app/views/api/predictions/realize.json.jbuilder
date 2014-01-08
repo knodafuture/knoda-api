@@ -1,0 +1,1 @@
+json.partial! 'api/predictions/prediction', prediction: @prediction

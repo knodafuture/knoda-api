@@ -1,0 +1,1 @@
+json.challenges @challenges, :user_id, :agree, :user.username

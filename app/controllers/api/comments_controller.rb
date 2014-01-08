@@ -3,6 +3,7 @@ class Api::CommentsController < ApplicationController
   respond_to :json
   
   def index
+    puts 'starting index'
     case (params[:list])
       when 'own'
         @comments = current_user.comments.order('created_at desc')
@@ -13,8 +14,7 @@ class Api::CommentsController < ApplicationController
     end
 
     @comments = @comments.id_lt(param_id_lt)
-
-    respond_with(@comments.offset(param_offset).limit(param_limit), 
-      meta: pagination_meta(@comments))
+    @meta = pagination_meta(@comments)
+    respond_with(@comments.offset(param_offset).limit(param_limit), meta: pagination_meta(@comments))
   end
 end

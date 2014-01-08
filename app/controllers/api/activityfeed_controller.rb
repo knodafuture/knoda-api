@@ -16,10 +16,10 @@ class Api::ActivityfeedController < ApplicationController
         @activities = current_user.activities.order('created_at desc')
     end
     @activities = @activities.id_lt(param_id_lt)
-    
-    respond_with(@activities.offset(param_offset).limit(param_limit), 
-      meta: pagination_meta(@activities),
-      each_serializer: ActivitySerializer)
+    @meta = pagination_meta(@activities)
+    puts 'got activities'
+    puts @activities.length
+    respond_with @activities.offset(param_offset).limit(param_limit)
   end
 
   def seen

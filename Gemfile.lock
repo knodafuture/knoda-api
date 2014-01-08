@@ -1,6 +1,5 @@
-GIT
-  remote: https://knoda:knoda2013!@bitbucket.org/knoda/knoda_core.git
-  revision: 52721746332926dd9e7771e2cac7a15f3186caea
+PATH
+  remote: ../knoda_core
   specs:
     knoda_core (0.0.1)
       authority (= 2.6.0)
@@ -22,8 +21,6 @@ GEM
       erubis (~> 2.7.0)
       rack (~> 1.5.2)
       rack-test (~> 0.6.2)
-    active_model_serializers (0.8.1)
-      activemodel (>= 3.0)
     activemodel (4.0.0)
       activesupport (= 4.0.0)
       builder (~> 3.1.0)
@@ -97,7 +94,7 @@ GEM
       multi_xml (>= 0.5.2)
     httpauth (0.2.0)
     i18n (0.6.4)
-    jbuilder (1.4.2)
+    jbuilder (2.0.2)
       activesupport (>= 3.0.0)
       multi_json (>= 1.2.0)
     jquery-rails (3.0.2)
@@ -232,7 +229,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  active_model_serializers (= 0.8.1)
   acts-as-taggable-on (= 2.4.1)
   authority (= 2.6.0)
   aws-sdk
@@ -244,7 +240,7 @@ DEPENDENCIES
   faker (= 1.1.2)
   formtastic (= 2.2.1)
   grocer (= 0.4.1)
-  jbuilder (~> 1.2)
+  jbuilder (= 2.0.2)
   jquery-rails (= 3.0.2)
   knoda_core!
   newrelic_rpm
