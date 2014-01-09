@@ -1,6 +1,6 @@
 GIT
-  remote: https://knoda:knoda2013!@bitbucket.org/knoda/knoda_core.git
-  revision: 52721746332926dd9e7771e2cac7a15f3186caea
+  remote: https://knoda-build:Xtra5efeKn0dafuture@github.com/knodafuture/knoda_core.git
+  revision: f36ebd7d4311fa9fba47e04c5bab6b9a20837eed
   specs:
     knoda_core (0.0.1)
       authority (= 2.6.0)
