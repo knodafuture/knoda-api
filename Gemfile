@@ -58,7 +58,7 @@ gem 'grocer', '0.4.1'
 gem 'rails_12factor', '0.0.2'
 gem 'newrelic_rpm'
 gem "searchkick"
-gem 'knoda_core', :git => "https://knoda:knoda2013!@bitbucket.org/knoda/knoda_core.git"
+gem 'knoda_core', :git => "https://knoda-build:Xtra5efeKn0dafuture@github.com/knodafuture/knoda_core.git"
 # Use this to test local core engine changes
 #gem 'knoda_core', :path => "../knoda_core"
 
