@@ -41,12 +41,12 @@ class Api::PredictionsController < ApplicationController
   end
   
   def history_agreed
-    @challenges = @prediction.challenges.agreed_by_users.limit(50)
+    @challenges = @prediction.challenges.agreed_by_users
     respond_with @challenges
   end
   
   def history_disagreed
-    @challenges = @prediction.challenges.disagreed_by_users.limit(50)
+    @challenges = @prediction.challenges.disagreed_by_users
     respond_with @challenges
   end
   
