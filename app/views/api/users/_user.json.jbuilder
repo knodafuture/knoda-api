@@ -12,7 +12,6 @@ json.streak user.streak_as_text
 json.total_predictions user.predictions.count
 json.test user.won
 if user.id == current_user.id
-	json.hi2 'Hi'
 	json.alerts user.alerts_count
 	json.badges user.badges.unseen.count
 	json.notifications user.notifications

@@ -7,5 +7,5 @@ json.is_finished challenge.is_finished
 json.seen challenge.seen
 json.points_details challenge.points_details
 json.bs challenge.bs
-json.user challenge.user
+json.user json.partial! 'users/user', user: challenge.user
 json.prediction challenge.prediction
