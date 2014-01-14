@@ -7,5 +7,9 @@ json.is_finished challenge.is_finished
 json.seen challenge.seen
 json.points_details challenge.points_details
 json.bs challenge.bs
-json.user json.partial! 'api/users/user', user: challenge.user
-json.prediction challenge.prediction
+json.set! :user do
+	json.partial! 'api/users/user', user: challenge.user
+end
+json.set! :prediction do
+	json.partial! 'api/predictions/prediction_slim', prediction: challenge.prediction
+end

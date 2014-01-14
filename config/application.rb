@@ -16,5 +16,7 @@ module Knoda
     config.log_level = :warning
     config.knoda_web_url = ENV['KNODA_WEB_URL'] || 'http://www.knoda.com'
     ENV['ELASTICSEARCH_URL'] = ENV['SEARCHBOX_URL'] || 'http://localhost:9200'
+    require 'multi_json'
+	MultiJson.use :yajl
   end
 end
