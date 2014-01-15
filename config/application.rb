@@ -13,6 +13,7 @@ Bundler.require(:default, Rails.env)
 
 module Knoda
   class Application < Rails::Application
+  	config.middleware.use Rack::Deflater
     config.log_level = :warning
     config.knoda_web_url = ENV['KNODA_WEB_URL'] || 'http://www.knoda.com'
     ENV['ELASTICSEARCH_URL'] = ENV['SEARCHBOX_URL'] || 'http://localhost:9200'
