@@ -1,0 +1,1 @@
+json.apple_device_tokens @tokens, :id, :token, :sandbox, :created_at

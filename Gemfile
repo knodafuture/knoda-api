@@ -25,7 +25,7 @@ gem 'jquery-rails', '3.0.2'
 gem 'turbolinks', '1.2.0'
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
-gem 'jbuilder', '~> 1.2'
+gem 'jbuilder', '2.0.2'
 
 # Use ActiveModel has_secure_password
 gem 'bcrypt-ruby', '~> 3.0.0'
@@ -34,7 +34,6 @@ gem 'bcrypt-ruby', '~> 3.0.0'
 gem 'unicorn'
 
 # Other required modules
-gem 'active_model_serializers', '0.8.1'
 gem 'formtastic', '2.2.1'
 gem 'paperclip', '3.4.2'
 gem 'aws-sdk'
@@ -55,6 +54,7 @@ end
 
 gem 'acts-as-taggable-on', '2.4.1'
 
+gem 'yajl-ruby', '1.2.0'
 gem 'grocer', '0.4.1'
 gem 'rails_12factor', '0.0.2'
 gem 'newrelic_rpm'

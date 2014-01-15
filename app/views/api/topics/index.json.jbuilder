@@ -1,0 +1,1 @@
+json.topics @topics, :id, :name

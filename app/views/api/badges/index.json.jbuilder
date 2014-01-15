@@ -1,0 +1,1 @@
+json.badges @badges, :id, :name, :created_at

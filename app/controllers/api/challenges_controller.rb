@@ -8,7 +8,7 @@ class Api::ChallengesController < ApplicationController
   def index
     case (params[:list])
       when 'ownedAndPicked'
-        @challenges = current_user.challenges.ownedAndPicked
+        @challenges = Challenge.includes(:user, :prediction).where(:user => current_user).ownedAndPicked
       when 'own'
         @challenges = current_user.challenges.own
       when 'own_unviewed'
@@ -42,10 +42,8 @@ class Api::ChallengesController < ApplicationController
     end
 
     @challenges = @challenges.id_lt(param_id_lt)
-    #@challenges = @challenges.created_at_lt(param_created_at_lt)
-       
-    respond_with(@challenges.offset(param_offset).limit(param_limit), 
-      meta: pagination_meta(@challenges))
+    @meta = pagination_meta(@challenges)
+    respond_with(@challenges.offset(param_offset).limit(param_limit))
   end
   
   def set_seen
