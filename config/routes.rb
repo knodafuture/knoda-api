@@ -17,7 +17,7 @@ Knoda::Application.routes.draw do
     resources :metrics,       :only => [:index]
     resources :registrations, :only => [:create]
     resources :topics,        :only => [:index]
-    resources :challenges,    :only => [:index, :show] do
+    resources :challenges,    :only => [:index, :show, :create] do
       collection do
         post 'set_seen'
       end
@@ -51,7 +51,7 @@ Knoda::Application.routes.draw do
     
     resources :apple_device_tokens, :only => [:index, :show, :create, :destroy]
 
-    resources :comments, :only => [:index]
+    resources :comments, :only => [:index, :create]
     resources :activityfeed, :only => [:index] do
       collection do
         post 'seen'

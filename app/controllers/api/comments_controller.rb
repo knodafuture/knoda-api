@@ -17,4 +17,23 @@ class Api::CommentsController < ApplicationController
     respond_with(@comments.offset(param_offset).limit(param_limit), 
       meta: pagination_meta(@comments))
   end
+
+  def create
+    @comment = current_user.comments.create(comment_params)
+    show()
+  end
+
+  def show
+    respond_with(@comment)
+  end    
+
+  private
+    def set_comment
+      @comment = Comment.find(params[:id])
+    end
+
+    def comment_params
+      params.require(:comment).permit(:prediction_id, :text)
+    end    
+
 end

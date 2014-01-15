@@ -29,6 +29,22 @@ class Api::ChallengesController < ApplicationController
   def show
     respond_with(@challenge)
   end
+
+  def create
+    c = challenge_params
+    prediction = Prediction.find(c['prediction_id'])
+    if (current_user.id != prediction.user_id) && !prediction.is_expired? && !prediction.is_closed?   
+     @challenge = current_user.challenges.where(prediction: prediction).first
+      if @challenge
+        @challenge.update(c)
+      else
+        @challenge = current_user.challenges.create(c)
+      end
+      show()   
+    else
+      render :json => {success: false}, :status => :ok
+    end
+  end  
   
   private
   

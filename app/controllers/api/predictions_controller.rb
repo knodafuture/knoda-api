@@ -1,5 +1,3 @@
-require 'bitly'
-
 class Api::PredictionsController < ApplicationController
   skip_before_filter :verify_authenticity_token
   before_action :set_prediction, :except => [:index, :create]
@@ -128,7 +126,13 @@ class Api::PredictionsController < ApplicationController
   end
   
   def prediction_create_params
-    params.require(:prediction).permit(:body, :expires_at, :resolution_date, :tag_list => [])
+    if derived_version < 2
+      return params.require(:prediction).permit(:body, :expires_at, :resolution_date, :tag_list => [])
+    else
+      x = params.require(:prediction).permit(:body, :expires_at, :resolution_date, :tag_list)
+      x['tag_list'] = params['tag_list']
+      return x
+    end
   end
   
   def prediction_update_params
