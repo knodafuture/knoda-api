@@ -8,7 +8,7 @@ class Api::ChallengesController < ApplicationController
   def index
     case (params[:list])
       when 'ownedAndPicked'
-        @challenges = Challenge.includes(:user, :prediction).where(:user => current_user).ownedAndPicked
+        @challenges = Challenge.includes(:prediction).where(:user => current_user).ownedAndPicked
       when 'own'
         @challenges = current_user.challenges.own
       when 'own_unviewed'
