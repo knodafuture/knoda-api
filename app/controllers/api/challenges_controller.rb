@@ -9,34 +9,6 @@ class Api::ChallengesController < ApplicationController
     case (params[:list])
       when 'ownedAndPicked'
         @challenges = current_user.challenges.ownedAndPicked
-      when 'own'
-        @challenges = current_user.challenges.own
-      when 'own_unviewed'
-        @challenges = current_user.challenges.own.unviewed
-      when 'picks'
-        @challenges = current_user.challenges.picks
-      when 'picks_unviewed'
-        @challenges = current_user.challenges.picks.unviewed
-      when 'won_picks'
-        @challenges = current_user.challenges.won_picks
-      when 'won_picks_unviewed'
-        @challenges = current_user.challenges.won_picks.unviewed
-      when 'lost_picks'
-        @challenges = current_user.challenges.lost_picks
-      when 'lost_picks_unviewed'
-        @challenges = current_user.challenges.lost_picks.unviewed
-      when 'completed'
-        @challenges = current_user.challenges.completed
-      when 'completed_unviewed'
-        @challenges = current_user.challenges.completed.unviewed
-      when 'expired'
-        @challenges = current_user.challenges.expired
-      when 'expired_unviewed'
-        @challenges = current_user.challenges.expired.unviewed
-      when 'notifications'
-        @challenges = current_user.challenges.notifications
-      when 'notifications_unviewed'
-        @challenges = current_user.challenges.notifications.unviewed
       else
         @challenges = current_user.challenges
     end
@@ -45,6 +17,7 @@ class Api::ChallengesController < ApplicationController
     #@challenges = @challenges.created_at_lt(param_created_at_lt)
        
     respond_with(@challenges.offset(param_offset).limit(param_limit), 
+      each_serializer: HistorySerializer,
       meta: pagination_meta(@challenges))
   end
   
