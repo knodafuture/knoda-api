@@ -225,6 +225,11 @@ GEM
       rack
       raindrops (~> 0.7)
     uuidtools (2.1.4)
+    versioncake (1.3.0)
+      actionpack (>= 3.2)
+      activesupport (>= 3.2)
+      railties (>= 3.2)
+      tzinfo
     warden (1.2.3)
       rack (>= 1.0)
 
@@ -260,3 +265,4 @@ DEPENDENCIES
   turbolinks (= 1.2.0)
   uglifier (>= 1.3.0)
   unicorn
+  versioncake (= 1.3.0)
