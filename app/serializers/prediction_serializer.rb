@@ -1,13 +1,8 @@
 class PredictionSerializer < ActiveModel::Serializer
   attributes :id , :body, :outcome, :expires_at, :created_at, :closed_at, :short_url, :resolution_date
-  attributes :agreed_count, :disagreed_count
-  attributes :comment_count
-  attributes :market_size, :prediction_market
-  
+  attributes :agreed_count, :disagreed_count, :comment_count
   attributes :user_id, :username, :user_avatar
-  attributes :expired
-  attributes :settled
-  attributes :is_ready_for_resolution
+  attributes :expired, :settled, :is_ready_for_resolution
   has_many :tags
 
   self.root = false
