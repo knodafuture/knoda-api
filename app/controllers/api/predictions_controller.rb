@@ -16,10 +16,14 @@ class Api::PredictionsController < ApplicationController
     end
     
     @predictions = @predictions.id_lt(param_id_lt)
-        
-    respond_with(@predictions.offset(param_offset).limit(param_limit), 
-      each_serializer: PredictionFeedSerializer,
-      meta: pagination_meta(@predictions))
+    if derived_version < 2        
+      respond_with(@predictions.offset(param_offset).limit(param_limit), 
+        each_serializer: PredictionFeedSerializer,
+        meta: pagination_meta(@predictions))
+    else
+      respond_with(@predictions.offset(param_offset).limit(param_limit), 
+        each_serializer: PredictionFeedSerializer, root: false)      
+    end
   end
 
   def create
