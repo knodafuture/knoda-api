@@ -9,7 +9,11 @@ class Api::SearchController < ApplicationController
     @searchResults.each do |u|
       @users << u.to_model
     end
-    respond_with(@users, each_serializer: UserSerializer, root: "users")
+    if derived_version < 2  
+      respond_with(@users, each_serializer: UserSerializer, root: "users")
+    else
+      respond_with(@users, each_serializer: UserSerializer, root: false)
+    end
   end
 
   def predictions
@@ -19,6 +23,11 @@ class Api::SearchController < ApplicationController
     @searchResults.each do |p|
       @predictions << p.to_model
     end
-    respond_with(@predictions, each_serializer: PredictionFeedSerializer, root: "predictions")
+    if derived_version < 2  
+      respond_with(@predictions, each_serializer: PredictionFeedSerializer, root: "predictions")
+    else
+      respond_with(@predictions, each_serializer: PredictionFeedSerializer, root: false)
+    end    
+    
   end
 end

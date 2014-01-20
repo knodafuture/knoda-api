@@ -16,10 +16,14 @@ class Api::ActivityfeedController < ApplicationController
         @activities = current_user.activities.order('created_at desc')
     end
     @activities = @activities.id_lt(param_id_lt)
-    
-    respond_with(@activities.offset(param_offset).limit(param_limit), 
-      meta: pagination_meta(@activities),
-      each_serializer: ActivitySerializer)
+    if derived_version < 2
+      respond_with(@activities.offset(param_offset).limit(param_limit), 
+        meta: pagination_meta(@activities),
+        each_serializer: ActivitySerializer)
+    else
+      respond_with(@activities.offset(param_offset).limit(param_limit), 
+        each_serializer: ActivitySerializer, root: false)
+    end
 
     if params[:list] != 'unseen'
       current_user.activities.update_all(seen: true)

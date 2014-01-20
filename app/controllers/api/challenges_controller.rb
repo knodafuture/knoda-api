@@ -14,11 +14,15 @@ class Api::ChallengesController < ApplicationController
     end
 
     @challenges = @challenges.id_lt(param_id_lt)
-    #@challenges = @challenges.created_at_lt(param_created_at_lt)
-       
-    respond_with(@challenges.offset(param_offset).limit(param_limit), 
-      each_serializer: HistorySerializer,
-      meta: pagination_meta(@challenges))
+    if derived_version < 2        
+      respond_with(@challenges.offset(param_offset).limit(param_limit), 
+        each_serializer: HistorySerializer,
+        meta: pagination_meta(@challenges))
+    else
+      respond_with(@challenges.offset(param_offset).limit(param_limit), 
+        each_serializer: HistorySerializer, root: false)
+    end       
+
   end
   
   def set_seen
