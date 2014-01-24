@@ -3,6 +3,7 @@ class PredictionSerializer < ActiveModel::Serializer
   attributes :agreed_count, :disagreed_count, :comment_count
   attributes :user_id, :username, :user_avatar
   attributes :expired, :settled, :is_ready_for_resolution
+  attributes :verified_account
   has_many :tags
 
   self.root = false
@@ -26,4 +27,8 @@ class PredictionSerializer < ActiveModel::Serializer
   def is_ready_for_resolution
     object.resolution_date != nil && object.resolution_date.past?
   end
+
+  def verified_account
+    object.user.verified_account
+  end  
 end
