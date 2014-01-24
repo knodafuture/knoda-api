@@ -43,6 +43,10 @@ class ApplicationController < ActionController::Base
   def param_id_lt
     params[:id_lt]
   end
+
+  def param_id_gt
+    params[:id_gt]
+  end
   
   def param_created_at_lt
     params[:created_at_lt]
