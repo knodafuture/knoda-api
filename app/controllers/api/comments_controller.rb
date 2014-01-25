@@ -12,8 +12,8 @@ class Api::CommentsController < ApplicationController
         @comments = Comment.recent
     end
     
-    if param_gt
-      @comments = @comments.id_gt(param_gt)
+    if param_id_gt
+      @comments = @comments.id_gt(param_id_gt)
     end
 
     respond_with(@comments.offset(param_offset).limit(param_limit), 
