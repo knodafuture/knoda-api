@@ -2,6 +2,7 @@ class CommentSerializer < ActiveModel::Serializer
   attributes :id, :text, :created_at
   attributes :user_id, :username, :user_avatar
   attributes :challenge
+  attributes :verified_account
   
   self.root = false
   
@@ -24,5 +25,7 @@ class CommentSerializer < ActiveModel::Serializer
   def challenge
     object.user.challenges.where(prediction_id: object.prediction_id).first
   end
-  
+  def verified_account
+    object.user.verified_account
+  end  
 end

@@ -20,6 +20,10 @@ class Api::ActivityfeedController < ApplicationController
     respond_with(@activities.offset(param_offset).limit(param_limit), 
       meta: pagination_meta(@activities),
       each_serializer: ActivitySerializer)
+
+    if params[:list] != 'unseen'
+      current_user.activities.update_all(seen: true)
+    end
   end
 
   def seen

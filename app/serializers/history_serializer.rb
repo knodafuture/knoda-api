@@ -1,11 +1,7 @@
 class HistorySerializer < ActiveModel::Serializer
-
-  attributes :id, :agree, :created_at, :is_own, :is_right, :is_finished, :seen
-  attributes :points_details
-  attributes :bs
-
+  attributes :id, :agree, :created_at, :is_own, :points_details
   has_one :prediction
-  
   self.root = false
-
 end
+
+# can remove seen, is_finished, bs, is_right
