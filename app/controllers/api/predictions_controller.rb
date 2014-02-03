@@ -11,6 +11,8 @@ class Api::PredictionsController < ApplicationController
       @predictions = Prediction.includes(:challenges, :comments).recent.latest.tagged_with(params[:tag])
     elsif params[:recent]
       @predictions = Prediction.includes(:challenges, :comments).recent.latest
+    elsif params[:challenged]
+      @predictions = Prediction.includes(:challenges, :comments).joins(:challenges).where(challenges:{:user_id, current_user.id})
     else
       @predictions = current_user.predictions
     end
