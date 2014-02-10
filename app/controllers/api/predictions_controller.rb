@@ -24,13 +24,19 @@ class Api::PredictionsController < ApplicationController
         meta: pagination_meta(@predictions))
     else
       respond_with(@predictions.offset(param_offset).limit(param_limit), 
-        each_serializer: PredictionFeedSerializer, root: false)      
+        each_serializer: PredictionFeedSerializerV2, root: false)      
     end
   end
 
   def create
     @prediction = current_user.predictions.create(prediction_create_params)      
-    respond_with(@prediction)
+    if derived_version >= 2
+      @prediction.reload
+      serializer = PredictionFeedSerializerV2
+    else
+      serializer = PredictionFeedSerializer
+    end
+    respond_with(@prediction, serializer: serializer)
   end
   
   def update
@@ -39,11 +45,21 @@ class Api::PredictionsController < ApplicationController
     p[:activity_sent_at] = nil
     @prediction.update(p)
     Activity.where(user_id: @prediction.user.id, prediction_id: @prediction.id, activity_type: 'EXPIRED').delete_all
-    respond_with(@prediction, serializer: PredictionFeedSerializer)
+    if derived_version >= 2
+      serializer = PredictionFeedSerializerV2
+    else
+      serializer = PredictionFeedSerializer
+    end
+    respond_with(@prediction, serializer: serializer)
   end
   
   def show
-    respond_with(@prediction, serializer: PredictionFeedSerializer)
+    if derived_version >= 2
+      serializer = PredictionFeedSerializerV2
+    else
+      serializer = PredictionFeedSerializer
+    end
+    respond_with(@prediction, serializer: serializer)    
   end
   
   def history_agreed
@@ -135,8 +151,8 @@ class Api::PredictionsController < ApplicationController
     if derived_version < 2
       return params.require(:prediction).permit(:body, :expires_at, :resolution_date, :tag_list => [])
     else
-      x = params.require(:prediction).permit(:body, :expires_at, :resolution_date, :tag_list)
-      x['tag_list'] = params['tag_list']
+      x = params.require(:prediction).permit(:body, :expires_at, :resolution_date, :tags)
+      x['tag_list'] = params['tags']
       return x
     end
   end

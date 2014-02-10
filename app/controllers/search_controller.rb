@@ -26,7 +26,7 @@ class Api::SearchController < ApplicationController
     if derived_version < 2  
       respond_with(@predictions, each_serializer: PredictionFeedSerializer, root: "predictions")
     else
-      respond_with(@predictions, each_serializer: PredictionFeedSerializer, root: false)
+      respond_with(@predictions, each_serializer: PredictionFeedSerializerV2, root: false)
     end    
     
   end
