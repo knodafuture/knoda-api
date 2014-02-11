@@ -51,8 +51,11 @@ class Api::ChallengesController < ApplicationController
   end  
   
   private
-  
-  def set_challenge
-    @challenge = Challenge.find(params[:id])
-  end
+    def set_challenge
+      @challenge = Challenge.find(params[:id])
+    end
+
+    def challenge_params
+      params.permit(:prediction_id, :agree)
+    end
 end

@@ -117,9 +117,11 @@ class Api::PredictionsController < ApplicationController
   end
 
   def comment
-    authorize_action_for(@prediction)
-    @comment = current_user.comments.create(prediction: @prediction, text: params[:comment][:text])
-    respond_with(@comment, :location => api_comments_url)
+    if derived_version < 2
+      authorize_action_for(@prediction)
+      @comment = current_user.comments.create(prediction: @prediction, text: params[:comment][:text])
+      respond_with(@comment, :location => api_comments_url)
+    end
   end
   
   def bs
