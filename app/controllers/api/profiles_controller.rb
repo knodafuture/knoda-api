@@ -7,8 +7,13 @@ class Api::ProfilesController < ApplicationController
   end
   
   def update
+    if derived_version >= 2
+      p = user_params_v2
+    else
+      p = user_params
+    end
     respond_with(current_user) do |format|
-      if current_user.update(user_params)
+      if current_user.update(p)
         format.json { head :no_content }
       else
         format.json { render json: {errors: current_user.errors}, status: 422 }
@@ -17,8 +22,12 @@ class Api::ProfilesController < ApplicationController
   end
 
   private
-    
-  def user_params
-    params.require(:user).permit(:avatar, :notifications, :username, :email)
-  end
+    def user_params
+      params.require(:user).permit(:avatar, :notifications, :username, :email)
+    end
+
+    def user_params_v2
+      params.permit(:avatar, :notifications, :username, :email)
+    end
+
 end
