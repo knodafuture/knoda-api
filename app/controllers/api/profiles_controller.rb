@@ -14,7 +14,7 @@ class Api::ProfilesController < ApplicationController
     end
     respond_with(current_user) do |format|
       if current_user.update(p)
-        format.json { head :no_content }
+        format.json { render json: current_user, status: 200 }
       else
         format.json { render json: {errors: current_user.errors}, status: 422 }
       end
