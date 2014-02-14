@@ -19,7 +19,7 @@ class Api::CommentsController < ApplicationController
     if derived_version < 2        
       respond_with(@comments.offset(param_offset).limit(param_limit), meta: pagination_meta(@comments))
     else
-      respond_with(@comments.offset(param_offset).limit(param_limit) root: false)      
+      respond_with(@comments.offset(param_offset).limit(param_limit), root: false)      
     end
   end
 
