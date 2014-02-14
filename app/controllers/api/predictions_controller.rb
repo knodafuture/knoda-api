@@ -63,15 +63,27 @@ class Api::PredictionsController < ApplicationController
   end
   
   def history_agreed
-    respond_with(@prediction.challenges.agreed_by_users, 
-      each_serializer: ChallengeHistorySerializer,
-      root: 'challenges')
+    if derived_version < 2  
+      respond_with(@prediction.challenges.agreed_by_users, 
+        each_serializer: ChallengeHistorySerializer,
+        root: 'challenges')
+    else
+      respond_with(@prediction.challenges.agreed_by_users, 
+        each_serializer: ChallengeHistorySerializer,
+        root: false)      
+    end
   end
   
   def history_disagreed
-    respond_with(@prediction.challenges.disagreed_by_users, 
-      each_serializer: ChallengeHistorySerializer,
-      root: 'challenges')
+    if derived_version < 2  
+      respond_with(@prediction.challenges.disagreed_by_users, 
+        each_serializer: ChallengeHistorySerializer,
+        root: 'challenges')
+    else
+      respond_with(@prediction.challenges.disagreed_by_users, 
+        each_serializer: ChallengeHistorySerializer,
+        root: false)
+    end      
   end
   
   def agree

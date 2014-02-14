@@ -16,8 +16,11 @@ class Api::CommentsController < ApplicationController
       @comments = @comments.id_gt(param_id_gt)
     end
 
-    respond_with(@comments.offset(param_offset).limit(param_limit), 
-      meta: pagination_meta(@comments))
+    if derived_version < 2        
+      respond_with(@comments.offset(param_offset).limit(param_limit), meta: pagination_meta(@comments))
+    else
+      respond_with(@comments.offset(param_offset).limit(param_limit) root: false)      
+    end
   end
 
   def create
