@@ -15,6 +15,10 @@ class Api::BadgesController < ApplicationController
   def recent
     @badges = current_user.badges.unseen.all
     current_user.badges.unseen.update_all(seen: true)
-    respond_with(@badges)
+    if derived_version < 2
+      respond_with(@badges)
+    else
+      respond_with(@badges, root: false)
+    end    
   end
 end
