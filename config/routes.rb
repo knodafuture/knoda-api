@@ -39,6 +39,7 @@ Knoda::Application.routes.draw do
     resources :badges,        :only => [:index] do
       collection do
         get 'recent'
+        get 'available'
       end
     end
     resources :users,         :only => [:show] do
