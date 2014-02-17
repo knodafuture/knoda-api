@@ -5,7 +5,11 @@ class Api::BadgesController < ApplicationController
   respond_to :json
   
   def index
-    respond_with(current_user.badges)
+    if derived_version < 2
+      respond_with(current_user.badges)
+    else
+      respond_with(current_user.badges, root: false)
+    end
   end
   
   def recent
