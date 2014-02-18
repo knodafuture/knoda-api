@@ -1,13 +1,14 @@
-namespace :apns do
+require 'gcm'
 
+namespace :apns do
     task push: :environment do
-      print 'started the push task'
       pusher = Grocer.pusher(
         certificate: Rails.application.config.apns_certificate,
         gateway:     Rails.application.config.apns_gateway,
         port:        2195,
         retries:     3
       )
+      gcm = GCM.new("AIzaSyDSuv3FpA4NtTXJivbsfh28vixLn55DrlI")
 
       predictions = Prediction.select("user_id, count(id) as total_predictions").
           unnotified.
@@ -23,6 +24,9 @@ namespace :apns do
             badge:             p.user.alerts_count
           )
           pusher.push(notification)   
+        end
+        if p.user.android_device_tokens.size > 0
+          response = gcm.send_notification(p.user.android_device_tokens.pluck(:token), {data: {alert: "You have predictions ready for resolution"}, collapse_key: "expired_predictions"});
         end
         p.user.predictions.expired.unnotified.update_all(push_notified_at: DateTime.now)
       end

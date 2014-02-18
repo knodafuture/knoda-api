@@ -51,6 +51,7 @@ Knoda::Application.routes.draw do
     resource  :password,      :only => [:create, :update]
     
     resources :apple_device_tokens, :only => [:index, :show, :create, :destroy]
+    resources :android_device_tokens, :only => [:index, :show, :create, :destroy]
 
     resources :comments, :only => [:index, :create]
     resources :activityfeed, :only => [:index] do

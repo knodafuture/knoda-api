@@ -56,6 +56,7 @@ end
 gem 'acts-as-taggable-on', '2.4.1'
 gem 'versioncake', '1.3.0'
 gem 'grocer', '0.4.1'
+gem 'gcm'
 gem 'rails_12factor', '0.0.2'
 gem 'newrelic_rpm'
 gem "searchkick"

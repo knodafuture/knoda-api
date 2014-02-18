@@ -1,6 +1,6 @@
 GIT
   remote: https://knoda-build:Xtra5efeKn0dafuture@github.com/knodafuture/knoda_core.git
-  revision: 11bb7f92b534fcb03fb1eec11a16f6ce54ecf01c
+  revision: f256a04f6b9633b4c305810302f31e14398af1ab
   specs:
     knoda_core (0.0.1)
       authority (= 2.6.0)
@@ -89,6 +89,9 @@ GEM
       multipart-post (~> 1.2.0)
     formtastic (2.2.1)
       actionpack (>= 3.0)
+    gcm (0.0.7)
+      httparty
+      json
     grocer (0.4.1)
     hashr (0.0.22)
     hike (1.2.3)
@@ -248,6 +251,7 @@ DEPENDENCIES
   factory_girl_rails (= 4.2.1)
   faker (= 1.1.2)
   formtastic (= 2.2.1)
+  gcm
   grocer (= 0.4.1)
   jbuilder (~> 1.2)
   jquery-rails (= 3.0.2)
