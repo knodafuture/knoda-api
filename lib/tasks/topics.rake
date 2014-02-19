@@ -1,5 +1,5 @@
 namespace :topics do
-  desc "TODO"
+  
   task refresh: :environment do
     @topics = []
     
