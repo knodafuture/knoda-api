@@ -8,7 +8,7 @@ class Api::PredictionsController < ApplicationController
   
   def index
     if params[:tag]
-      @predictions = Prediction.includes(:challenges, :comments).recent.latest.tagged_with(params[:tag])
+      @predictions = Prediction.includes(:challenges, :comments).recent.latest.where("'#{params[:tag]}' = ANY (tags)")
     elsif params[:recent]
       @predictions = Prediction.includes(:challenges, :comments).recent.latest
     elsif params[:challenged]
@@ -163,10 +163,12 @@ class Api::PredictionsController < ApplicationController
   
   def prediction_create_params
     if derived_version < 2
-      return params.require(:prediction).permit(:body, :expires_at, :resolution_date, :tag_list => [])
+      p = params.require(:prediction).permit(:body, :expires_at, :resolution_date, :tag_list => [])
+      p[:tags] = p[:tag_list]
+      p.delete :tag_list
+      return p
     else
       x = params.require(:prediction).permit(:body, :expires_at, :resolution_date, :tags)
-      x['tag_list'] = params['tags']
       return x
     end
   end

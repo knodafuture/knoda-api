@@ -4,7 +4,7 @@ class PredictionSerializer < ActiveModel::Serializer
   attributes :user_id, :username, :user_avatar
   attributes :expired, :settled, :is_ready_for_resolution
   attributes :verified_account
-  has_many :tags
+  attributes :tags
 
   self.root = false
   
@@ -31,4 +31,12 @@ class PredictionSerializer < ActiveModel::Serializer
   def verified_account
     object.user.verified_account
   end  
+
+  def tags
+    o = []
+    object.tags.each do |t|
+      o << {name: t}
+    end
+    return o
+  end
 end

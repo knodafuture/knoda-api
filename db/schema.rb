@@ -11,7 +11,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140218160548) do
+
+ActiveRecord::Schema.define(version: 20140219193848) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -101,8 +102,10 @@ ActiveRecord::Schema.define(version: 20140218160548) do
     t.datetime "resolutionDate"
     t.datetime "resolution_date",                  null: false
     t.datetime "activity_sent_at"
+    t.string   "tags",             default: [],                 array: true
   end
 
+  add_index "predictions", ["tags"], name: "index_predictions_on_tags", using: :gin
   add_index "predictions", ["user_id"], name: "index_predictions_on_user_id", using: :btree
 
   create_table "taggings", force: true do |t|
