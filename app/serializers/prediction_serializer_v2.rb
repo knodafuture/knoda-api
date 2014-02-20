@@ -31,8 +31,4 @@ class PredictionSerializerV2 < ActiveModel::Serializer
   def verified_account
     object.user.verified_account
   end  
-
-  def tags
-    object.tags.pluck(:name)
-  end
 end
