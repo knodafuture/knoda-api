@@ -29,13 +29,19 @@ class Api::PredictionsController < ApplicationController
   end
 
   def create
-    @prediction = current_user.predictions.create(prediction_create_params)      
+    puts 'create 1'
+    puts prediction_create_params
+    @prediction = current_user.predictions.create!(prediction_create_params)      
+    puts 'create 2'
     if derived_version >= 2
+      puts 'create 3'
+      puts @prediction.id
       @prediction.reload
       serializer = PredictionFeedSerializerV2
     else
       serializer = PredictionFeedSerializer
     end
+    puts 'create 4'
     respond_with(@prediction, serializer: serializer)
   end
   
@@ -168,8 +174,7 @@ class Api::PredictionsController < ApplicationController
       p.delete :tag_list
       return p
     else
-      x = params.require(:prediction).permit(:body, :expires_at, :resolution_date, :tags)
-      return x
+      return params.permit(:body, :expires_at, :resolution_date, :tags => [])
     end
   end
   
