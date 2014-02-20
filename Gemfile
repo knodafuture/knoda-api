@@ -21,17 +21,12 @@ gem 'coffee-rails', '~> 4.0.0'
 # Use jquery as the JavaScript library
 gem 'jquery-rails', '3.0.2'
 
-# Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
-gem 'turbolinks', '1.2.0'
-
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 1.2'
 
 # Use ActiveModel has_secure_password
 gem 'bcrypt-ruby', '~> 3.0.0'
 
-# Use unicorn as the app server
-gem 'unicorn'
 
 # Other required modules
 gem 'active_model_serializers', '0.8.1'
@@ -41,6 +36,15 @@ gem 'aws-sdk'
 gem 'authority', '2.6.0'
 gem 'devise', '3.0.0.rc'
 gem "bitly", '0.9.0'
+gem 'versioncake', '1.3.0'
+gem 'grocer', '0.4.1'
+gem 'gcm', '0.0.7'
+gem 'rails_12factor', '0.0.2'
+gem 'newrelic_rpm'
+gem "searchkick"
+gem 'knoda_core', :git => "https://knoda-build:Xtra5efeKn0dafuture@github.com/knodafuture/knoda_core.git", :branch => 'master'
+# Use this to test local core engine changes
+#gem 'knoda_core', :path => "../knoda_core"
 
 group :development, :test do
   gem 'rspec-rails', '~> 2.12'
@@ -53,15 +57,8 @@ group :test do
   gem 'simplecov', '0.7.1'
 end
 
-gem 'acts-as-taggable-on', '2.4.1'
-gem 'versioncake', '1.3.0'
-gem 'grocer', '0.4.1'
-gem 'gcm', '0.0.7'
-gem 'rails_12factor', '0.0.2'
-gem 'newrelic_rpm'
-gem "searchkick"
-gem 'knoda_core', :git => "https://knoda-build:Xtra5efeKn0dafuture@github.com/knodafuture/knoda_core.git", :branch => 'master'
-# Use this to test local core engine changes
-#gem 'knoda_core', :path => "../knoda_core"
+group :production do
+  gem 'unicorn'
+end
 
 ruby '2.0.0'
