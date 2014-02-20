@@ -25,11 +25,11 @@ class Api::CommentsController < ApplicationController
 
   def create
     @comment = current_user.comments.create(comment_params)
-    show()
+    respond_with(@comment, :location => "#{api_comments_url}/#{@comment.id}.json")
   end
 
   def show
-    respond_with(@comment)
+    respond_with(@comment, :location => "#{api_comments_url}/#{@comment.id}.json")
   end    
 
   private
