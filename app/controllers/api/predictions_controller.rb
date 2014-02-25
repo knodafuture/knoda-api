@@ -12,12 +12,19 @@ class Api::PredictionsController < ApplicationController
     elsif params[:recent]
       @predictions = Prediction.includes(:challenges, :comments).recent.latest
     elsif params[:challenged]
-      @predictions = Prediction.includes(:challenges, :comments).joins(:challenges).where(challenges:{:user_id => current_user.id})
+      @predictions = Prediction.includes(:challenges, :comments).joins(:challenges).where(challenges:{:user_id => current_user.id}).order("challenges.created_at DESC")
     else
       @predictions = current_user.predictions
     end
     
-    @predictions = @predictions.id_lt(param_id_lt)
+    if params[:challenged]        
+      if param_id_lt
+        @predictions = @predictions.where('challenges.id < ?', param_id_lt)  
+      end
+    else
+      @predictions = @predictions.id_lt(param_id_lt)
+    end
+
     if derived_version < 2        
       respond_with(@predictions.offset(param_offset).limit(param_limit), 
         each_serializer: PredictionFeedSerializer,
