@@ -29,19 +29,13 @@ class Api::PredictionsController < ApplicationController
   end
 
   def create
-    puts 'create 1'
-    puts prediction_create_params
     @prediction = current_user.predictions.create!(prediction_create_params)      
-    puts 'create 2'
     if derived_version >= 2
-      puts 'create 3'
-      puts @prediction.id
       @prediction.reload
       serializer = PredictionFeedSerializerV2
     else
       serializer = PredictionFeedSerializer
     end
-    puts 'create 4'
     respond_with(@prediction, serializer: serializer)
   end
   
@@ -118,7 +112,12 @@ class Api::PredictionsController < ApplicationController
     authorize_action_for(@prediction)
     
     if @prediction.close_as(true)
-      respond_with(@prediction)
+      if derived_version >= 2
+        serializer = PredictionFeedSerializerV2
+      else
+        serializer = PredictionFeedSerializer
+      end
+      respond_with(@prediction, serializer: serializer)      
     else
       render json: @prediction.errors, status: 422
     end
@@ -128,7 +127,12 @@ class Api::PredictionsController < ApplicationController
     authorize_action_for(@prediction)
     
     if @prediction.close_as(false)
-      respond_with(@prediction)
+      if derived_version >= 2
+        serializer = PredictionFeedSerializerV2
+      else
+        serializer = PredictionFeedSerializer
+      end
+      respond_with(@prediction, serializer: serializer)            
     else
       respond_with(@prediction.errors, status: 422)
     end
