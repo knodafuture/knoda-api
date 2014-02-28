@@ -14,11 +14,15 @@ class Api::ChallengesController < ApplicationController
     end
 
     @challenges = @challenges.id_lt(param_id_lt)
-    #@challenges = @challenges.created_at_lt(param_created_at_lt)
-       
-    respond_with(@challenges.offset(param_offset).limit(param_limit), 
-      each_serializer: HistorySerializer,
-      meta: pagination_meta(@challenges))
+    if derived_version < 2        
+      respond_with(@challenges.offset(param_offset).limit(param_limit), 
+        each_serializer: HistorySerializer,
+        meta: pagination_meta(@challenges))
+    else
+      respond_with(@challenges.offset(param_offset).limit(param_limit), 
+        each_serializer: HistorySerializer, root: false)
+    end       
+
   end
   
   def set_seen
@@ -29,10 +33,29 @@ class Api::ChallengesController < ApplicationController
   def show
     respond_with(@challenge)
   end
+
+  def create
+    c = challenge_params
+    prediction = Prediction.find(c['prediction_id'])
+    if (current_user.id != prediction.user_id) && !prediction.is_expired? && !prediction.is_closed?   
+     @challenge = current_user.challenges.where(prediction: prediction).first
+      if @challenge
+        @challenge.update(c)
+      else
+        @challenge = current_user.challenges.create(c)
+      end
+      show()   
+    else
+      render :json => {success: false}, :status => :ok
+    end
+  end  
   
   private
-  
-  def set_challenge
-    @challenge = Challenge.find(params[:id])
-  end
+    def set_challenge
+      @challenge = Challenge.find(params[:id])
+    end
+
+    def challenge_params
+      params.permit(:prediction_id, :agree)
+    end
 end

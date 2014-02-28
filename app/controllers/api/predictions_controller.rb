@@ -1,5 +1,3 @@
-require 'bitly'
-
 class Api::PredictionsController < ApplicationController
   skip_before_filter :verify_authenticity_token
   before_action :set_prediction, :except => [:index, :create]
@@ -13,20 +11,39 @@ class Api::PredictionsController < ApplicationController
       @predictions = Prediction.includes(:challenges, :comments).recent.latest.where("'#{params[:tag]}' = ANY (tags)")
     elsif params[:recent]
       @predictions = Prediction.includes(:challenges, :comments).recent.latest
+    elsif params[:challenged]
+      @predictions = Prediction.includes(:challenges, :comments).joins(:challenges).where(challenges:{:user_id => current_user.id}).order("challenges.created_at DESC")
     else
       @predictions = current_user.predictions
     end
     
-    @predictions = @predictions.id_lt(param_id_lt)
-        
-    respond_with(@predictions.offset(param_offset).limit(param_limit), 
-      each_serializer: PredictionFeedSerializer,
-      meta: pagination_meta(@predictions))
+    if params[:challenged]        
+      if param_id_lt
+        @predictions = @predictions.where('challenges.id < ?', param_id_lt)  
+      end
+    else
+      @predictions = @predictions.id_lt(param_id_lt)
+    end
+
+    if derived_version < 2        
+      respond_with(@predictions.offset(param_offset).limit(param_limit), 
+        each_serializer: PredictionFeedSerializer,
+        meta: pagination_meta(@predictions))
+    else
+      respond_with(@predictions.offset(param_offset).limit(param_limit), 
+        each_serializer: PredictionFeedSerializerV2, root: false)      
+    end
   end
 
   def create
-    @prediction = current_user.predictions.create(prediction_create_params)      
-    respond_with(@prediction)
+    @prediction = current_user.predictions.create!(prediction_create_params)      
+    if derived_version >= 2
+      @prediction.reload
+      serializer = PredictionFeedSerializerV2
+    else
+      serializer = PredictionFeedSerializer
+    end
+    respond_with(@prediction, serializer: serializer)
   end
   
   def update
@@ -35,23 +52,45 @@ class Api::PredictionsController < ApplicationController
     p[:activity_sent_at] = nil
     @prediction.update(p)
     Activity.where(user_id: @prediction.user.id, prediction_id: @prediction.id, activity_type: 'EXPIRED').delete_all
-    respond_with(@prediction, serializer: PredictionFeedSerializer)
+    if derived_version >= 2
+      serializer = PredictionFeedSerializerV2
+    else
+      serializer = PredictionFeedSerializer
+    end
+    respond_with(@prediction, serializer: serializer)
   end
   
   def show
-    respond_with(@prediction, serializer: PredictionFeedSerializer)
+    if derived_version >= 2
+      serializer = PredictionFeedSerializerV2
+    else
+      serializer = PredictionFeedSerializer
+    end
+    respond_with(@prediction, serializer: serializer)    
   end
   
   def history_agreed
-    respond_with(@prediction.challenges.agreed_by_users, 
-      each_serializer: ChallengeHistorySerializer,
-      root: 'challenges')
+    if derived_version < 2  
+      respond_with(@prediction.challenges.agreed_by_users, 
+        each_serializer: ChallengeHistorySerializer,
+        root: 'challenges')
+    else
+      respond_with(@prediction.challenges.agreed_by_users, 
+        each_serializer: ChallengeHistorySerializer,
+        root: false)      
+    end
   end
   
   def history_disagreed
-    respond_with(@prediction.challenges.disagreed_by_users, 
-      each_serializer: ChallengeHistorySerializer,
-      root: 'challenges')
+    if derived_version < 2  
+      respond_with(@prediction.challenges.disagreed_by_users, 
+        each_serializer: ChallengeHistorySerializer,
+        root: 'challenges')
+    else
+      respond_with(@prediction.challenges.disagreed_by_users, 
+        each_serializer: ChallengeHistorySerializer,
+        root: false)
+    end      
   end
   
   def agree
@@ -80,7 +119,12 @@ class Api::PredictionsController < ApplicationController
     authorize_action_for(@prediction)
     
     if @prediction.close_as(true)
-      respond_with(@prediction)
+      if derived_version >= 2
+        serializer = PredictionFeedSerializerV2
+      else
+        serializer = PredictionFeedSerializer
+      end
+      respond_with(@prediction, serializer: serializer)      
     else
       render json: @prediction.errors, status: 422
     end
@@ -90,16 +134,23 @@ class Api::PredictionsController < ApplicationController
     authorize_action_for(@prediction)
     
     if @prediction.close_as(false)
-      respond_with(@prediction)
+      if derived_version >= 2
+        serializer = PredictionFeedSerializerV2
+      else
+        serializer = PredictionFeedSerializer
+      end
+      respond_with(@prediction, serializer: serializer)            
     else
       respond_with(@prediction.errors, status: 422)
     end
   end
 
   def comment
-    authorize_action_for(@prediction)
-    @comment = current_user.comments.create(prediction: @prediction, text: params[:comment][:text])
-    respond_with(@comment, :location => api_comments_url)
+    if derived_version < 2
+      authorize_action_for(@prediction)
+      @comment = current_user.comments.create(prediction: @prediction, text: params[:comment][:text])
+      respond_with(@comment, :location => api_comments_url)
+    end
   end
   
   def bs
@@ -128,10 +179,14 @@ class Api::PredictionsController < ApplicationController
   end
   
   def prediction_create_params
-    p = params.require(:prediction).permit(:body, :expires_at, :resolution_date, :tag_list => [])
-    p[:tags] = p[:tag_list]
-    p.delete :tag_list
-    return p
+    if derived_version < 2
+      p = params.require(:prediction).permit(:body, :expires_at, :resolution_date, :tag_list => [])
+      p[:tags] = p[:tag_list]
+      p.delete :tag_list
+      return p
+    else
+      return params.permit(:body, :expires_at, :resolution_date, :tags => [])
+    end
   end
   
   def prediction_update_params

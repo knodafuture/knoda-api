@@ -17,5 +17,9 @@ module Knoda
     config.log_level = :warning
     config.knoda_web_url = ENV['KNODA_WEB_URL'] || 'http://www.knoda.com'
     ENV['ELASTICSEARCH_URL'] = ENV['SEARCHBOX_URL'] || 'http://localhost:9200'
+	  config.view_versions = [1,2]
+	  config.view_version_extraction_strategy = [:query_parameter, :http_accept_parameter]
+	  config.default_version = 1
+	  config.minimum_version = 1    
   end
 end

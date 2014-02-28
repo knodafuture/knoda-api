@@ -67,3 +67,12 @@ insert into badges (user_id, name, created_at, updated_at, seen) values (74, 'go
 insert into badges (user_id, name, created_at, updated_at, seen) values (75, 'gold_founding', now(), now(), TRUE);
 insert into badges (user_id, name, created_at, updated_at, seen) values (76, 'gold_founding', now(), now(), TRUE);
 insert into badges (user_id, name, created_at, updated_at, seen) values (77, 'gold_founding', now(), now(), TRUE);
+
+
+
+
+
+insert into badges (user_id, name, created_at, updated_at, seen) values (1184, 'silver_founding', now(), now(), FALSE);	
+insert into badges (user_id, name, created_at, updated_at, seen) values (1135, 'silver_founding', now(), now(), FALSE);	
+insert into badges (user_id, name, created_at, updated_at, seen) values (1351, 'silver_founding', now(), now(), FALSE);	
+insert into badges (user_id, name, created_at, updated_at, seen) values (1335, 'silver_founding', now(), now(), FALSE);			

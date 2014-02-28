@@ -1,6 +1,7 @@
 class Api::RegistrationsController < Devise::RegistrationsController
   skip_before_filter :verify_authenticity_token
   skip_before_filter :authenticate_user_please!, :only => [:create]
+  skip_before_filter :require_no_authentication, only: [:create]
   
   def create
     build_resource(sign_up_params)
@@ -14,6 +15,14 @@ class Api::RegistrationsController < Devise::RegistrationsController
     else
       clean_up_passwords resource
       return render :json => {:success => false, :errors => resource.errors}, :status => 400
+    end
+  end
+
+  def sign_up_params
+    if derived_version < 2
+      super
+    else
+      return params.permit(:username, :email, :password)
     end
   end
 end

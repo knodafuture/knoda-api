@@ -2,7 +2,7 @@ class ApplicationController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
-
+  before_filter :check_removed_api
   before_filter :configure_permitted_parameters, if: :devise_controller?
   before_filter :authenticate_user_please!
 
@@ -16,6 +16,13 @@ class ApplicationController < ActionController::Base
   end
   
   protected
+
+  def check_removed_api
+    mv = Rails.application.config.minimum_version
+    if derived_version < Rails.application.config.minimum_version
+      render json: {error: "Version not supported, mimimum version is #{mv}", status: :gone}
+    end
+  end  
 
   def configure_permitted_parameters
     devise_parameter_sanitizer.for(:sign_up) do |u|
