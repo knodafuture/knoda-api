@@ -12,16 +12,13 @@ class Api::ProfilesController < ApplicationController
     else
       p = user_params
     end
-    puts "EMAIL:"
-    p[:email] = CGI::unescape(p[:email])
+    if p[:email]
+      p[:email] = CGI::unescape(p[:email])
+    end
     respond_to do |format|
       if current_user.update(p)
         format.json { render json: current_user, status: 200 }
       else
-        puts "ERROR"
-        current_user.errors.full_messages.each do |e|
-          puts e
-        end
         format.json { render json: {errors: current_user.errors}, status: 422 }
       end
     end
