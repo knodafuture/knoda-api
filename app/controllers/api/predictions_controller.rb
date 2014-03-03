@@ -57,7 +57,7 @@ class Api::PredictionsController < ApplicationController
     else
       serializer = PredictionFeedSerializer
     end
-    respond_with(@prediction, serializer: serializer)
+    render json: @prediction, serializer: serializer, status: 200
   end
   
   def show
@@ -190,6 +190,10 @@ class Api::PredictionsController < ApplicationController
   end
   
   def prediction_update_params
-    params.require(:prediction).permit(:resolution_date)
+    if derived_version < 2
+      return params.require(:prediction).permit(:resolution_date)
+    else
+      return params.permit(:resolution_date)
+    end
   end
 end
