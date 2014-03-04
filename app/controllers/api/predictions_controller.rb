@@ -16,7 +16,7 @@ class Api::PredictionsController < ApplicationController
       Challenge.select(:prediction_id).where(:user => current_user).all.each do |c|
         challengeIds << c.prediction_id
       end
-      @predictions = Prediction.includes(:challenges, :comments).where(:id => challengeIds)
+      @predictions = Prediction.includes(:challenges, :comments).where(:id => challengeIds).order("challenges.created_at DESC")
     else
       @predictions = current_user.predictions
     end
