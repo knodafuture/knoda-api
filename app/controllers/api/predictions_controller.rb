@@ -12,7 +12,7 @@ class Api::PredictionsController < ApplicationController
     elsif params[:recent]
       @predictions = Prediction.includes(:challenges, :comments).recent.latest
     elsif params[:challenged]
-      @predictions = Prediction.includes(:challenges, :comments).joins(:challenges).where(challenges:{:user_id => current_user.id}).order("challenges.created_at DESC")
+      @predictions = Prediction.includes(:challenges, :comments).where(:id => Challenge.select(:prediction_id).where(:user => current_user)).order("challenges.created_at DESC")      
     else
       @predictions = current_user.predictions
     end
