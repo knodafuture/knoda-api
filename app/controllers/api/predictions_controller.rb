@@ -7,35 +7,38 @@ class Api::PredictionsController < ApplicationController
   authorize_actions_for Prediction, :only => [:index, :create, :show]
   
   def index
-    if params[:tag]
-      @predictions = Prediction.includes(:challenges, :comments).recent.latest.where("'#{params[:tag]}' = ANY (tags)")
-    elsif params[:recent]
-      @predictions = Prediction.includes(:challenges, :comments).recent.latest
-    elsif params[:challenged]
-      challengeIds = []
-      Challenge.select(:prediction_id).where(:user => current_user).all.each do |c|
-        challengeIds << c.prediction_id
-      end
-      @predictions = Prediction.includes(:challenges, :comments).where(:id => challengeIds).order("challenges.created_at DESC")
-    else
-      @predictions = current_user.predictions
-    end
-    
-    if params[:challenged]        
+    if params[:challenged]
+      @predictions = []
+      predictionIds = []
+      challenges = current_user.challenges.ownedAndPicked
       if param_id_lt
-        @predictions = @predictions.where('challenges.id < ?', param_id_lt)  
+        challenges = challenges.where('challenges.id < ?', param_id_lt)  
       end
+      challenges = challenges.offset(param_offset).limit(param_limit)
+      challenges.each do |c|
+        predictionIds << c.prediction_id
+      end
+      challengeHash = Hash[predictionIds.map.with_index.to_a]
+      @predictions = Prediction.includes(:challenges, :comments).where(:id => predictionIds).sort!{|p1,p2| challengeHash[p1.id] <=> challengeHash[p2.id] }
+      respond_with(@predictions, each_serializer: PredictionFeedSerializerV2, root: false)   
     else
+      if params[:tag]
+        @predictions = Prediction.includes(:challenges, :comments).recent.latest.where("'#{params[:tag]}' = ANY (tags)")
+      elsif params[:recent]
+        @predictions = Prediction.includes(:challenges, :comments).recent.latest
+      else
+        @predictions = current_user.predictions
+      end
       @predictions = @predictions.id_lt(param_id_lt)
-    end
 
-    if derived_version < 2        
-      respond_with(@predictions.offset(param_offset).limit(param_limit), 
-        each_serializer: PredictionFeedSerializer,
-        meta: pagination_meta(@predictions))
-    else
-      respond_with(@predictions.offset(param_offset).limit(param_limit), 
-        each_serializer: PredictionFeedSerializerV2, root: false)      
+      if derived_version < 2        
+        respond_with(@predictions.offset(param_offset).limit(param_limit), 
+          each_serializer: PredictionFeedSerializer,
+          meta: pagination_meta(@predictions))
+      else
+        respond_with(@predictions.offset(param_offset).limit(param_limit), 
+          each_serializer: PredictionFeedSerializerV2, root: false)      
+      end
     end
   end
 
