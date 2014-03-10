@@ -58,7 +58,11 @@ Knoda::Application.routes.draw do
       collection do
         post 'seen'
       end
-    end      
+    end  
+    resources :groups
+    resources :memberships
+    resources :invitations, :only => [:create, :show] 
+    resources :referrals, :only => [:create, :show] 
 
   end
 

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140220033841) do
+ActiveRecord::Schema.define(version: 20140310151102) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -87,6 +87,35 @@ ActiveRecord::Schema.define(version: 20140220033841) do
   add_index "comments", ["prediction_id"], name: "index_comments_on_prediction_id", using: :btree
   add_index "comments", ["user_id"], name: "index_comments_on_user_id", using: :btree
 
+  create_table "groups", force: true do |t|
+    t.string   "name",                default: "", null: false
+    t.string   "description"
+    t.integer  "owner_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "avatar_file_name"
+    t.string   "avatar_content_type"
+    t.integer  "avatar_file_size"
+    t.datetime "avatar_updated_at"
+  end
+
+  create_table "invitations", force: true do |t|
+    t.integer "user_id",           null: false
+    t.integer "group_id"
+    t.string  "code"
+    t.integer "recipient_user_id"
+    t.string  "recipient_email"
+    t.boolean "active"
+  end
+
+  create_table "memberships", force: true do |t|
+    t.integer "user_id",                     null: false
+    t.integer "group_id",                    null: false
+    t.string  "role",     default: "MEMBER", null: false
+  end
+
+  add_index "memberships", ["user_id", "group_id"], name: "index_memberships_on_user_id_and_group_id", unique: true, using: :btree
+
   create_table "predictions", force: true do |t|
     t.integer  "user_id"
     t.text     "body"
@@ -106,6 +135,12 @@ ActiveRecord::Schema.define(version: 20140220033841) do
 
   add_index "predictions", ["tags"], name: "index_predictions_on_tags", using: :gin
   add_index "predictions", ["user_id"], name: "index_predictions_on_user_id", using: :btree
+
+  create_table "referrals", force: true do |t|
+    t.integer "user_id",  null: false
+    t.integer "group_id"
+    t.string  "code"
+  end
 
   create_table "topics", force: true do |t|
     t.string   "name"
