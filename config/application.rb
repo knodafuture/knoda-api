@@ -21,5 +21,6 @@ module Knoda
 	  config.view_version_extraction_strategy = [:query_parameter, :http_accept_parameter]
 	  config.default_version = 1
 	  config.minimum_version = 1    
+    config.paths['db/migrate'] = KnodaCore::Engine.paths['db/migrate'].existent
   end
 end

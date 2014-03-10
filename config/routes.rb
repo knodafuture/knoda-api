@@ -62,7 +62,6 @@ Knoda::Application.routes.draw do
     resources :groups
     resources :memberships
     resources :invitations, :only => [:create, :show] 
-    resources :referrals, :only => [:create, :show] 
 
   end
 
