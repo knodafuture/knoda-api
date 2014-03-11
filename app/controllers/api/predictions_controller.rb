@@ -25,7 +25,7 @@ class Api::PredictionsController < ApplicationController
       if params[:tag]
         @predictions = Prediction.includes(:challenges, :comments).recent.latest.where("'#{params[:tag]}' = ANY (tags)")
       elsif params[:recent]
-        @predictions = Prediction.includes(:challenges, :comments).recent.latest
+        @predictions = Prediction.includes(:challenges, :comments).recent.latest.visible_to_user(current_user.id)
       else
         @predictions = current_user.predictions
       end
@@ -192,7 +192,7 @@ class Api::PredictionsController < ApplicationController
       p.delete :tag_list
       return p
     else
-      return params.permit(:body, :expires_at, :resolution_date, :tags => [])
+      return params.permit(:body, :expires_at, :resolution_date, :tags => [], :group_id)
     end
   end
   
