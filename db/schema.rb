@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140312181000) do
+ActiveRecord::Schema.define(version: 20140307005409) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -106,9 +106,11 @@ ActiveRecord::Schema.define(version: 20140312181000) do
     t.string   "code"
     t.integer  "recipient_user_id"
     t.string   "recipient_email"
+    t.string   "recipient_phone"
     t.boolean  "accepted"
-    t.datetime "push_notified_at"
-    t.datetime "email_notified_at"
+    t.datetime "notified_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "memberships", force: true do |t|
