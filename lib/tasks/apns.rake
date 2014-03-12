@@ -25,8 +25,6 @@ namespace :apns do
           )
           pusher.push(notification)   
         end
-        puts 'Time for android'
-        puts p.user.android_device_tokens
         if p.user.android_device_tokens.size > 0
           response = gcm.send_notification(p.user.android_device_tokens.pluck(:token), {data: {alert: "You have predictions ready for resolution"}, collapse_key: "expired_predictions"});
           puts response
