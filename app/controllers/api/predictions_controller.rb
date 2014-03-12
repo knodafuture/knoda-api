@@ -192,7 +192,7 @@ class Api::PredictionsController < ApplicationController
       p.delete :tag_list
       return p
     else
-      return params.permit(:body, :expires_at, :resolution_date, :tags => [], :group_id)
+      return params.permit(:body, :expires_at, :resolution_date, :group_id, :tags => [])
     end
   end
   

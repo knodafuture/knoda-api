@@ -4,8 +4,17 @@ class Api::InvitationsController < ApplicationController
   respond_to :json
 
   def create
-    @invitation = current_user.invitations.create(invitation_params)
-    respond_with(@invitation, :serializer => InvitationSerializer, :status => 401)
+    if params[:group_id]
+      @invitation = current_user.invitations.create(invitation_params)
+      respond_with(@invitation, :serializer => InvitationSerializer, :status => 401)
+    else
+      @invitations = []
+      params[:_json].each do | invitation_list_params |
+        invitation = current_user.invitations.create(invitation_list_params)
+        @invitations << invitation
+      end
+      respond_with(@invitations, :each_serializer => InvitationSerializer, :status => 401, :location => "/groups")
+    end
   end
 
   def show
@@ -18,7 +27,7 @@ class Api::InvitationsController < ApplicationController
 
   private
     def invitation_params
-      params.permit(:group_id, :recipient_email, :recipient_user_id)
+      params.permit([:_json, :group_id, :recipient_email, :recipient_user_id])
     end    
     def set_invitation
       @group = Group.find(params[:id])

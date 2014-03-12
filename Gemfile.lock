@@ -1,6 +1,6 @@
 GIT
   remote: https://knoda-build:Xtra5efeKn0dafuture@github.com/knodafuture/knoda_core.git
-  revision: 6de5ae8b09e52ea0e62ea39537a2b9970d0cfe19
+  revision: afed5ce2f98061a59cf5d4afc617dc72a78299c8
   branch: groups
   specs:
     knoda_core (0.0.1)
@@ -190,7 +190,7 @@ GEM
       railties (>= 4.0.0.beta, < 5.0)
       sass (>= 3.1.10)
       sprockets-rails (~> 2.0.0)
-    searchkick (0.3.5)
+    searchkick (0.5.3)
       tire
       tire-contrib
     simplecov (0.7.1)
@@ -211,7 +211,7 @@ GEM
     thread_safe (0.1.0)
       atomic
     tilt (1.4.1)
-    tire (0.6.1)
+    tire (0.6.2)
       activemodel (>= 3.0)
       activesupport
       ansi
@@ -269,7 +269,7 @@ DEPENDENCIES
   rails_12factor (= 0.0.2)
   rspec-rails (~> 2.12)
   sass-rails (~> 4.0.0)
-  searchkick
+  searchkick (= 0.5.3)
   simplecov (= 0.7.1)
   uglifier (>= 1.3.0)
   unicorn

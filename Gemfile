@@ -41,8 +41,8 @@ gem 'grocer', '0.4.1'
 gem 'gcm', '0.0.7'
 gem 'rails_12factor', '0.0.2'
 gem 'newrelic_rpm'
-gem "searchkick"
 gem 'mandrill_mailer'
+gem 'searchkick', '0.5.3'
 gem 'knoda_core', :git => "https://knoda-build:Xtra5efeKn0dafuture@github.com/knodafuture/knoda_core.git", :branch => 'groups'
 # Use this to test local core engine changes
 #gem 'knoda_core', :path => "../knoda_core"
