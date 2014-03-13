@@ -22,4 +22,5 @@ Knoda::Application.configure do
   end
   config.apns_gateway = "gateway.push.apple.com"
   config.apns_sandbox = false
+  config.twilio = { :sid => "ACc01dcbcd98e13fb37d93933315ea32a7", :token => "2d2764dffd24878a97f8e93c90057824", :from => "+18166056632" }
 end

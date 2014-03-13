@@ -27,7 +27,7 @@ class Api::InvitationsController < ApplicationController
 
   private
     def invitation_params
-      params.permit([:_json, :group_id, :recipient_email, :recipient_user_id])
+      params.permit([:_json, :group_id, :recipient_email, :recipient_user_id, :recipient_phone])
     end    
     def set_invitation
       @group = Group.find(params[:id])
