@@ -75,6 +75,7 @@ GEM
       warden (~> 1.2.1)
     diff-lcs (1.2.4)
     erubis (2.7.0)
+    excon (0.32.1)
     execjs (1.4.0)
       multi_json (~> 1.0)
     factory_girl (4.2.0)
@@ -112,6 +113,13 @@ GEM
     mail (2.5.4)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
+    mandrill-api (1.0.51)
+      excon (>= 0.16.0, < 1.0)
+      json (>= 1.7.7, < 2.0)
+    mandrill_mailer (0.4.3)
+      actionpack
+      activesupport
+      mandrill-api (~> 1.0.9)
     method_source (0.8.1)
     mime-types (1.23)
     minitest (4.7.5)
@@ -252,6 +260,7 @@ DEPENDENCIES
   jbuilder (~> 1.2)
   jquery-rails (= 3.0.2)
   knoda_core!
+  mandrill_mailer
   newrelic_rpm
   paperclip (= 3.4.2)
   pg (= 0.15.1)
