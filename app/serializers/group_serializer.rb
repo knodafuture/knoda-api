@@ -1,6 +1,6 @@
 class GroupSerializer < ActiveModel::Serializer
 
-  attributes :id, :name, :description, :avatar_image, :member_count, :leader_info, :my_info
+  attributes :id, :name, :description, :avatar_image, :owner, :member_count, :leader_info, :my_info
 
   def member_count
     return object.memberships.size
@@ -18,6 +18,10 @@ class GroupSerializer < ActiveModel::Serializer
     else
       return nil;
     end
+  end
+
+  def owner
+    return object.memberships.where(:role => 'OWNER').first.user_id
   end
   
   self.root = false
