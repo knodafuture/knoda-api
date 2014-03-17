@@ -24,6 +24,10 @@ class Api::UsersController < ApplicationController
         each_serializer: serializer)      
     end
   end
+
+  def autocomplete
+    @users = User.search(params[:query], fields: [{:username => :text_start}], limit: 10)
+  end  
   
   private
   

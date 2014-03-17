@@ -1,12 +1,18 @@
 class Api::GroupsController < ApplicationController
   skip_before_filter :verify_authenticity_token
-  before_action :set_group, only: [:show, :update, :destroy, :leaderboard]
+  before_action :set_group, only: [:show, :update, :destroy, :leaderboard, :predictions]
   respond_to :json
 
   def index
     @groups = current_user.groups
     respond_with(@groups, each_serializer: GroupSerializer, root:false)
   end
+
+  def predictions
+    @predictions = @group.predictions
+    respond_with(@predictions.offset(param_offset).limit(param_limit), each_serializer: PredictionFeedSerializerV2, root: false)      
+  end
+
 
   def create
     @group = current_user.groups.create(group_params)

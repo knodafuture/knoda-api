@@ -46,7 +46,11 @@ Knoda::Application.routes.draw do
       member do
         get 'predictions'
       end
+      collection do
+        get 'autocomplete'
+      end      
     end
+    
     resource  :profile,       :only => [:show, :update]
     resource  :password,      :only => [:create, :update]
     
@@ -62,6 +66,7 @@ Knoda::Application.routes.draw do
     resources :groups do
       member do
         get 'leaderboard'
+        get 'predictions'
       end
     end
     resources :memberships, :only => [:create, :destroy]
