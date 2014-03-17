@@ -37,7 +37,14 @@ class Api::GroupsController < ApplicationController
   end   
 
   def leaderboard
-    respond_with(@leaders = Group.weeklyLeaderboard(@group), :location => "#{api_groups_url}/#{@group.id}/leaderboard.json", root: false)
+    if params[:board] == 'monthly'
+      @leaders = Group.weeklyLeaderboard(@group)
+    elsif params[:board] == 'alltime'
+      @leaders = Group.monthlyLeaderboard(@group)
+    else
+      @leaders = Group.allTimeLeaderboard(@group)
+    end    
+    respond_with(@leaders, :location => "#{api_groups_url}/#{@group.id}/leaderboard.json", root: false)
   end
 
 
