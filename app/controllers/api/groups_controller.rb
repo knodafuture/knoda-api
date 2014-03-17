@@ -14,6 +14,18 @@ class Api::GroupsController < ApplicationController
     respond_with(@group, :location => "#{api_groups_url}/#{@group.id}.json")
   end
 
+  def update
+    respond_to do |format|
+      authorize_action_for(@group)
+      puts group_params
+      if @group.update(group_params)
+        respond_with(@group, :location => "#{api_groups_url}/#{@group.id}.json")
+      else
+        format.json { render json: @group.errors, status: :unprocessable_entity }
+      end
+    end
+  end  
+
   def show
     respond_with(@group, :location => "#{api_groups_url}/#{@group.id}.json")
   end   
