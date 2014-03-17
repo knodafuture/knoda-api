@@ -1,6 +1,6 @@
 class Api::GroupsController < ApplicationController
   skip_before_filter :verify_authenticity_token
-  before_action :set_comment, only: [:show, :update, :destroy]
+  before_action :set_group, only: [:show, :update, :destroy, :leaderboard]
   respond_to :json
 
   def index
@@ -17,6 +17,10 @@ class Api::GroupsController < ApplicationController
   def show
     respond_with(@group, :location => "#{api_groups_url}/#{@group.id}.json")
   end   
+
+  def leaderboard
+    respond_with(@leaders = Group.weeklyLeaderboard(@group), :location => "#{api_groups_url}/#{@group.id}/leaderboard.json", root: false)
+  end
 
 
   private

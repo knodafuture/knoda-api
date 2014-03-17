@@ -1,6 +1,7 @@
 class Api::MembershipsController < ApplicationController
   skip_before_filter :verify_authenticity_token
   respond_to :json
+  before_action :set_membership, only: [:destroy]
 
   def create
     p = membership_params
@@ -19,8 +20,18 @@ class Api::MembershipsController < ApplicationController
     end
   end
 
+  def destroy
+    authorize_action_for(@membership)
+    @membership.destroy
+    head :no_content
+  end
+
   private
     def membership_params
       params.permit(:group_id, :code)
     end    
+    def set_membership
+      puts current_user.id
+      @membership = Membership.find(params[:id])
+    end        
 end  

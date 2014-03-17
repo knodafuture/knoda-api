@@ -59,9 +59,13 @@ Knoda::Application.routes.draw do
         post 'seen'
       end
     end  
-    resources :groups
-    resources :memberships
-    resources :invitations, :only => [:create, :show] 
+    resources :groups do
+      member do
+        get 'leaderboard'
+      end
+    end
+    resources :memberships, :only => [:create, :destroy]
+    resources :invitations, :only => [:create, :show]
 
   end
 
