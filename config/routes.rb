@@ -67,6 +67,7 @@ Knoda::Application.routes.draw do
       member do
         get 'leaderboard'
         get 'predictions'
+        get 'memberships'
       end
     end
     resources :memberships, :only => [:create, :destroy]

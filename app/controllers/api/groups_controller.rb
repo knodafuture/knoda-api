@@ -1,6 +1,6 @@
 class Api::GroupsController < ApplicationController
   skip_before_filter :verify_authenticity_token
-  before_action :set_group, only: [:show, :update, :destroy, :leaderboard, :predictions]
+  before_action :set_group, only: [:show, :update, :destroy, :leaderboard, :predictions, :memberships]
   respond_to :json
 
   def index
@@ -45,6 +45,10 @@ class Api::GroupsController < ApplicationController
       @leaders = Group.allTimeLeaderboard(@group)
     end    
     respond_with(@leaders, :location => "#{api_groups_url}/#{@group.id}/leaderboard.json", root: false)
+  end
+
+  def memberships
+    respond_with(@group.memberships, each_serializer: MembershipSerializer, root: false)
   end
 
 

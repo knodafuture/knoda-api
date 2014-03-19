@@ -1,6 +1,6 @@
 class GroupSerializer < ActiveModel::Serializer
 
-  attributes :id, :name, :description, :avatar_image, :owner, :member_count, :leader_info, :my_info
+  attributes :id, :name, :description, :share_url, :avatar_image, :owner, :member_count, :leader_info, :my_info
 
   def member_count
     return object.memberships.size
