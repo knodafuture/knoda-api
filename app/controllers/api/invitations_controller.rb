@@ -6,14 +6,14 @@ class Api::InvitationsController < ApplicationController
   def create
     if params[:group_id]
       @invitation = current_user.invitations.create(invitation_params)
-      respond_with(@invitation, :serializer => InvitationSerializer, :status => 401)
+      respond_with(@invitation, :serializer => InvitationSerializer, :status => 201)
     else
       @invitations = []
       params[:_json].each do | invitation_list_params |
         invitation = current_user.invitations.create(invitation_list_params)
         @invitations << invitation
       end
-      respond_with(@invitations, :each_serializer => InvitationSerializer, :status => 401, :location => "/groups")
+      respond_with(@invitations, :each_serializer => InvitationSerializer, :status => 201, :location => "/groups")
     end
   end
 

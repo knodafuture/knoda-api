@@ -34,6 +34,10 @@ class PredictionSerializerV2 < ActiveModel::Serializer
   end  
 
   def group_name
-    object.group.name
+    if object.group != nil
+      object.group.name
+    else
+      return nil
+    end
   end
 end
