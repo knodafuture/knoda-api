@@ -51,6 +51,8 @@ end
 
 group :production do
   gem 'unicorn'
+  gem 'memcachier'
+  gem 'dalli'  
 end
 
 ruby '2.0.0'

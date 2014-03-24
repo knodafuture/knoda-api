@@ -1,6 +1,6 @@
 GIT
   remote: https://knoda-build:Xtra5efeKn0dafuture@github.com/knodafuture/knoda_core.git
-  revision: 030cb7ec027d1519d61f8ee81137de2342a84652
+  revision: 84734cd40f2abbf664dc821d03ddf9a486f67bb0
   branch: groups
   specs:
     knoda_core (0.0.1)
@@ -71,6 +71,7 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.6.3)
+    dalli (2.7.0)
     devise (3.0.0.rc)
       bcrypt-ruby (~> 3.0)
       orm_adapter (~> 0.1)
@@ -123,6 +124,7 @@ GEM
       actionpack
       activesupport
       mandrill-api (~> 1.0.9)
+    memcachier (0.0.2)
     method_source (0.8.1)
     mime-types (1.23)
     minitest (4.7.5)
@@ -258,6 +260,7 @@ DEPENDENCIES
   bcrypt-ruby (~> 3.0.0)
   bitly (= 0.9.0)
   coffee-rails (~> 4.0.0)
+  dalli
   devise (= 3.0.0.rc)
   factory_girl_rails (= 4.2.1)
   faker (= 1.1.2)
@@ -268,6 +271,7 @@ DEPENDENCIES
   jquery-rails (= 3.0.2)
   knoda_core!
   mandrill_mailer
+  memcachier
   newrelic_rpm
   paperclip (= 3.4.2)
   pg (= 0.17.1)
