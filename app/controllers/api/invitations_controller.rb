@@ -28,8 +28,12 @@ class Api::InvitationsController < ApplicationController
   private
     def invitation_params
       params.permit([:_json, :group_id, :recipient_email, :recipient_user_id, :recipient_phone])
-    end    
+    end  
+      
     def set_invitation
-      @group = Group.find(params[:id])
+      @invitation = Invitation.where(:code => params[:id]).first
+      if not @invitation
+        raise ActionController::RoutingError.new('Not Found')
+      end
     end    
 end  
