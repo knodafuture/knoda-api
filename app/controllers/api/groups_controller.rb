@@ -55,7 +55,8 @@ class Api::GroupsController < ApplicationController
   end
 
   def memberships
-    respond_with(@group.memberships, each_serializer: MembershipSerializer, root: false)
+    @memberships = @group.memberships.joins(:user).order("users.username ASC")
+    respond_with(@memberships, each_serializer: MembershipSerializer, root: false)
   end
 
 
