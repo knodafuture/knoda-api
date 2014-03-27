@@ -12,6 +12,7 @@ class Api::MembershipsController < ApplicationController
         @membership = current_user.memberships.create(p)
         invitation.update(:accepted => true)
         respond_with(@membership, :location => "#{api_memberships_url}/#{@membership.id}.json")
+        Group.rebuildLeaderboards(@membership.group)
       else
         head :forbidden
       end
@@ -24,6 +25,7 @@ class Api::MembershipsController < ApplicationController
     authorize_action_for(@membership)
     @membership.destroy
     head :no_content
+    Group.rebuildLeaderboards(@membership.group)
   end
 
   private

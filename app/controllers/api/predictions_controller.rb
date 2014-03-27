@@ -133,7 +133,7 @@ class Api::PredictionsController < ApplicationController
       end
       respond_with(@prediction, serializer: serializer)      
       if @prediction.group
-        Group.weeklyLeaderboard(@prediction.group)
+        Group.rebuildLeaderboards(@prediction.group)
       end      
     else
       render json: @prediction.errors, status: 422
@@ -151,7 +151,7 @@ class Api::PredictionsController < ApplicationController
       end
       respond_with(@prediction, serializer: serializer)            
       if @prediction.group
-        Group.weeklyLeaderboard(@prediction.group)
+        Group.rebuildLeaderboards(@prediction.group)
       end
     else
       respond_with(@prediction.errors, status: 422)
