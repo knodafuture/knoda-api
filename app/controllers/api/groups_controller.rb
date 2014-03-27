@@ -4,7 +4,7 @@ class Api::GroupsController < ApplicationController
   respond_to :json
 
   def index
-    @groups = current_user.groups
+    @groups = current_user.groups.alphabetical
     @groups = @groups.id_lt(param_id_lt)
     respond_with(@groups.offset(param_offset).limit(param_limit), each_serializer: GroupSerializer, root:false)
   end
