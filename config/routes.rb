@@ -68,6 +68,7 @@ Knoda::Application.routes.draw do
         get 'leaderboard'
         get 'predictions'
         get 'memberships'
+        delete 'avatar', to: 'groups#destroyAvatar'
       end
     end
     resources :memberships, :only => [:create, :destroy]

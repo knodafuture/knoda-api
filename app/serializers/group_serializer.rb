@@ -21,7 +21,12 @@ class GroupSerializer < ActiveModel::Serializer
   end
 
   def owner
-    return object.memberships.where(:role => 'OWNER').first.user_id
+    o = object.memberships.where(:role => 'OWNER').first
+    if o != nil
+      return o.user_id
+    else
+      return nil
+    end
   end
 
   def my_membership

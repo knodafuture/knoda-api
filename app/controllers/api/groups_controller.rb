@@ -1,6 +1,6 @@
 class Api::GroupsController < ApplicationController
   skip_before_filter :verify_authenticity_token
-  before_action :set_group, only: [:show, :update, :destroy, :leaderboard, :predictions, :memberships]
+  before_action :set_group, only: [:show, :update, :destroy, :leaderboard, :predictions, :memberships, :destroyAvatar]
   respond_to :json
 
   def index
@@ -27,10 +27,17 @@ class Api::GroupsController < ApplicationController
     respond_with(@group, :location => "#{api_groups_url}/#{@group.id}.json")
   end
 
+  def destroyAvatar
+    av = (1 + rand(5))
+    p = Rails.root.join('app', 'assets', 'images', 'avatars', "groups_avatar_#{av}@2x.png")
+    @group.avatar_from_path p          
+    @group.save
+    respond_with(@group, :location => "#{api_groups_url}/#{@group.id}.json")
+  end
+
   def update
     respond_to do |format|
       authorize_action_for(@group)
-      puts group_params
       if @group.update(group_params)
         format.json { render json: @group, status: 200 }
       else
