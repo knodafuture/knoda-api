@@ -28,9 +28,10 @@ class Api::GroupsController < ApplicationController
   end
 
   def destroyAvatar
+    authorize_action_for(@group)
     av = (1 + rand(5))
     p = Rails.root.join('app', 'assets', 'images', 'avatars', "groups_avatar_#{av}@2x.png")
-    @group.avatar_from_path p          
+    @group.avatar_from_path p
     @group.save
     respond_with(@group, :location => "#{api_groups_url}/#{@group.id}.json")
   end
