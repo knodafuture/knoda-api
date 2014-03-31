@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140317201948) do
+ActiveRecord::Schema.define(version: 20140331212431) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -101,7 +101,10 @@ ActiveRecord::Schema.define(version: 20140317201948) do
     t.string   "avatar_content_type"
     t.integer  "avatar_file_size"
     t.datetime "avatar_updated_at"
+    t.string   "share_id"
   end
+
+  add_index "groups", ["share_id"], name: "index_groups_on_share_id", using: :btree
 
   create_table "invitations", force: true do |t|
     t.integer  "user_id",           null: false
@@ -122,7 +125,9 @@ ActiveRecord::Schema.define(version: 20140317201948) do
     t.string  "role",     default: "MEMBER", null: false
   end
 
+  add_index "memberships", ["group_id", "user_id", "role"], name: "index_memberships_on_group_id_and_user_id_and_role", using: :btree
   add_index "memberships", ["user_id", "group_id"], name: "index_memberships_on_user_id_and_group_id", unique: true, using: :btree
+  add_index "memberships", ["user_id"], name: "index_memberships_on_user_id", using: :btree
 
   create_table "predictions", force: true do |t|
     t.integer  "user_id"
@@ -142,6 +147,7 @@ ActiveRecord::Schema.define(version: 20140317201948) do
     t.integer  "group_id"
   end
 
+  add_index "predictions", ["group_id"], name: "index_predictions_on_group_id", using: :btree
   add_index "predictions", ["tags"], name: "index_predictions_on_tags", using: :gin
   add_index "predictions", ["user_id"], name: "index_predictions_on_user_id", using: :btree
 
