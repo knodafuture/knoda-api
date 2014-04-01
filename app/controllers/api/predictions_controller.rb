@@ -23,9 +23,9 @@ class Api::PredictionsController < ApplicationController
       respond_with(@predictions, each_serializer: PredictionFeedSerializerV2, root: false)   
     else
       if params[:tag]
-        @predictions = Prediction.includes(:challenges, :comments).recent.latest.where("'#{params[:tag]}' = ANY (tags)")
+        @predictions = Prediction.includes(:challenges, :comments).recent.latest.visible_to_user(current_user.id).where("'#{params[:tag]}' = ANY (tags)")
       elsif params[:recent]
-        @predictions = Prediction.includes(:challenges, :comments).recent.latest
+        @predictions = Prediction.includes(:challenges, :comments).recent.latest.visible_to_user(current_user.id)
       else
         @predictions = current_user.predictions
       end
@@ -132,6 +132,9 @@ class Api::PredictionsController < ApplicationController
         serializer = PredictionFeedSerializer
       end
       respond_with(@prediction, serializer: serializer)      
+      if @prediction.group
+        Group.rebuildLeaderboards(@prediction.group)
+      end      
     else
       render json: @prediction.errors, status: 422
     end
@@ -147,6 +150,9 @@ class Api::PredictionsController < ApplicationController
         serializer = PredictionFeedSerializer
       end
       respond_with(@prediction, serializer: serializer)            
+      if @prediction.group
+        Group.rebuildLeaderboards(@prediction.group)
+      end
     else
       respond_with(@prediction.errors, status: 422)
     end
@@ -192,7 +198,7 @@ class Api::PredictionsController < ApplicationController
       p.delete :tag_list
       return p
     else
-      return params.permit(:body, :expires_at, :resolution_date, :tags => [])
+      return params.permit(:body, :expires_at, :resolution_date, :group_id, :tags => [])
     end
   end
   

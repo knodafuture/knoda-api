@@ -5,6 +5,7 @@ class PredictionSerializerV2 < ActiveModel::Serializer
   attributes :expired, :settled, :is_ready_for_resolution
   attributes :verified_account
   attributes :tags
+  attributes :group_id, :group_name
 
   self.root = false
   
@@ -31,4 +32,16 @@ class PredictionSerializerV2 < ActiveModel::Serializer
   def verified_account
     object.user.verified_account
   end  
+
+  def group_id
+    return object.group_id
+  end
+
+  def group_name
+    if object.group != nil
+      object.group.name
+    else
+      return nil
+    end
+  end
 end

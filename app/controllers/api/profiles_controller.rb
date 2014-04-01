@@ -12,9 +12,9 @@ class Api::ProfilesController < ApplicationController
     else
       p = user_params
     end
-    if p[:email]
-      p[:email] = CGI::unescape(p[:email])
-    end
+    #if p[:email]
+    #  p[:email] = CGI::unescape(p[:email])
+    #end
     respond_to do |format|
       if current_user.update(p)
         format.json { render json: current_user, status: 200 }

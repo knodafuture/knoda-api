@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140220033841) do
+ActiveRecord::Schema.define(version: 20140331212431) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,8 +23,11 @@ ActiveRecord::Schema.define(version: 20140220033841) do
     t.string   "activity_type"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "seen",            default: false
+    t.boolean  "seen",                  default: false
     t.text     "title"
+    t.text     "invitation_code"
+    t.text     "invitation_sender"
+    t.text     "invitation_group_name"
   end
 
   add_index "activities", ["user_id"], name: "index_activities_on_user_id", using: :btree
@@ -87,6 +90,45 @@ ActiveRecord::Schema.define(version: 20140220033841) do
   add_index "comments", ["prediction_id"], name: "index_comments_on_prediction_id", using: :btree
   add_index "comments", ["user_id"], name: "index_comments_on_user_id", using: :btree
 
+  create_table "groups", force: true do |t|
+    t.string   "name",                default: "", null: false
+    t.string   "description"
+    t.integer  "owner_id"
+    t.string   "share_url"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "avatar_file_name"
+    t.string   "avatar_content_type"
+    t.integer  "avatar_file_size"
+    t.datetime "avatar_updated_at"
+    t.string   "share_id"
+  end
+
+  add_index "groups", ["share_id"], name: "index_groups_on_share_id", using: :btree
+
+  create_table "invitations", force: true do |t|
+    t.integer  "user_id",           null: false
+    t.integer  "group_id"
+    t.string   "code"
+    t.integer  "recipient_user_id"
+    t.string   "recipient_email"
+    t.string   "recipient_phone"
+    t.boolean  "accepted"
+    t.datetime "notified_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "memberships", force: true do |t|
+    t.integer "user_id",                     null: false
+    t.integer "group_id",                    null: false
+    t.string  "role",     default: "MEMBER", null: false
+  end
+
+  add_index "memberships", ["group_id", "user_id", "role"], name: "index_memberships_on_group_id_and_user_id_and_role", using: :btree
+  add_index "memberships", ["user_id", "group_id"], name: "index_memberships_on_user_id_and_group_id", unique: true, using: :btree
+  add_index "memberships", ["user_id"], name: "index_memberships_on_user_id", using: :btree
+
   create_table "predictions", force: true do |t|
     t.integer  "user_id"
     t.text     "body"
@@ -102,8 +144,10 @@ ActiveRecord::Schema.define(version: 20140220033841) do
     t.datetime "resolution_date",                  null: false
     t.datetime "activity_sent_at"
     t.string   "tags",             default: [],                 array: true
+    t.integer  "group_id"
   end
 
+  add_index "predictions", ["group_id"], name: "index_predictions_on_group_id", using: :btree
   add_index "predictions", ["tags"], name: "index_predictions_on_tags", using: :gin
   add_index "predictions", ["user_id"], name: "index_predictions_on_user_id", using: :btree
 

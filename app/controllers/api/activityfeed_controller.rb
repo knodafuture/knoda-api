@@ -9,20 +9,32 @@ class Api::ActivityfeedController < ApplicationController
       current_user.activities.create!(user: current_user, prediction_id: p.id, title: "Your prediction has expired. Please settle the outcome", prediction_body: p.body, activity_type: "EXPIRED");
     end
 
-    case (params[:list])
-      when 'unseen'
-        @activities = current_user.activities.unseen.order('created_at desc')
-      else
-        @activities = current_user.activities.order('created_at desc')
+    if derived_version < 3
+      case (params[:list])
+        when 'unseen'
+          @activities = current_user.activities.where("activity_type != 'INVITATION'").unseen.order('created_at desc')
+        else
+          @activities = current_user.activities.where("activity_type != 'INVITATION'").order('created_at desc')        
+      end
+    else
+      case (params[:list])
+        when 'unseen'
+          @activities = current_user.activities.unseen.order('created_at desc')
+        else
+          @activities = current_user.activities.order('created_at desc')
+      end      
     end
     @activities = @activities.id_lt(param_id_lt)
     if derived_version < 2
       respond_with(@activities.offset(param_offset).limit(param_limit), 
         meta: pagination_meta(@activities),
         each_serializer: ActivitySerializer)
-    else
+    elsif derived_version == 2
       respond_with(@activities.offset(param_offset).limit(param_limit), 
         each_serializer: ActivitySerializer, root: false)
+    else
+      respond_with(@activities.offset(param_offset).limit(param_limit), 
+        each_serializer: ActivitySerializerV3, root: false)      
     end
 
     if params[:list] != 'unseen'

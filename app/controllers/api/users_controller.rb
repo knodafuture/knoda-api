@@ -9,7 +9,7 @@ class Api::UsersController < ApplicationController
   end
   
   def predictions
-    @predictions = @user.predictions.latest.id_lt(param_id_lt)
+    @predictions = @user.predictions.visible_to_user(current_user).latest.id_lt(param_id_lt)
   
     if derived_version >= 2
       serializer = PredictionFeedSerializerV2
@@ -24,6 +24,11 @@ class Api::UsersController < ApplicationController
         each_serializer: serializer)      
     end
   end
+
+  def autocomplete
+    @users = User.search(params[:query], fields: [{:username => :text_start}], limit: 10)
+    render json: @users
+  end  
   
   private
   

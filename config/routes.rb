@@ -46,7 +46,11 @@ Knoda::Application.routes.draw do
       member do
         get 'predictions'
       end
+      collection do
+        get 'autocomplete'
+      end      
     end
+    
     resource  :profile,       :only => [:show, :update]
     resource  :password,      :only => [:create, :update]
     
@@ -58,7 +62,17 @@ Knoda::Application.routes.draw do
       collection do
         post 'seen'
       end
-    end      
+    end  
+    resources :groups do
+      member do
+        get 'leaderboard'
+        get 'predictions'
+        get 'memberships'
+        delete 'avatar', to: 'groups#destroyAvatar'
+      end
+    end
+    resources :memberships, :only => [:create, :destroy]
+    resources :invitations, :only => [:create, :show]
 
   end
 
