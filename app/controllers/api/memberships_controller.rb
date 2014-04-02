@@ -6,12 +6,14 @@ class Api::MembershipsController < ApplicationController
   def create
     p = membership_params
     if p[:code]
-      invitation = Invitation.where(:code => p[:code]).first
-      if invitation != nil and invitation.group_id == p[:group_id]
+      code = p[:code]
+      invitation = Invitation.where(:code => code, :group_id => p[:group_id]).first
+      if invitation != nil and not invitation.accepted
         p.delete :code
         @membership = current_user.memberships.create(p)
         invitation.update(:accepted => true)
         respond_with(@membership, :location => "#{api_memberships_url}/#{@membership.id}.json")
+        Activity.where(:invitation_code => code, :activity_type => 'INVITATION').delete_all
         Group.rebuildLeaderboards(@membership.group)
       else
         head :forbidden
