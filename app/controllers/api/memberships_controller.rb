@@ -15,7 +15,6 @@ class Api::MembershipsController < ApplicationController
         invitation.update(:accepted => true)
         respond_with(@membership, :location => "#{api_memberships_url}/#{@membership.id}.json")
         Activity.where(:invitation_code => code, :activity_type => 'INVITATION').delete_all
-        Group.rebuildLeaderboards(@membership.group)
       else
         head :forbidden
       end
@@ -40,6 +39,6 @@ class Api::MembershipsController < ApplicationController
       @membership = Membership.find(params[:id])
     end        
     def rebuild_leaderboard
-      Group.rebuildLeaderboards(@group)
+      Group.rebuildLeaderboards(@membership.group)
     end    
 end  
