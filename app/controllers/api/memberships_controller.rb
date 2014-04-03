@@ -2,6 +2,7 @@ class Api::MembershipsController < ApplicationController
   skip_before_filter :verify_authenticity_token
   respond_to :json
   before_action :set_membership, only: [:destroy]
+  after_action :rebuild_leaderboard, only: [:destroy, :create]
 
   def create
     p = membership_params
@@ -38,4 +39,7 @@ class Api::MembershipsController < ApplicationController
       puts current_user.id
       @membership = Membership.find(params[:id])
     end        
+    def rebuild_leaderboard
+      Group.rebuildLeaderboards(@group)
+    end    
 end  
