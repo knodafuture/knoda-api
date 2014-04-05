@@ -27,7 +27,6 @@ class Api::MembershipsController < ApplicationController
     authorize_action_for(@membership)
     @membership.destroy
     head :no_content
-    Group.rebuildLeaderboards(@membership.group)
   end
 
   private
@@ -39,6 +38,6 @@ class Api::MembershipsController < ApplicationController
       @membership = Membership.find(params[:id])
     end        
     def rebuild_leaderboard
-      Group.rebuildLeaderboards(@membership.group)
+      LeaderboardRebuild.new.async.perform(@membership.group_id)
     end    
 end  

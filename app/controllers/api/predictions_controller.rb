@@ -133,9 +133,6 @@ class Api::PredictionsController < ApplicationController
         serializer = PredictionFeedSerializer
       end
       respond_with(@prediction, serializer: serializer)      
-      if @prediction.group
-        Group.rebuildLeaderboards(@prediction.group)
-      end      
     else
       render json: @prediction.errors, status: 422
     end
@@ -150,9 +147,6 @@ class Api::PredictionsController < ApplicationController
         serializer = PredictionFeedSerializer
       end
       respond_with(@prediction, serializer: serializer)            
-      if @prediction.group
-        Group.rebuildLeaderboards(@prediction.group)
-      end
     else
       respond_with(@prediction.errors, status: 422)
     end
