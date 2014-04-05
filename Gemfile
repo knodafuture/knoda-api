@@ -34,9 +34,10 @@ gem 'rails_12factor', '0.0.2'
 gem 'newrelic_rpm'
 gem 'mandrill_mailer'
 gem 'searchkick', '0.5.3'
-gem 'knoda_core', :git => "https://knoda-build:Xtra5efeKn0dafuture@github.com/knodafuture/knoda_core.git", :branch => 'groups'
+gem 'sucker_punch', '~> 1.0.3'
+#gem 'knoda_core', :git => "https://knoda-build:Xtra5efeKn0dafuture@github.com/knodafuture/knoda_core.git", :branch => 'groups'
 # Use this to test local core engine changes
-#gem 'knoda_core', :path => "../knoda_core"
+gem 'knoda_core', :path => "../knoda_core"
 
 group :development, :test do
   gem 'rspec-rails', '~> 2.12'

@@ -2,7 +2,6 @@ class Api::PredictionsController < ApplicationController
   skip_before_filter :verify_authenticity_token
   before_action :set_prediction, :except => [:index, :create]
   after_action :after_close, only: [:realize, :unrealize]
-  after_action :rebuild_leaderboard, only: [:realize, :unrealize]
   
   respond_to :json
   
@@ -217,6 +216,6 @@ class Api::PredictionsController < ApplicationController
     end   
 
     def after_close
-      @prediction.after_close
+      PredictionClose.new.async.perform(@prediction.id)
     end 
 end
