@@ -1,6 +1,7 @@
 class Api::PredictionsController < ApplicationController
   skip_before_filter :verify_authenticity_token
   before_action :set_prediction, :except => [:index, :create]
+  after_action :after_close, only: [:realize, :unrealize]
   
   respond_to :json
   
@@ -132,9 +133,6 @@ class Api::PredictionsController < ApplicationController
         serializer = PredictionFeedSerializer
       end
       respond_with(@prediction, serializer: serializer)      
-      if @prediction.group
-        Group.rebuildLeaderboards(@prediction.group)
-      end      
     else
       render json: @prediction.errors, status: 422
     end
@@ -142,7 +140,6 @@ class Api::PredictionsController < ApplicationController
 
   def unrealize
     authorize_action_for(@prediction)
-    
     if @prediction.close_as(false)
       if derived_version >= 2
         serializer = PredictionFeedSerializerV2
@@ -150,9 +147,6 @@ class Api::PredictionsController < ApplicationController
         serializer = PredictionFeedSerializer
       end
       respond_with(@prediction, serializer: serializer)            
-      if @prediction.group
-        Group.rebuildLeaderboards(@prediction.group)
-      end
     else
       respond_with(@prediction.errors, status: 422)
     end
@@ -186,27 +180,36 @@ class Api::PredictionsController < ApplicationController
   end
   
   private
-  
-  def set_prediction
-    @prediction = Prediction.find(params[:id])
-  end
-  
-  def prediction_create_params
-    if derived_version < 2
-      p = params.require(:prediction).permit(:body, :expires_at, :resolution_date, :tag_list => [])
-      p[:tags] = p[:tag_list]
-      p.delete :tag_list
-      return p
-    else
-      return params.permit(:body, :expires_at, :resolution_date, :group_id, :tags => [])
+    def set_prediction
+      @prediction = Prediction.find(params[:id])
     end
-  end
-  
-  def prediction_update_params
-    if derived_version < 2
-      return params.require(:prediction).permit(:resolution_date)
-    else
-      return params.permit(:resolution_date)
+    
+    def prediction_create_params
+      if derived_version < 2
+        p = params.require(:prediction).permit(:body, :expires_at, :resolution_date, :tag_list => [])
+        p[:tags] = p[:tag_list]
+        p.delete :tag_list
+        return p
+      else
+        return params.permit(:body, :expires_at, :resolution_date, :group_id, :tags => [])
+      end
     end
-  end
+    
+    def prediction_update_params
+      if derived_version < 2
+        return params.require(:prediction).permit(:resolution_date)
+      else
+        return params.permit(:resolution_date)
+      end
+    end
+    
+    def rebuild_leaderboard
+      if @prediction.group
+        Group.rebuildLeaderboards(@prediction.group)
+      end
+    end   
+
+    def after_close
+      PredictionClose.new.async.perform(@prediction.id)
+    end 
 end
