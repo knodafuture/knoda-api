@@ -12,7 +12,13 @@ class Api::GroupsController < ApplicationController
   def predictions
     @predictions = Prediction.recent.latest.for_group(@group.id)
     @predictions = @predictions.id_lt(param_id_lt)
-    respond_with(@predictions.offset(param_offset).limit(param_limit), each_serializer: PredictionFeedSerializerV2, root: false)      
+    if (params[:offset])
+      @predictions = @predictions.offset(param_offset)
+    end
+    if (params[:limit])
+      @predictions.limit(param_limit)
+    end
+    respond_with(@predictions, each_serializer: PredictionFeedSerializerV2, root: false)      
   end
 
 
