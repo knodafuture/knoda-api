@@ -69,6 +69,7 @@ class Api::PredictionsController < ApplicationController
   end
   
   def show
+    authorize_action_for(@prediction)
     if derived_version >= 2
       serializer = PredictionFeedSerializerV2
     else

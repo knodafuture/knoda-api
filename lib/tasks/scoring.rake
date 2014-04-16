@@ -2,7 +2,7 @@ namespace :scoring do
 
   task top10: :environment do
     ScoredPrediction.delete_all
-    predictions = Prediction.find_by_sql("select predictions.*, ((cml.commentCount*2) + chl.challengeCount - ((now()::date - predictions.created_at::date)*4)) as score from predictions, (select count(*) as challengeCount, prediction_id from challenges group by prediction_id) chl, (select count(*) as commentCount, prediction_id from comments group by prediction_id) cml WHERE predictions.id = chl.prediction_id AND predictions.id = cml.prediction_id AND group_id is null ORDER BY score DESC LIMIT 10")
+    predictions = Prediction.find_by_sql("select predictions.*, ((cml.commentCount*2) + chl.challengeCount - ((now()::date - predictions.created_at::date)*4)) as score from predictions LEFT JOIN (select count(*) as challengeCount, prediction_id from challenges group by prediction_id) chl on chl.prediction_id = predictions.id LEFT JOIN (select count(*) as commentCount, prediction_id from comments group by prediction_id) cml ON  predictions.id = cml.prediction_id WHERE group_id is null ORDER BY score DESC NULLS LAST LIMIT 10")
     predictions.each do |p|
       sp = ScoredPrediction.new
       sp.prediction_id = p.id
