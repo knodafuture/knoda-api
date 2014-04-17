@@ -217,7 +217,7 @@ test:
 production:
   <<: *default_settings
   monitor_mode: true
-  autostart.blacklisted_rake_tasks="scoring:top10,notification:invitation,apns:push"
+  autostart.blacklisted_rake_tasks: "scoring:top10,notification:invitation,apns:push"
 
 # Many applications have a staging environment which behaves
 # identically to production. Support for that environment is provided
