@@ -2,7 +2,7 @@ Knoda::Application.configure do
   config.assets.initialize_on_precompile = false
   config.log_level = :debug
   config.eager_load = true
-  config.action_mailer.default_url_options = { :host => (ENV['HOST'] || "localhost") }
+  config.action_mailer.default_url_options = { :host => Rails.application.config.knoda_web_url }
   config.reports_mailer_from = "support@knoda.com"  
   config.reports_mailer_to = "support@knoda.com"
   config.paperclip_defaults = {
