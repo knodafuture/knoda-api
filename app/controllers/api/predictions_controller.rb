@@ -20,7 +20,7 @@ class Api::PredictionsController < ApplicationController
         predictionIds << c.prediction_id
       end
       challengeHash = Hash[predictionIds.map.with_index.to_a]
-      @predictions = Prediction.includes(:challenges, :comments).where(:id => predictionIds).sort!{|p1,p2| challengeHash[p1.id] <=> challengeHash[p2.id] }
+      @predictions = Prediction.includes(:challenges, :comments).where(:id => predictionIds).to_a.sort!{|p1,p2| challengeHash[p1.id] <=> challengeHash[p2.id] }
       respond_with(@predictions, each_serializer: PredictionFeedSerializerV2, root: false)   
     else
       if params[:tag]
