@@ -10,6 +10,7 @@ class Api::InvitationsController < ApplicationController
     else
       @invitations = []
       params[:_json].each do | invitation_list_params |
+        invitation_list_params.permit!
         invitation = current_user.invitations.create!(invitation_list_params)
         @invitations << invitation
       end

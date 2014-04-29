@@ -5,7 +5,6 @@ class Api::MetricsController < ApplicationController
     users = { :current => User.count, :lag7 => User.where("created_at < :start_date",{start_date: 7.days.ago}).count}
     commentRatio = { :current => ((Comment.count.to_f) / (Prediction.count.to_f))}
     challengeRatio = { :current => (((Challenge.count - Prediction.count).to_f) / (Prediction.count.to_f))}
-    #p = Prediction.tag_counts_on(:tags).order('tags_count DESC')
     p = Prediction.select("tags as name, count(*) as count").group("name")
     categories = []
     p.each do |tag|
