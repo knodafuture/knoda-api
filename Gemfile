@@ -23,7 +23,7 @@ gem 'searchkick', '~> 0.7.1'
 gem 'sucker_punch', '~> 1.0.3'
 gem 'gibbon', '~> 1.1.2'
 
-gem 'knoda_core', :git => "https://knoda-build:Xtra5efeKn0dafuture@github.com/knodafuture/knoda_core.git", :branch => 'develop'
+gem 'knoda_core', :git => "https://knoda-build:Xtra5efeKn0dafuture@github.com/knodafuture/knoda_core.git", :branch => 'master'
 # Use this to test local core engine changes
 #gem 'knoda_core', :path => "../knoda_core"
 
