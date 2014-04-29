@@ -2,8 +2,8 @@ class UserSerializer < ActiveModel::Serializer
   attributes :id, :username, :email, :created_at, :avatar_image, :verified_account
   attributes :points, :won, :lost, :winning_percentage
   attributes :streak
+  attributes :social_accounts
   attributes :total_predictions
-
   self.root = false
   
   def streak

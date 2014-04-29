@@ -22,5 +22,7 @@ module Knoda
 	  config.versioncake.default_version = 1
 	  config.minimum_version = 1    
     config.paths['db/migrate'] = KnodaCore::Engine.paths['db/migrate'].existent
+    config.twitter_key = "14fSb3CT7EEQkoryO8RNx7BrG"
+    config.twitter_secret = "6Z5OGzxLL9NqVEpAbLs9FFd2PyLm6pd7j5r98IZr5e0HRr73bo"
   end
 end

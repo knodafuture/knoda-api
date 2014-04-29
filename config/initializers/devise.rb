@@ -8,7 +8,6 @@ Devise.setup do |config|
   address = Mail::Address.new "support@knoda.com"
   address.display_name = "Knoda"    
   config.mailer_sender = address.format
-
   # Configure the class responsible to send e-mails.
   # config.mailer = "Devise::Mailer"
 
