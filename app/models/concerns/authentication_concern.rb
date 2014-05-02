@@ -14,15 +14,6 @@ module AuthenticationConcern extend ActiveSupport::Concern
     def clear_session
     session.clear
   end
-
-
-  rescue_from ActionController::ParameterMissing do |exception|
-    render json: {error: 'required parameter missing'}, status: 422
-  end
- 
-  rescue_from ActiveRecord::RecordNotFound do |exception|
-    render json: {error: 'item not found'}, status: 404
-  end
   
   protected
 
