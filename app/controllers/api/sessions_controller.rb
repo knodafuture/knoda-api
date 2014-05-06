@@ -19,7 +19,7 @@ class Api::SessionsController < Devise::SessionsController
         end
         unless self.resource.errors.empty?
           if self.resource.errors.include?(:email)
-            self.resource.errors.add(:user_facing, "This email address is already registred. If you own this account, please login and connect to Facebook or Twitter in your profile.")
+            self.resource.errors.add(:user_facing, "This email address is already registered. If you own this account, please login and connect to Facebook or Twitter in your profile.")
           end
           puts self.resource.errors.to_json
           respond_with self.resource
