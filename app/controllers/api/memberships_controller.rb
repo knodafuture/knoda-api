@@ -32,12 +32,12 @@ class Api::MembershipsController < ApplicationController
   private
     def membership_params
       params.permit(:group_id, :code)
-    end    
+    end
     def set_membership
       puts current_user.id
       @membership = Membership.find(params[:id])
-    end        
+    end
     def rebuild_leaderboard
-      LeaderboardRebuild.new.async.perform(@membership.group_id)
-    end    
-end  
+      LeaderboardRebuild.perform_async(@membership.group_id)
+    end
+end

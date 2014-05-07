@@ -20,15 +20,15 @@ gem 'rails_12factor', '0.0.2'
 gem 'newrelic_rpm'
 gem 'mandrill_mailer'
 gem 'searchkick', '~> 0.7.1'
-gem 'sucker_punch', '~> 1.0.3'
+gem 'sidekiq', '3.0.2'
 gem 'gibbon', '~> 1.1.2'
 gem 'twitter'
 gem 'omniauth'
 gem "koala", "~> 1.8.0rc1"
 
-gem 'knoda_core', :git => "https://knoda-build:Xtra5efeKn0dafuture@github.com/knodafuture/knoda_core.git", :branch => 'develop'
+#gem 'knoda_core', :git => "https://knoda-build:Xtra5efeKn0dafuture@github.com/knodafuture/knoda_core.git", :branch => 'develop'
 # Use this to test local core engine changes
-#gem 'knoda_core', :path => "../knoda_core"
+gem 'knoda_core', :path => "../knoda_core"
 
 group :development, :test do
   gem 'rspec-rails', '~> 2.12'
@@ -44,7 +44,7 @@ end
 group :production do
   gem 'unicorn'
   gem 'memcachier'
-  gem 'dalli'  
+  gem 'dalli'
 end
 
 ruby '2.0.0'
