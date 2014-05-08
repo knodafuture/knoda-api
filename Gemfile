@@ -26,9 +26,9 @@ gem 'twitter'
 gem 'omniauth'
 gem "koala", "~> 1.8.0rc1"
 
-#gem 'knoda_core', :git => "https://knoda-build:Xtra5efeKn0dafuture@github.com/knodafuture/knoda_core.git", :branch => 'develop'
+gem 'knoda_core', :git => "https://knoda-build:Xtra5efeKn0dafuture@github.com/knodafuture/knoda_core.git", :branch => 'develop'
 # Use this to test local core engine changes
-gem 'knoda_core', :path => "../knoda_core"
+#gem 'knoda_core', :path => "../knoda_core"
 
 group :development, :test do
   gem 'rspec-rails', '~> 2.12'
