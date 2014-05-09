@@ -16,4 +16,7 @@ Knoda::Application.configure do
   config.log_level = :debug
   config.twilio = { :sid => "ACcd2389b24d750e7683dff84a092fe71d", :token => "de4f659da42c1d8a9c6ff6302286b050", :from => "+15005550006" }
   config.knoda_web_url = "http://localhost:3001"
+  Sidekiq.configure_client do |config|
+    config.redis = { size: 1, namespace: 'sidekiq-knoda' }
+  end
 end
