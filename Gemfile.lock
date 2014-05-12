@@ -1,7 +1,7 @@
 GIT
   remote: https://knoda-build:Xtra5efeKn0dafuture@github.com/knodafuture/knoda_core.git
-  revision: 2a1570c70786e77dbd2ca10a34df3e4c9c81fb53
-  branch: develop
+  revision: d3a5f05ee76922da3cae5ea919fcf6e5a4a089f2
+  branch: master
   specs:
     knoda_core (0.0.1)
       authority (= 2.10.0)
