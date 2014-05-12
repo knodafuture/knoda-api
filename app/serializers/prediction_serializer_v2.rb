@@ -6,21 +6,21 @@ class PredictionSerializerV2 < ActiveModel::Serializer
   attributes :verified_account
   attributes :tags
   attributes :group_id, :group_name
-
+  attributes :shareable_image
   self.root = false
-  
+
   def settled
     object.is_closed?
   end
-  
+
   def expired
     object.expires_at && object.expires_at.past?
   end
-  
+
   def username
     object.user.username
   end
-  
+
   def user_avatar
     object.user.avatar_image
   end
@@ -31,7 +31,7 @@ class PredictionSerializerV2 < ActiveModel::Serializer
 
   def verified_account
     object.user.verified_account
-  end  
+  end
 
   def group_id
     return object.group_id

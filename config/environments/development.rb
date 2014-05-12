@@ -1,34 +1,13 @@
 Knoda::Application.configure do
-  # Settings specified here will take precedence over those in config/application.rb.
-
-  # In the development environment your application's code is reloaded on
-  # every request. This slows down response time but is perfect for development
-  # since you don't have to restart the web server when you make code changes.
   config.cache_classes = false
-
-  # Do not eager load code on boot.
   config.eager_load = false
-
-  # Show full error reports and disable caching.
   config.consider_all_requests_local       = true
   config.action_controller.perform_caching = false
-
-  # Don't care if the mailer can't send.
   config.action_mailer.raise_delivery_errors = false
-
-  # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
-
-  # Raise an error on page load if there are pending migrations
   config.active_record.migration_error = :page_load
-
-  # Debug mode disables concatenation and preprocessing of assets.
-  # This option may cause significant delays in view rendering with a large
-  # number of complex assets.
   config.assets.debug = true
-
   config.action_mailer.default_url_options = config.action_mailer.default_url_options = { :host => (ENV['HOST'] || "localhost:3001") }
-
   config.reports_mailer_from = "support@knoda.com"
   config.reports_mailer_to = "support@knoda.com"
   config.apns_certificate = "#{Rails.root}/certs/certificate_development.pem"
@@ -37,4 +16,7 @@ Knoda::Application.configure do
   config.log_level = :debug
   config.twilio = { :sid => "ACcd2389b24d750e7683dff84a092fe71d", :token => "de4f659da42c1d8a9c6ff6302286b050", :from => "+15005550006" }
   config.knoda_web_url = "http://localhost:3001"
+  Sidekiq.configure_client do |config|
+    config.redis = { size: 1, namespace: 'sidekiq-knoda' }
+  end
 end

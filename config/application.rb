@@ -20,7 +20,9 @@ module Knoda
 	  config.versioncake.supported_version_numbers = [1,2,3]
 	  config.versioncake.extraction_strategy = [:query_parameter, :http_accept_parameter]
 	  config.versioncake.default_version = 1
-	  config.minimum_version = 1    
+	  config.minimum_version = 1
     config.paths['db/migrate'] = KnodaCore::Engine.paths['db/migrate'].existent
+    config.twitter_key = "14fSb3CT7EEQkoryO8RNx7BrG"
+    config.twitter_secret = "6Z5OGzxLL9NqVEpAbLs9FFd2PyLm6pd7j5r98IZr5e0HRr73bo"
   end
 end
