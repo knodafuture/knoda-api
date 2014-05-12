@@ -24,6 +24,5 @@ module Knoda
     config.paths['db/migrate'] = KnodaCore::Engine.paths['db/migrate'].existent
     config.twitter_key = "14fSb3CT7EEQkoryO8RNx7BrG"
     config.twitter_secret = "6Z5OGzxLL9NqVEpAbLs9FFd2PyLm6pd7j5r98IZr5e0HRr73bo"
-    config.asset_host = ENV['ASSET_HOST']
   end
 end
