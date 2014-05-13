@@ -29,9 +29,9 @@ class Api::SessionsController < Devise::SessionsController
         puts params[:login]
         self.resource = User.where("lower(username) = ? OR lower(email) = ?", params[:login].downcase, params[:login].downcase).first()
         puts self.resource
-        if not self.resource.valid_password?(params[:password]) 
+        if not self.resource or not self.resource.valid_password?(params[:password])
           authentication_failure()
-          return 
+          return
         end
       end
     end
@@ -40,7 +40,7 @@ class Api::SessionsController < Devise::SessionsController
       resource.reset_authentication_token!
       resource.save!
     end
-    
+
     render json: { success: true,
       auth_token: resource.authentication_token,
       user_id: resource.id,
@@ -56,7 +56,7 @@ class Api::SessionsController < Devise::SessionsController
     sign_out(resource_name)
     render :json => {success: true}, :status => :ok
   end
-  
+
   def authentication_failure
     render json: {success: false}, status: :forbidden
   end
