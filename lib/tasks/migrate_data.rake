@@ -13,4 +13,14 @@ namespace :migrate_data do
       PredictionClose.new.async.perform(p.id)
     end
   end
+
+  task missing_prediction_images: :environment do
+    Sidekiq.configure_client do |config|
+      config.redis = { size: 1, :namespace => 'sidekiq-knoda' }
+    end
+    predictions = Prediction.where(:shareable_image_updated_at => nil).order('created_at desc').limit(100)
+    predictions.each do |p|
+      PredictionImageWorker.perform_async(p.id)
+    end
+  end
 end
