@@ -20,7 +20,6 @@
 /*.sassc
 /.sass-cache
 /tmp
-/config/database.yml
 /config/environments/test.rb
 /config/deploy/development.rb
 /config/deploy/staging.rb
