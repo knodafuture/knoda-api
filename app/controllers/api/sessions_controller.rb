@@ -1,4 +1,5 @@
 class Api::SessionsController < Devise::SessionsController
+  before_filter :check_removed_api
   before_action :update_sanitized_params, if: :devise_controller?
   skip_before_filter :verify_authenticity_token
   skip_before_filter :authenticate_user_please!, only: [:create, :authentication_failure]
@@ -117,7 +118,7 @@ class Api::SessionsController < Devise::SessionsController
       access_token: params[:access_token],
       email: facebookUser["email"],
       username: facebookUser["first_name"] + facebookUser["last_name"],
-      image: "http://graph.facebook.com/#{params[:provider_id]}/picture",
+      image: "http://graph.facebook.com/#{params[:provider_id]}/picture?width=344&height=344",
       provider_account_name: facebookUser["email"]
       })
 
@@ -125,5 +126,14 @@ class Api::SessionsController < Devise::SessionsController
 
   def update_sanitized_params
     devise_parameter_sanitizer.for(:create) {|u| u.permit(:name, :email, :password, :provider, :providerId, :access_token, :access_token_secret)}
+  end
+
+  def check_removed_api
+    puts "i am really checking the api version"
+    puts derived_version
+    mv = Rails.application.config.minimum_version
+    if derived_version < Rails.application.config.minimum_version
+      render json: {error: "Version not supported, mimimum version is #{mv}"}, status: :gone
+    end
   end
 end
