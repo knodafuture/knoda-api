@@ -118,7 +118,7 @@ class Api::SessionsController < Devise::SessionsController
       access_token: params[:access_token],
       email: facebookUser["email"],
       username: facebookUser["first_name"] + facebookUser["last_name"],
-      image: "http://graph.facebook.com/#{params[:provider_id]}/picture",
+      image: "http://graph.facebook.com/#{params[:provider_id]}/picture?width=344&height=344",
       provider_account_name: facebookUser["email"]
       })
 
