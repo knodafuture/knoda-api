@@ -11,25 +11,25 @@ class Api::SocialAccountsController < ApplicationController
     elsif provider == "facebook"
       @social_account = create_facebook_account()
     end
-      
+
     unless @social_account
       return
     end
     respond_with(@social_account)
   end
-  
+
   def update
     authorize_action_for(@social_account)
     p = social_account_update_params
-    @social_account.update(p)
+    @social_account.update!(p)
     render json: @social_account
   end
-  
+
   def show
     authorize_action_for(@social_account)
-    respond_with(@social_account)   
+    respond_with(@social_account)
   end
-  
+
   def destroy
     authorize_action_for(@social_account)
     @social_account.destroy
