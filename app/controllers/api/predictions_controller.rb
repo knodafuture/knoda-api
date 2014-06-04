@@ -2,10 +2,10 @@ class Api::PredictionsController < ApplicationController
   skip_before_filter :verify_authenticity_token
   before_action :set_prediction, :except => [:index, :create]
   after_action :after_close, only: [:realize, :unrealize]
-
+  skip_before_filter :authenticate_user_please!, only: [:index]
   respond_to :json
 
-  authorize_actions_for Prediction, :only => [:index, :create, :show]
+  authorize_actions_for Prediction, :only => [:create, :show]
 
   def index
     if params[:challenged]
@@ -23,10 +23,15 @@ class Api::PredictionsController < ApplicationController
       @predictions = Prediction.includes(:challenges, :comments).where(:id => predictionIds).to_a.sort!{|p1,p2| challengeHash[p1.id] <=> challengeHash[p2.id] }
       respond_with(@predictions, each_serializer: PredictionFeedSerializerV2, root: false)
     else
+      current_user_id = nil
+      if current_user
+        current_user_id = current_user.id
+      end
+
       if params[:tag]
-        @predictions = Prediction.includes(:challenges, :comments).recent.latest.visible_to_user(current_user.id).where("'#{params[:tag]}' = ANY (tags)")
+        @predictions = Prediction.includes(:challenges, :comments).recent.latest.visible_to_user(current_user_id).where("'#{params[:tag]}' = ANY (tags)")
       elsif params[:recent]
-        @predictions = Prediction.includes(:challenges, :comments).recent.latest.visible_to_user(current_user.id)
+        @predictions = Prediction.includes(:challenges, :comments).recent.latest.visible_to_user(current_user_id)
       else
         @predictions = current_user.predictions
       end

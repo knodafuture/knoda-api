@@ -1,6 +1,6 @@
 GIT
   remote: https://knoda-build:Xtra5efeKn0dafuture@github.com/knodafuture/knoda_core.git
-  revision: f410807db78d5c1adfeb89aca2e74c1b6e877adf
+  revision: 9ae61848778ccd85ef400fbdd7916968aaae3437
   branch: master
   specs:
     knoda_core (0.0.1)
@@ -312,7 +312,7 @@ DEPENDENCIES
   rails (= 4.1.0)
   rails_12factor (= 0.0.2)
   rspec-rails (~> 2.12)
-  searchkick (~> 0.7.1)
+  searchkick (~> 0.7.6)
   sidekiq (= 3.0.2)
   simplecov (= 0.7.1)
   twitter
