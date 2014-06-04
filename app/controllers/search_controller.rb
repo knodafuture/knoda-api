@@ -19,7 +19,7 @@ class Api::SearchController < ApplicationController
   def predictions
     limit = param_limit || 50
     @predictions = []
-    @searchResults = Prediction.search params[:q], [ {body: :word, tags: :word}], page: param_offset.to_i.fdiv(limit.to_i), per_page: limit, misspellings: {distance:2}, partial: true, boost: "challenge_count"
+    @searchResults = Prediction.search params[:q], fields: [ {body: :word}, {tags: :word}], page: param_offset.to_i.fdiv(limit.to_i), per_page: limit, misspellings: {distance:2}, partial: true, boost: "challenge_count"
     @searchResults.each do |p|
       m = p.to_model
       if !m.group_id or current_user.memberships.pluck(:group_id).include?(m.group_id)
