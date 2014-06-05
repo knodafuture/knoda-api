@@ -99,7 +99,8 @@ class Api::SessionsController < Devise::SessionsController
         access_token_secret: params[:access_token_secret],
         username: username,
         image: twitterUser.profile_image_url,
-        provider_account_name: username
+        provider_account_name: username,
+        signup_source: get_signup_source
       })
   end
 
@@ -119,7 +120,8 @@ class Api::SessionsController < Devise::SessionsController
       email: facebookUser["email"],
       username: facebookUser["first_name"] + facebookUser["last_name"],
       image: "http://graph.facebook.com/#{params[:provider_id]}/picture?width=344&height=344",
-      provider_account_name: facebookUser["email"]
+      provider_account_name: facebookUser["email"],
+      signup_source: get_signup_source()
       })
 
   end
@@ -136,4 +138,14 @@ class Api::SessionsController < Devise::SessionsController
       render json: {error: "Version not supported, mimimum version is #{mv}"}, status: :gone
     end
   end
+
+  def get_signup_source
+    if request.headers['HTTP_USER_AGENT'].include? "Android"
+      return "ANDROID"
+    end
+    if request .headers['HTTP_USER_AGENT'].include? "CFNetwork"
+      return "IOS"
+    end
+  end
+
 end
