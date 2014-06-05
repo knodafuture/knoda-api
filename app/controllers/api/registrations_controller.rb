@@ -4,11 +4,6 @@ class Api::RegistrationsController < Devise::RegistrationsController
   skip_before_filter :require_no_authentication, only: [:create]
 
   def create
-    puts "qwerty2"
-    puts request.headers
-    request.headers.each do |h|
-      puts h
-    end
     build_resource(sign_up_params)
     if request.headers['HTTP_USER_AGENT'].include? "Android"
       @user.signup_source = "ANDROID"
