@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140604214107) do
+ActiveRecord::Schema.define(version: 20140605211636) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -137,14 +137,17 @@ ActiveRecord::Schema.define(version: 20140604214107) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "closed_at"
-    t.boolean  "is_closed",        default: false
+    t.boolean  "is_closed",                    default: false
     t.datetime "push_notified_at"
     t.string   "short_url"
-    t.datetime "resolutionDate"
-    t.datetime "resolution_date",                  null: false
+    t.datetime "resolution_date",                              null: false
     t.datetime "activity_sent_at"
-    t.string   "tags",             default: [],                 array: true
+    t.string   "tags",                         default: [],                 array: true
     t.integer  "group_id"
+    t.string   "shareable_image_file_name"
+    t.string   "shareable_image_content_type"
+    t.integer  "shareable_image_file_size"
+    t.datetime "shareable_image_updated_at"
   end
 
   add_index "predictions", ["group_id"], name: "index_predictions_on_group_id", using: :btree
@@ -183,6 +186,14 @@ ActiveRecord::Schema.define(version: 20140604214107) do
 
   add_index "topics", ["name"], name: "index_topics_on_name", unique: true, using: :btree
 
+  create_table "user_events", force: true do |t|
+    t.integer  "user_id"
+    t.string   "name",       null: false
+    t.string   "platform"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "users", force: true do |t|
     t.string   "email",                  default: ""
     t.string   "encrypted_password",     default: "",    null: false
@@ -207,10 +218,8 @@ ActiveRecord::Schema.define(version: 20140604214107) do
     t.integer  "points",                 default: 0
     t.integer  "streak",                 default: 0
     t.boolean  "verified_account",       default: false
-    t.string   "signup_source"
   end
 
-  add_index "users", ["authentication_token"], name: "index_users_on_authentication_token", using: :btree
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   add_index "users", ["username"], name: "index_users_on_username", unique: true, using: :btree

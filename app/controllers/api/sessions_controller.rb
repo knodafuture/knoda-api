@@ -100,7 +100,7 @@ class Api::SessionsController < Devise::SessionsController
         username: username,
         image: twitterUser.profile_image_url,
         provider_account_name: username,
-        signup_source: get_signup_source
+        signup_source: get_signup_source()
       })
   end
 
@@ -140,10 +140,10 @@ class Api::SessionsController < Devise::SessionsController
   end
 
   def get_signup_source
-    if request.headers['HTTP_USER_AGENT'].include? "Android"
+    if request.headers['HTTP_USER_AGENT'] and request.headers['HTTP_USER_AGENT'].include? "Android"
       return "ANDROID"
     end
-    if request .headers['HTTP_USER_AGENT'].include? "CFNetwork"
+    if request.headers['HTTP_USER_AGENT'] and request .headers['HTTP_USER_AGENT'].include? "CFNetwork"
       return "IOS"
     end
   end
