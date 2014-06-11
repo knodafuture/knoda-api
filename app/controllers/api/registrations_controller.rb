@@ -2,10 +2,11 @@ class Api::RegistrationsController < Devise::RegistrationsController
   skip_before_filter :verify_authenticity_token
   skip_before_filter :authenticate_user_please!, :only => [:create]
   skip_before_filter :require_no_authentication, only: [:create]
-  
+
   def create
     build_resource(sign_up_params)
     if resource.save
+      UserEvent.new(:user_id => @user.id, :name => 'SIGNUP', :platform => get_signup_source()).save
       set_flash_message :notice, :signed_up if is_navigational_format?
       sign_up(resource_name, resource)
       sign_in(resource_name, resource)
@@ -18,11 +19,22 @@ class Api::RegistrationsController < Devise::RegistrationsController
     end
   end
 
+  private
+
   def sign_up_params
     if derived_version < 2
       super
     else
       return params.permit(:username, :email, :password)
+    end
+  end
+
+  def get_signup_source
+    if request.headers['HTTP_USER_AGENT'] and request.headers['HTTP_USER_AGENT'].include? "Android"
+      return "ANDROID"
+    end
+    if request.headers['HTTP_USER_AGENT'] and request .headers['HTTP_USER_AGENT'].include? "CFNetwork"
+      return "IOS"
     end
   end
 end
