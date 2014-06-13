@@ -42,18 +42,18 @@ Knoda::Application.routes.draw do
         get 'available'
       end
     end
-    resources :users,         :only => [:show] do
+    resources :users,         :only => [:show, :update] do
       member do
         get 'predictions'
       end
       collection do
         get 'autocomplete'
-      end      
+      end
     end
-    
+
     resource  :profile,       :only => [:show, :update]
     resource  :password,      :only => [:create, :update]
-    
+
     resources :apple_device_tokens, :only => [:index, :show, :create, :destroy]
     resources :android_device_tokens, :only => [:index, :show, :create, :destroy]
 
@@ -62,7 +62,7 @@ Knoda::Application.routes.draw do
       collection do
         post 'seen'
       end
-    end  
+    end
     resources :groups do
       member do
         get 'leaderboard'
@@ -78,7 +78,7 @@ Knoda::Application.routes.draw do
     resources :facebook
   end
 
-  #get 'users/password/edit' => redirect {|params,request| 
+  #get 'users/password/edit' => redirect {|params,request|
   #  puts params
   #  puts request
   #  puts "#{Rails.application.config.knoda_web_url}/users/password/edit?reset_password_token=#{params[:reset_password_token]}"
