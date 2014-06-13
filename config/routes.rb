@@ -76,6 +76,7 @@ Knoda::Application.routes.draw do
     resources :social_accounts, :only => [:create, :update, :show, :destroy]
     resources :twitter
     resources :facebook
+    resources :notification_settings, :only => [:update]
   end
 
   #get 'users/password/edit' => redirect {|params,request|

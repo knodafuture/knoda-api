@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140613170309) do
+ActiveRecord::Schema.define(version: 20140616083316) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -131,8 +131,10 @@ ActiveRecord::Schema.define(version: 20140613170309) do
 
   create_table "notification_settings", force: true do |t|
     t.integer  "user_id"
-    t.string   "setting",                   null: false
-    t.boolean  "active",     default: true
+    t.string   "setting",                     null: false
+    t.string   "display_name",                null: false
+    t.string   "description",                 null: false
+    t.boolean  "active",       default: true
     t.datetime "created_at"
     t.datetime "updated_at"
   end

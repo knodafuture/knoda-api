@@ -1,20 +1,17 @@
 class Api::ProfilesController < ApplicationController
-  skip_before_filter :verify_authenticity_token  
+  skip_before_filter :verify_authenticity_token
   respond_to :json
 
   def show
     respond_with current_user
   end
-  
+
   def update
     if derived_version >= 2
       p = user_params_v2
     else
       p = user_params
     end
-    #if p[:email]
-    #  p[:email] = CGI::unescape(p[:email])
-    #end
     respond_to do |format|
       if current_user.update(p)
         format.json { render json: current_user, status: 200 }
