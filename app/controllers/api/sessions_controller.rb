@@ -22,14 +22,11 @@ class Api::SessionsController < Devise::SessionsController
           if self.resource.errors.include?(:email)
             self.resource.errors.add(:user_facing, "This email address is already registered. If you own this account, please login and connect to Facebook or Twitter in your profile.")
           end
-          puts self.resource.errors.to_json
           respond_with self.resource
           return
         end
       else
-        puts params[:login]
         self.resource = User.where("lower(username) = ? OR lower(email) = ?", params[:login].downcase, params[:login].downcase).first()
-        puts self.resource
         if not self.resource or not self.resource.valid_password?(params[:password])
           authentication_failure()
           return
@@ -86,7 +83,6 @@ class Api::SessionsController < Devise::SessionsController
     begin
       twitterUser = client.verify_credentials(:skip_status => 1)
     rescue Exception => e
-      puts e.to_json
       social_authentication_failure("Twitter", e.cause, e.code)
       return
     end

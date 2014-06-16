@@ -42,7 +42,7 @@ Knoda::Application.routes.draw do
         get 'available'
       end
     end
-    resources :users,         :only => [:show, :update] do
+    resources :users,         :only => [:show, :update, :create] do
       member do
         get 'predictions'
       end

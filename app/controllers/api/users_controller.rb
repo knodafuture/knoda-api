@@ -1,7 +1,7 @@
 class Api::UsersController < ApplicationController
   skip_before_filter :verify_authenticity_token
   before_action :set_user, :only => [:show, :predictions, :update]
-  skip_before_filter :authenticate_user_please!, :only => [:show, :predictions]
+  skip_before_filter :authenticate_user_please!, :only => [:show, :predictions, :create]
 
   respond_to :json
 
@@ -40,6 +40,27 @@ class Api::UsersController < ApplicationController
     end
   end
 
+  def create
+    u = user_create_params
+    if not u[:password]
+      u[:password] = Devise.friendly_token[0,6]
+    end
+    if not u[:username]
+      u[:username] = "GuestTemp#{rand(100000)}"
+    end
+    u[:guest_mode] = true
+    u[:email] = nil
+    @user = User.create!(u)
+    @user.username = "Guest#{@user.id}"
+    if @user.avatar.blank?
+      av = (1 + rand(5))
+      p = Rails.root.join('app', 'assets', 'images', 'avatars', "avatar_#{av}@2x.png")
+      @user.avatar_from_path p
+    end
+    @user.save!
+    render json: @user, status: 201
+  end
+
   private
     def set_user
       @user = User.find(params[:id])
@@ -47,5 +68,9 @@ class Api::UsersController < ApplicationController
 
     def user_update_params
       return params.permit(:username, :email, :password)
+    end
+
+    def user_create_params
+      {}
     end
 end
