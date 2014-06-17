@@ -3,6 +3,10 @@ class Api::NotificationSettingsController < ApplicationController
   respond_to :json
   before_action :set_notification_setting, only: [:update]
 
+  def index
+    render json: current_user.notification_settings, status: 200, root: false
+  end
+
   def update
     authorize_action_for(@notificationSetting)
     @notificationSetting.update(update_params)

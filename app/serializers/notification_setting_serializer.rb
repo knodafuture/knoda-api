@@ -1,4 +1,4 @@
 class NotificationSettingSerializer < ActiveModel::Serializer
   attributes :id, :setting, :display_name, :description, :active
-  self.root = false
+  self.root = true
 end
