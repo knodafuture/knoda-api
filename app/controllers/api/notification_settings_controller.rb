@@ -10,7 +10,7 @@ class Api::NotificationSettingsController < ApplicationController
   def update
     authorize_action_for(@notificationSetting)
     @notificationSetting.update(update_params)
-    render json: @notificationSetting, status: 200
+    render json: @notificationSetting, status: 200, root: false
   end
 
   private
