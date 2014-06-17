@@ -5,18 +5,11 @@ class Api::RegistrationsController < Devise::RegistrationsController
 
   def create
     if current_user
-      resource = @current_user
-      resource.guest_mode = false
-      if resource.update(sign_up_params)
-        return render :json => {:success => true, :auth_token => current_user.authentication_token}
-      else
-        clean_up_passwords resource
-        return render :json => {:success => false, :errors => resource.errors}, :status => 400
-      end
+      return convert_to_named_user
     else
       build_resource(sign_up_params)
       if resource.save
-        UserEvent.new(:user_id => @user.id, :name => 'SIGNUP', :platform => get_signup_source()).save
+        UserEvent.new(:user_id => resource.id, :name => 'SIGNUP', :platform => get_signup_source()).save
         set_flash_message :notice, :signed_up if is_navigational_format?
         sign_up(resource_name, resource)
         sign_in(resource_name, resource)
@@ -46,6 +39,18 @@ class Api::RegistrationsController < Devise::RegistrationsController
     end
     if request.headers['HTTP_USER_AGENT'] and request .headers['HTTP_USER_AGENT'].include? "CFNetwork"
       return "IOS"
+    end
+  end
+
+  def convert_to_named_user
+    resource = current_user
+    resource.guest_mode = false
+    if resource.update(sign_up_params)
+      UserEvent.new(:user_id => resource.id, :name => 'CONVERT', :platform => get_signup_source()).save
+      return render :json => {:success => true, :auth_token => resource.authentication_token}
+    else
+      clean_up_passwords resource
+      return render :json => {:success => false, :errors => resource.errors}, :status => 400
     end
   end
 end

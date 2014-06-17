@@ -57,8 +57,11 @@ class Api::UsersController < ApplicationController
       p = Rails.root.join('app', 'assets', 'images', 'avatars', "avatar_#{av}@2x.png")
       @user.avatar_from_path p
     end
+    if @user.authentication_token.nil?
+      @user.reset_authentication_token!
+    end
     @user.save!
-    render json: @user, status: 201
+    return render :json => {:success => true, :auth_token => @user.authentication_token}, :status => 201
   end
 
   private
