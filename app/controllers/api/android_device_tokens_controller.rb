@@ -1,22 +1,22 @@
 class Api::AndroidDeviceTokensController < ApplicationController
-  skip_before_filter :verify_authenticity_token  
+  skip_before_filter :verify_authenticity_token
   respond_to :json
-  
+
   authorize_actions_for AndroidDeviceToken, :only => ['index', 'create', 'show']
-  
-  def index    
+
+  def index
     respond_with(current_user.android_device_tokens)
   end
-  
+
   def show
     respond_with(current_user.android_device_tokens.find(params[:id]))
   end
-  
-  def create  
-    @token = AndroidDeviceToken.find_or_initialize_by_token(required_params[:token])
+
+  def create
+    @token = AndroidDeviceToken.find_or_initialize_by(:token => required_params[:token])
     @token.user = current_user
     @token.save
-    respond_with(@token, location: nil) 
+    respond_with(@token, location: nil)
   end
 
   def destroy
@@ -27,9 +27,9 @@ class Api::AndroidDeviceTokensController < ApplicationController
       format.any { head :no_content }
     end
   end
-  
+
   private
-  
+
   def required_params
     params.permit(:token)
   end

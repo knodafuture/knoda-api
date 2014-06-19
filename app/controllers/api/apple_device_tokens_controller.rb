@@ -1,19 +1,19 @@
 class Api::AppleDeviceTokensController < ApplicationController
-  skip_before_filter :verify_authenticity_token  
+  skip_before_filter :verify_authenticity_token
   respond_to :json
-  
+
   authorize_actions_for AppleDeviceToken, :only => ['index', 'create', 'show']
-  
-  def index    
+
+  def index
     respond_with(current_user.apple_device_tokens)
   end
-  
+
   def show
     respond_with(current_user.apple_device_tokens.find(params[:id]))
   end
-  
-  def create  
-    @token = AppleDeviceToken.find_or_initialize_by_token(required_params[:token])
+
+  def create
+    @token = AppleDeviceToken.find_or_initialize_by(:token => required_params[:token])
     @token.user = current_user
 
     if required_params[:sandbox] == "true"
@@ -21,7 +21,7 @@ class Api::AppleDeviceTokensController < ApplicationController
     end
 
     @token.save
-    respond_with(@token, location: nil) 
+    respond_with(@token, location: nil)
   end
 
   def destroy
@@ -35,9 +35,9 @@ class Api::AppleDeviceTokensController < ApplicationController
       format.any { head :no_content }
     end
   end
-  
+
   private
-  
+
   def required_params
     params.require(:apple_device_token).permit(:token, :sandbox)
   end
