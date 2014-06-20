@@ -22,14 +22,11 @@ class Api::SessionsController < Devise::SessionsController
           if self.resource.errors.include?(:email)
             self.resource.errors.add(:user_facing, "This email address is already registered. If you own this account, please login and connect to Facebook or Twitter in your profile.")
           end
-          puts self.resource.errors.to_json
           respond_with self.resource
           return
         end
       else
-        puts params[:login]
         self.resource = User.where("lower(username) = ? OR lower(email) = ?", params[:login].downcase, params[:login].downcase).first()
-        puts self.resource
         if not self.resource or not self.resource.valid_password?(params[:password])
           authentication_failure()
           return
@@ -41,7 +38,6 @@ class Api::SessionsController < Devise::SessionsController
       resource.reset_authentication_token!
       resource.save!
     end
-
     render json: { success: true,
       auth_token: resource.authentication_token,
       user_id: resource.id,
@@ -68,7 +64,6 @@ class Api::SessionsController < Devise::SessionsController
 
   def social_sign_in
     provider = params[:provider_name]
-
     if provider == 'twitter'
       return twitter_sign_in()
     elsif provider == 'facebook'
@@ -86,22 +81,24 @@ class Api::SessionsController < Devise::SessionsController
     begin
       twitterUser = client.verify_credentials(:skip_status => 1)
     rescue Exception => e
-      puts e.to_json
       social_authentication_failure("Twitter", e.cause, e.code)
       return
     end
     username = twitterUser.screen_name.dup
-    return User.find_or_create_from_social(
-      {
-        provider_name: params[:provider_name],
-        provider_id: params[:provider_id],
-        access_token: params[:access_token],
-        access_token_secret: params[:access_token_secret],
-        username: username,
-        image: twitterUser.profile_image_url,
-        provider_account_name: username,
-        signup_source: get_signup_source()
-      })
+    social_params = {
+      provider_name: params[:provider_name],
+      provider_id: params[:provider_id],
+      access_token: params[:access_token],
+      access_token_secret: params[:access_token_secret],
+      username: username,
+      image: twitterUser.profile_image_url,
+      provider_account_name: username,
+      signup_source: get_signup_source()
+    }
+    if current_user
+      social_params[:current_user] = current_user
+    end
+    return User.find_or_create_from_social(social_params)
   end
 
   def facebook_sign_in
@@ -112,8 +109,7 @@ class Api::SessionsController < Devise::SessionsController
       social_authentication_failure("Facebook", e.fb_error_message, e.fb_error_code)
       return
     end
-    return User.find_or_create_from_social(
-    {
+    social_params = {
       provider_name: params[:provider_name],
       provider_id: params[:provider_id],
       access_token: params[:access_token],
@@ -122,8 +118,11 @@ class Api::SessionsController < Devise::SessionsController
       image: "http://graph.facebook.com/#{params[:provider_id]}/picture?width=344&height=344",
       provider_account_name: facebookUser["email"],
       signup_source: get_signup_source()
-      })
-
+    }
+    if current_user
+      social_params[:current_user] = current_user
+    end
+    return User.find_or_create_from_social(social_params)
   end
 
   def update_sanitized_params
@@ -131,8 +130,6 @@ class Api::SessionsController < Devise::SessionsController
   end
 
   def check_removed_api
-    puts "i am really checking the api version"
-    puts derived_version
     mv = Rails.application.config.minimum_version
     if derived_version < Rails.application.config.minimum_version
       render json: {error: "Version not supported, mimimum version is #{mv}"}, status: :gone

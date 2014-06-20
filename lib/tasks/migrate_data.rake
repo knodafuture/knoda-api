@@ -23,4 +23,13 @@ namespace :migrate_data do
       PredictionImageWorker.perform_async(p.id)
     end
   end
+
+  task missing_notification_settings: :environment do
+      users = User.all
+      users.each do |user|
+        if user.notification_settings.count == 0
+          user.update_notification_settings
+        end
+      end
+  end
 end

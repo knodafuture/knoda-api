@@ -1,6 +1,8 @@
 class Api::SearchController < ApplicationController
   skip_before_filter :verify_authenticity_token
   respond_to :json
+  skip_before_filter :authenticate_user_please!
+
 
   def users
     limit = param_limit || 5
