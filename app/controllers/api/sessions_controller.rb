@@ -84,6 +84,9 @@ class Api::SessionsController < Devise::SessionsController
       social_authentication_failure("Twitter", e.cause, e.code)
       return
     end
+    if twitterUser.profile_image_url
+      twitterUser.profile_image_url.sub! "_normal", "_bigger"
+    end
     username = twitterUser.screen_name.dup
     social_params = {
       provider_name: params[:provider_name],
