@@ -55,7 +55,7 @@ class Api::SocialAccountsController < ApplicationController
       return
     end
     username = twitterUser.screen_name.dup
-    return current_user.social_accounts.create(
+    return current_user.social_accounts.create!(
       {
         provider_name: params[:provider_name],
         provider_id: params[:provider_id],
@@ -73,7 +73,7 @@ class Api::SocialAccountsController < ApplicationController
       account_creation_error("Facebook", e.fb_error_message, e.fb_error_code)
       return
     end
-    return current_user.social_accounts.create(
+    return current_user.social_accounts.create!(
     {
       provider_name: params[:provider_name],
       provider_id: params[:provider_id],
