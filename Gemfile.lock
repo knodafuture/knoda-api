@@ -1,6 +1,6 @@
 GIT
   remote: https://knoda-build:Xtra5efeKn0dafuture@github.com/knodafuture/knoda_core.git
-  revision: bc3089c8fbec6a24d323419b099287e0903f4ccf
+  revision: 3b1318cd6c4160ee94e69b2f0ed4888ddb3fa88a
   branch: develop
   specs:
     knoda_core (0.0.1)
@@ -205,9 +205,9 @@ GEM
       thor (>= 0.18.1, < 2.0)
     raindrops (0.13.0)
     rake (10.3.2)
-    redis (3.0.7)
-    redis-namespace (1.4.1)
-      redis (~> 3.0.4)
+    redis (3.1.0)
+    redis-namespace (1.5.0)
+      redis (~> 3.0, >= 3.0.4)
     render_anywhere (0.0.8)
       rails (>= 3.0.7)
     rspec-collection_matchers (1.0.0)
@@ -225,7 +225,7 @@ GEM
       rspec-core (~> 2.99.0)
       rspec-expectations (~> 2.99.0)
       rspec-mocks (~> 2.99.0)
-    searchkick (0.7.7)
+    searchkick (0.7.8)
       activemodel
       elasticsearch (~> 0.4.11)
       hashie
