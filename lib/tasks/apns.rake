@@ -23,8 +23,8 @@ namespace :apns do
               alert:             "Showtime! Your prediction has expired, settle it.",
               badge:             p.user.alerts_count,
               custom: {
-                "id": p.id,
-                "type": 'p'
+                :id => p.id,
+                :type => 'p'
               }
             )
             pusher.push(notification)
