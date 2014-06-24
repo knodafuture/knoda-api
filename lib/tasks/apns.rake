@@ -30,7 +30,7 @@ namespace :apns do
             pusher.push(notification)
           end
           if p.user.android_device_tokens.size > 0
-            response = gcm.send_notification(p.user.android_device_tokens.pluck(:token), {data: {alert: "You have predictions ready for resolution", id: p.id, type: 'p'}, collapse_key: "expired_predictions"});
+            response = gcm.send_notification(p.user.android_device_tokens.pluck(:token), {data: {alert: "You have predictions ready for resolution", id: p.id, type: 'p'}}, collapse_key: "expired_predictions"});
           end
         end
         p.user.predictions.expired.unnotified.update_all(push_notified_at: DateTime.now)
