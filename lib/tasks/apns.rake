@@ -10,24 +10,29 @@ namespace :apns do
       )
       gcm = GCM.new("AIzaSyDSuv3FpA4NtTXJivbsfh28vixLn55DrlI")
 
-      predictions = Prediction.select("user_id, count(id) as total_predictions").
+      predictions = Prediction.select("id, user_id, count(id) as total_predictions").
           unnotified.
           readyForResolution.
           group("user_id").
+          group("id").
           order("user_id DESC")
       predictions.each do |p|
-        next unless p.user.notifications
-        p.user.apple_device_tokens.where(sandbox: Rails.application.config.apns_sandbox).each do |token|
-          notification = Grocer::Notification.new(
-            device_token:      token.token,
-            alert:             "You have predictions ready for resolution",
-            badge:             p.user.alerts_count
-          )
-          pusher.push(notification)   
-        end
-        if p.user.android_device_tokens.size > 0
-          response = gcm.send_notification(p.user.android_device_tokens.pluck(:token), {data: {alert: "You have predictions ready for resolution"}, collapse_key: "expired_predictions"});
-          puts response
+        if p.user.notification_settings.where(:setting => 'PUSH_EXPIRED').first.active == true
+          p.user.apple_device_tokens.where(sandbox: Rails.application.config.apns_sandbox).each do |token|
+            notification = Grocer::Notification.new(
+              device_token:      token.token,
+              alert:             "Showtime! Your prediction has expired, settle it.",
+              badge:             p.user.alerts_count,
+              custom: {
+                :id => p.id,
+                :type => 'p'
+              }
+            )
+            pusher.push(notification)
+          end
+          if p.user.android_device_tokens.size > 0
+            response = gcm.send_notification(p.user.android_device_tokens.pluck(:token), {data: {alert: "You have predictions ready for resolution", id: p.id, type: 'p'}, collapse_key: "expired_predictions"});
+          end
         end
         p.user.predictions.expired.unnotified.update_all(push_notified_at: DateTime.now)
       end
@@ -70,11 +75,11 @@ namespace :apns do
             #token = AppleDeviceToken.find_by_token(attempt.device_token)
             #if token && token.timestamp > token.created_at
             #     print("token #{token.token} unsubscribe\n")
-            #     token.delete			
+            #     token.delete
             #end
         end
     end
-    
+
     # Process failed notifications
     task process_failed: :environment do
        unless ENV['file']
