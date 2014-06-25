@@ -10,10 +10,11 @@ namespace :apns do
       )
       gcm = GCM.new("AIzaSyDSuv3FpA4NtTXJivbsfh28vixLn55DrlI")
 
-      predictions = Prediction.select("user_id, count(id) as total_predictions").
+      predictions = Prediction.select("id, user_id, count(id) as total_predictions").
           unnotified.
           readyForResolution.
           group("user_id").
+          group("id").
           order("user_id DESC")
       predictions.each do |p|
         if p.user.notification_settings.where(:setting => 'PUSH_EXPIRED').first.active == true
