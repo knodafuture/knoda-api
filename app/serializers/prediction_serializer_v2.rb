@@ -7,6 +7,7 @@ class PredictionSerializerV2 < ActiveModel::Serializer
   attributes :tags
   attributes :group_id, :group_name
   attributes :shareable_image
+  attributes :expired_text, :predicted_text
   self.root = false
 
   def settled
