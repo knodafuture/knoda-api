@@ -18,8 +18,12 @@ class ActivitySerializerV4 < ActiveModel::Serializer
     elsif object.activity_type == 'COMMENT' and object.comment_body
       return "<p><b>#{object.title}</b> <span class='comment_body'>\"#{object.comment_body}\"</span></p>"
     elsif object.activity_type == 'WON'
-      return "<p><b>#{object.title}</b> \"#{object.prediction_body}\"</p>"
+      title = object.title
+      title.gsub!("You Won", "<span class='won_text'>You Won</span>")
+      return "<p><b>#{title}</b> \"#{object.prediction_body}\"</p>"
     elsif object.activity_type == 'LOST'
+      title = object.title
+      title.gsub!("You Lost", "<span class='lost_text'>You Lost</span>")      
       return "<p><b>#{object.title}</b> \"#{object.prediction_body}\"</p>"
     else
       return "<p><b>#{object.title}</b> \"#{object.prediction_body}\"</p>"
