@@ -16,7 +16,7 @@ class ActivitySerializerV4 < ActiveModel::Serializer
     if object.activity_type == 'INVITATION'
       return "<p><b>#{object.invitation_sender} has invited you to join the group</b> \"#{object.invitation_group_name}\"</p>"
     elsif object.activity_type == 'COMMENT' and object.comment_body
-      return "<p><b>#{object.title}</b> \"#{object.comment_body}\"</p>"
+      return "<p><b>#{object.title}</b> <span class='comment_body'>\"#{object.comment_body}\"</span></p>"
     else
       return "<p><b>#{object.title}</b> \"#{object.prediction_body}\"</p>"
     end
