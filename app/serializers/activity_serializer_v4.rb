@@ -1,6 +1,6 @@
 class ActivitySerializerV4 < ActiveModel::Serializer
 
-  attributes :id, :user_id, :activity_type, :target, :text, :created_at, :seen
+  attributes :id, :user_id, :activity_type, :target, :text, :created_at, :seen, :image_url
 
   self.root = false
 
@@ -23,7 +23,7 @@ class ActivitySerializerV4 < ActiveModel::Serializer
       return "<p><b>#{title}</b> \"#{object.prediction_body}\"</p>"
     elsif object.activity_type == 'LOST'
       title = object.title
-      title.gsub!("You Lost", "<span class='lost_text'>You Lost</span>")      
+      title.gsub!("You Lost", "<span class='lost_text'>You Lost</span>")
       return "<p><b>#{object.title}</b> \"#{object.prediction_body}\"</p>"
     else
       return "<p><b>#{object.title}</b> \"#{object.prediction_body}\"</p>"
