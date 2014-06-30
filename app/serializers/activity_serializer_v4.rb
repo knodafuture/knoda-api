@@ -14,35 +14,35 @@ class ActivitySerializerV4 < ActiveModel::Serializer
 
   def text
     if object.activity_type == 'INVITATION'
-      return "<p><b>#{object.invitation_sender} has invited you to join the group</b> \"#{object.invitation_group_name}\"</p>"
+      return "#{object.invitation_sender} has invited you to join the group \"#{object.invitation_group_name}\""
     elsif object.activity_type == 'COMMENT' and object.comment_body
-      return "<p><b>#{object.title}</b> <span class='comment_body'>\"#{object.comment_body}\"</span></p>"
+      return "#{object.title} <span class='comment_body'>\"#{object.comment_body}\"</span>"
     elsif object.activity_type == 'WON'
       title = object.title
       title.gsub!("You Won", "<span class='won_text'>You Won</span>")
-      return "<p><b>#{title}</b> \"#{object.prediction_body}\"</p>"
+      return "#{title} \"#{object.prediction_body}\""
     elsif object.activity_type == 'LOST'
       title = object.title
       title.gsub!("You Lost", "<span class='lost_text'>You Lost</span>")
-      return "<p><b>#{object.title}</b> \"#{object.prediction_body}\"</p>"
+      return "#{object.title} \"#{object.prediction_body}\""
     else
-      return "<p><b>#{object.title}</b> \"#{object.prediction_body}\"</p>"
+      return "#{object.title} \"#{object.prediction_body}\""
     end
   end
 
   def title
     if object.activity_type == 'INVITATION'
-      return "<p><b>#{object.invitation_sender} has invited you to join the group</b> \"#{object.invitation_group_name}\"</p>"
+      return "#{object.invitation_sender} has invited you to join the group \"#{object.invitation_group_name}\""
     elsif object.activity_type == 'WON'
       title = object.title
       title.gsub!("You Won", "<span class='won_text'>You Won</span>")
-      return "<p><b>#{title}</b></p>"
+      return "#{title}"
     elsif object.activity_type == 'LOST'
       title = object.title
       title.gsub!("You Lost", "<span class='lost_text'>You Lost</span>")
-      return "<p><b>#{object.title}</b></p>"
+      return "#{object.title}"
     else
-      return "<p><b>#{object.title}</b></p>"
+      return "#{object.title}"
     end
   end
 
