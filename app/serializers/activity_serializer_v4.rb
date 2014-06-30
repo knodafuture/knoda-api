@@ -32,7 +32,7 @@ class ActivitySerializerV4 < ActiveModel::Serializer
 
   def title
     if object.activity_type == 'INVITATION'
-      return "#{object.invitation_sender} has invited you to join the group \"#{object.invitation_group_name}\""
+      return "Hey-O! #{object.invitation_sender} has invited you to join a group"
     elsif object.activity_type == 'WON'
       title = object.title
       title.gsub!("You Won", "<span class='won_text'>You Won</span>")
@@ -49,6 +49,8 @@ class ActivitySerializerV4 < ActiveModel::Serializer
   def body
     if object.activity_type == 'COMMENT'
       return object.comment_body
+    elsif object.activity_type = 'INVITATION'
+      return "Join \"#{object.invitation_group_name}\""
     else
       return object.prediction_body
     end
