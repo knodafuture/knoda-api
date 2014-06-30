@@ -49,7 +49,7 @@ class ActivitySerializerV4 < ActiveModel::Serializer
   def body
     if object.activity_type == 'COMMENT'
       return object.comment_body
-    elsif object.activity_type = 'INVITATION'
+    elsif object.activity_type == 'INVITATION'
       return "Join \"#{object.invitation_group_name}\""
     else
       return object.prediction_body
