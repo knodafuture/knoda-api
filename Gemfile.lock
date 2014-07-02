@@ -1,6 +1,6 @@
 GIT
   remote: https://knoda-build:Xtra5efeKn0dafuture@github.com/knodafuture/knoda_core.git
-  revision: eaf9cc1dfa1516f785dc928f6b8462ae5cd2632f
+  revision: 9e0ea00a745662e7d1c9486b74754c377f4e0417
   branch: master
   specs:
     knoda_core (0.0.1)
@@ -131,7 +131,7 @@ GEM
     mailchimp-api (2.0.5)
       excon (>= 0.16.0)
       json (>= 1.7.7)
-    mandrill-api (1.0.51)
+    mandrill-api (1.0.52)
       excon (>= 0.16.0, < 1.0)
       json (>= 1.7.7, < 2.0)
     mandrill_mailer (0.4.6)
@@ -225,7 +225,7 @@ GEM
       rspec-core (~> 2.99.0)
       rspec-expectations (~> 2.99.0)
       rspec-mocks (~> 2.99.0)
-    searchkick (0.7.8)
+    searchkick (0.7.9)
       activemodel
       elasticsearch (~> 0.4.11)
       hashie

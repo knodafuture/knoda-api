@@ -32,4 +32,52 @@ namespace :migrate_data do
         end
       end
   end
+
+  task activitiesv4: :environment do
+    # Comment Activities
+    Activity.where(:activity_type => 'COMMENT').where('comment_body is null').each do |a|
+      prediction = Prediction.find(a.prediction_id)
+      lastComment = Comment.where(:prediction_id => a.prediction_id).order('created_at desc').first
+      if prediction and lastComment
+        a.comment_body = lastComment.text
+        if lastComment.user.avatar_image
+          a.image_url = lastComment.user.avatar_image[:small]
+        end
+        if a.user_id == prediction.user_id
+          a.title = lastComment.notification_title(true)
+        else
+          a.title = lastComment.notification_title(false)
+        end
+        a.save!
+      end
+    end
+    #Group Invitations
+    Activity.where(:activity_type => 'INVITATION').where('image_url is null').each do |a|
+      invitation = Invitation.where(:code => a.invitation_code).first
+      if invitation.group.avatar_image
+        a.image_url = invitation.group.avatar_image[:small]
+      end
+      a.save!
+    end
+    #Expired Activities
+    Activity.where(:activity_type => 'EXPIRED').where(:title => 'Your prediction has expired. Please settle the outcome').update_all(:title => 'Showtime! Your prediction has expired, settle it.')
+    #Won activities
+    Activity.where(:activity_type => 'WON').where('image_url is null').find_each(:batch_size => 100) do |a|
+      challenge = Challenge.where(:prediction_id => a.prediction_id, :user_id => a.user_id).first
+      if challenge
+        a.title = challenge.notification_title
+        a.image_url = challenge.notification_image_url
+        a.save!
+      end
+    end
+    #Lost activities
+    Activity.where(:activity_type => 'LOST').where('image_url is null').find_each(:batch_size => 100) do |a|
+      challenge = Challenge.where(:prediction_id => a.prediction_id, :user_id => a.user_id).first
+      if challenge
+        a.title = challenge.notification_title
+        a.image_url = challenge.notification_image_url
+        a.save!
+      end
+    end
+  end
 end

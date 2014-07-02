@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140616083316) do
+ActiveRecord::Schema.define(version: 20140623203844) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -28,6 +28,7 @@ ActiveRecord::Schema.define(version: 20140616083316) do
     t.text     "invitation_code"
     t.text     "invitation_sender"
     t.text     "invitation_group_name"
+    t.text     "comment_body"
   end
 
   add_index "activities", ["user_id"], name: "index_activities_on_user_id", using: :btree
@@ -138,6 +139,8 @@ ActiveRecord::Schema.define(version: 20140616083316) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "notification_settings", ["user_id"], name: "index_notification_settings_on_user_id", using: :btree
 
   create_table "predictions", force: true do |t|
     t.integer  "user_id"

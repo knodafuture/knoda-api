@@ -5,16 +5,6 @@ Knoda::Application.configure do
   config.action_mailer.default_url_options = { :host => Rails.application.config.knoda_web_url }
   config.reports_mailer_from = "support@knoda.com"
   config.reports_mailer_to = "support@knoda.com"
-  config.paperclip_defaults = {
-    :storage => :s3,
-    :s3_credentials => {
-      :bucket => ENV['S3_BUCKET_NAME'],
-      :access_key_id => ENV['AWS_ACCESS_KEY_ID'],
-      :secret_access_key => ENV['AWS_SECRET_ACCESS_KEY']
-    }
-  }
-  Paperclip::Attachment.default_options[:url] = ':s3_domain_url'
-  Paperclip::Attachment.default_options[:path] = '/:class/:attachment/:id_partition/:style/:filename'
   if ENV['APNS_PEM']
     config.apns_certificate = "#{Rails.root}/certs/#{ENV['APNS_PEM']}"
   else

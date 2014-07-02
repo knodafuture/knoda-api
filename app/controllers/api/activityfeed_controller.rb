@@ -3,18 +3,13 @@ class Api::ActivityfeedController < ApplicationController
   respond_to :json
 
   def index
-    puts current_user.predictions.readyForResolution.size
-    current_user.predictions.readyForResolution.notAlerted.each do |p|
-      p.update(activity_sent_at: DateTime.now)
-      current_user.activities.create!(user: current_user, prediction_id: p.id, title: "Your prediction has expired. Please settle the outcome", prediction_body: p.body, activity_type: "EXPIRED");
-    end
-
+    create_expired_activities()
     if derived_version < 3
       case (params[:list])
         when 'unseen'
           @activities = current_user.activities.where("activity_type != 'INVITATION'").unseen.order('created_at desc')
         else
-          @activities = current_user.activities.where("activity_type != 'INVITATION'").order('created_at desc')        
+          @activities = current_user.activities.where("activity_type != 'INVITATION'").order('created_at desc')
       end
     else
       case (params[:list])
@@ -22,29 +17,55 @@ class Api::ActivityfeedController < ApplicationController
           @activities = current_user.activities.unseen.order('created_at desc')
         else
           @activities = current_user.activities.order('created_at desc')
-      end      
+      end
     end
     @activities = @activities.id_lt(param_id_lt)
+
+    if params[:filter]
+      case (params[:filter].downcase)
+        when 'invites'
+          @activities = @activities.where(:activity_type => 'INVITATION')
+        when 'comments'
+          @activities = @activities.where(:activity_type => 'COMMENT')
+        when 'expired'
+          @activities = @activities.where(:activity_type => 'EXPIRED')
+      end
+    end
+
     if derived_version < 2
-      respond_with(@activities.offset(param_offset).limit(param_limit), 
+      respond_with(@activities.offset(param_offset).limit(param_limit),
         meta: pagination_meta(@activities),
         each_serializer: ActivitySerializer)
     elsif derived_version == 2
-      respond_with(@activities.offset(param_offset).limit(param_limit), 
+      respond_with(@activities.offset(param_offset).limit(param_limit),
         each_serializer: ActivitySerializer, root: false)
+    elsif derived_version == 3
+      respond_with(@activities.offset(param_offset).limit(param_limit),
+        each_serializer: ActivitySerializerV3, root: false)
     else
-      respond_with(@activities.offset(param_offset).limit(param_limit), 
-        each_serializer: ActivitySerializerV3, root: false)      
+      respond_with(@activities.offset(param_offset).limit(param_limit),
+        each_serializer: ActivitySerializerV4, root: false)
     end
 
-    if params[:list] != 'unseen'
-      current_user.activities.update_all(seen: true)
-    end
+    mark_as_seen()
   end
 
   def seen
     current_user.activities.where(id: params[:ids][0].split(',')).update_all(seen: true)
     head :no_content
-  end  
+  end
 
-end  
+private
+  def create_expired_activities
+    current_user.predictions.readyForResolution.notAlerted.each do |p|
+      p.update(activity_sent_at: DateTime.now)
+      current_user.activities.create!(user: current_user, prediction_id: p.id, title: "Showtime! Your prediction has expired, settle it.", prediction_body: p.body, activity_type: "EXPIRED");
+    end
+  end
+
+  def mark_as_seen
+    if params[:list] != 'unseen'
+      current_user.activities.update_all(seen: true)
+    end
+  end
+end
