@@ -62,7 +62,7 @@ namespace :migrate_data do
     #Expired Activities
     Activity.where(:activity_type => 'EXPIRED').where(:title => 'Your prediction has expired. Please settle the outcome').update_all(:title => 'Showtime! Your prediction has expired, settle it.')
     #Won activities
-    Activity.where(:activity_type => 'WON').where('image_url is null').find_each(:batch_size => 100) do |a|
+    Activity.where(:activity_type => 'WON').where('image_url is null').order('id desc').find_each(:batch_size => 500) do |a|
       challenge = Challenge.where(:prediction_id => a.prediction_id, :user_id => a.user_id).first
       if challenge
         a.title = challenge.notification_title
@@ -71,7 +71,7 @@ namespace :migrate_data do
       end
     end
     #Lost activities
-    Activity.where(:activity_type => 'LOST').where('image_url is null').find_each(:batch_size => 100) do |a|
+    Activity.where(:activity_type => 'LOST').where('image_url is null')..order('id desc').find_each(:batch_size => 500) do |a|
       challenge = Challenge.where(:prediction_id => a.prediction_id, :user_id => a.user_id).first
       if challenge
         a.title = challenge.notification_title
