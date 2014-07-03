@@ -1,6 +1,6 @@
 class ActivitySerializerV4 < ActiveModel::Serializer
 
-  attributes :id, :user_id, :activity_type, :target, :title, :body, :created_at, :seen, :image_url
+  attributes :id, :user_id, :activity_type, :target, :title, :body, :created_at, :seen, :image_url, :shareable
 
   self.root = false
 
