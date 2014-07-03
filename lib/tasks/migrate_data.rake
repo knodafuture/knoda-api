@@ -71,7 +71,7 @@ namespace :migrate_data do
       end
     end
     #Lost activities
-    Activity.where(:activity_type => 'LOST').where('image_url is null')..order('id desc').find_each(:batch_size => 500) do |a|
+    Activity.where(:activity_type => 'LOST').where('image_url is null').order('id desc').find_each(:batch_size => 500) do |a|
       challenge = Challenge.where(:prediction_id => a.prediction_id, :user_id => a.user_id).first
       if challenge
         a.title = challenge.notification_title
