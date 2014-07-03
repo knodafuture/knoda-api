@@ -81,7 +81,7 @@ namespace :migrate_data do
     end
   end
 
-  task activities-share: :environment do
+  task activitiesshare: :environment do
     Activity.find_by_sql("select * from activities where prediction_id in (select id from predictions where group_id is not null)").update_all(:shareable => false)
   end
 end
