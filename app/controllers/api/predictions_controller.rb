@@ -11,7 +11,11 @@ class Api::PredictionsController < ApplicationController
     if params[:challenged]
       @predictions = []
       predictionIds = []
-      challenges = current_user.challenges.ownedAndPicked
+      if derived_version < 5
+        challenges = current_user.challenges.ownedAndPicked
+      else
+        challenges = current_user.challenges.picks
+      end
       if param_id_lt
         challenges = challenges.where('challenges.id < ?', param_id_lt)
       end
@@ -33,7 +37,7 @@ class Api::PredictionsController < ApplicationController
       elsif params[:recent]
         @predictions = Prediction.includes(:challenges, :comments).recent.latest.visible_to_user(current_user_id)
       else
-        @predictions = current_user.predictions
+        @predictions = current_user.predictions.order('created_at desc')
       end
       @predictions = @predictions.id_lt(param_id_lt)
 
