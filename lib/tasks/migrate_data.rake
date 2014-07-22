@@ -85,5 +85,8 @@ namespace :migrate_data do
     Prediction.where("short_url ilike ?", "%knoda.co%").each do |p|
       p.update!(:short_url => p.short_url.gsub('knoda.co', 'ow.ly'))
     end
+    Group.where("share_url ilike ?", "%knoda.co%").each do |p|
+      p.update!(:share_url => p.share_url.gsub('knoda.co', 'ow.ly'))
+    end    
   end
 end
