@@ -80,4 +80,10 @@ namespace :migrate_data do
       end
     end
   end
+
+  task co_to_owly: :environment do
+    Prediction.where("short_url ilike ?", "%knoda.co%").each do |p|
+      p.update!(:short_url => p.short_url.gsub('knoda.co', 'ow.ly'))
+    end
+  end
 end
