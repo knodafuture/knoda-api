@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140623203844) do
+ActiveRecord::Schema.define(version: 20140724152728) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -29,6 +29,8 @@ ActiveRecord::Schema.define(version: 20140623203844) do
     t.text     "invitation_sender"
     t.text     "invitation_group_name"
     t.text     "comment_body"
+    t.string   "image_url"
+    t.boolean  "shareable",             default: true
   end
 
   add_index "activities", ["user_id"], name: "index_activities_on_user_id", using: :btree
@@ -90,6 +92,32 @@ ActiveRecord::Schema.define(version: 20140623203844) do
 
   add_index "comments", ["prediction_id"], name: "index_comments_on_prediction_id", using: :btree
   add_index "comments", ["user_id"], name: "index_comments_on_user_id", using: :btree
+
+  create_table "contest_stage", force: true do |t|
+    t.string  "name",       null: false
+    t.integer "contest_id"
+    t.integer "sort_order"
+  end
+
+  create_table "contest_stages", force: true do |t|
+    t.string  "name",       null: false
+    t.integer "contest_id"
+    t.integer "sort_order"
+  end
+
+  create_table "contests", force: true do |t|
+    t.string   "name",                default: "", null: false
+    t.string   "description"
+    t.string   "detail_url"
+    t.string   "rules_url"
+    t.integer  "owner_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "avatar_file_name"
+    t.string   "avatar_content_type"
+    t.integer  "avatar_file_size"
+    t.datetime "avatar_updated_at"
+  end
 
   create_table "groups", force: true do |t|
     t.string   "name",                default: "", null: false
@@ -161,8 +189,12 @@ ActiveRecord::Schema.define(version: 20140623203844) do
     t.string   "shareable_image_content_type"
     t.integer  "shareable_image_file_size"
     t.datetime "shareable_image_updated_at"
+    t.integer  "contest_id"
+    t.integer  "contest_stage_id"
   end
 
+  add_index "predictions", ["contest_id"], name: "index_predictions_on_contest_id", using: :btree
+  add_index "predictions", ["contest_stage_id"], name: "index_predictions_on_contest_stage_id", using: :btree
   add_index "predictions", ["group_id"], name: "index_predictions_on_group_id", using: :btree
   add_index "predictions", ["tags"], name: "index_predictions_on_tags", using: :gin
   add_index "predictions", ["user_id"], name: "index_predictions_on_user_id", using: :btree
@@ -232,6 +264,7 @@ ActiveRecord::Schema.define(version: 20140623203844) do
     t.integer  "streak",                 default: 0
     t.boolean  "verified_account",       default: false
     t.boolean  "guest_mode",             default: false
+    t.string   "roles",                  default: [],                 array: true
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
