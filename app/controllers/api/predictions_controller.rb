@@ -67,6 +67,7 @@ class Api::PredictionsController < ApplicationController
     authorize_action_for(@prediction)
     p = prediction_update_params
     p[:activity_sent_at] = nil
+    p[:push_notified_at] = nil
     @prediction.update(p)
     Activity.where(user_id: @prediction.user.id, prediction_id: @prediction.id, activity_type: 'EXPIRED').delete_all
     if derived_version >= 2
