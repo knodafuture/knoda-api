@@ -78,15 +78,14 @@ Knoda::Application.routes.draw do
     resources :facebook
     resources :notification_settings, :only => [:index, :update]
     resources :settings, :only => [:index, :update]
+    resources :contests do
+      member do
+        get 'predictions'
+        get 'leaderboard'
+      end
+    end
   end
 
-  #get 'users/password/edit' => redirect {|params,request|
-  #  puts params
-  #  puts request
-  #  puts "#{Rails.application.config.knoda_web_url}/users/password/edit?reset_password_token=#{params[:reset_password_token]}"
-  #  "#{Rails.application.config.knoda_web_url}/users/password/edit?reset_password_token=#{params[:reset_password_token]}"
-  #}
-  #match 'games/:permalink/:id/(:page)' => redirect {|params,request| "/gierki/#{params[:permalink]}" + params[:page].nil? ? "" : "/#{params[:page]}" }
   get 'users/password/edit' => 'mobile#pwreset'
   devise_for :users, skip: :registrations
   devise_scope :user do

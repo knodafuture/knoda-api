@@ -6,6 +6,7 @@ class PredictionSerializerV2 < ActiveModel::Serializer
   attributes :verified_account
   attributes :tags
   attributes :group_id, :group_name
+  attributes :contest_id, :contest_name
   attributes :shareable_image
   attributes :expired_text, :predicted_text
   self.root = false
@@ -44,5 +45,9 @@ class PredictionSerializerV2 < ActiveModel::Serializer
     else
       return nil
     end
+  end
+
+  def contest_id
+    return object.contest_id
   end
 end
