@@ -87,6 +87,21 @@ namespace :migrate_data do
     end
     Group.where("share_url ilike ?", "%knoda.co%").each do |p|
       p.update!(:share_url => p.share_url.gsub('knoda.co', 'ow.ly'))
-    end    
+    end
+  end
+
+  task migrate_owly: :environment do
+    Prediction.where("short_url ilike ?", "%ow.ly%").each do |p|
+      su = ShortUrl.create(:long_url => "#{Rails.application.config.knoda_web_url}/predictions/#{p.id}/share")
+      su.slug = p.short_url.split('/')[3]
+      su.save
+      p.update!(:short_url => p.short_url.gsub('ow.ly', 'knoda.co'))
+    end
+    Group.where("share_url ilike ?", "%ow.ly%").each do |g|
+      su = ShortUrl.create(:long_url => "#{Rails.application.config.knoda_web_url}/groups/join?id=#{g.share_id}")
+      su.slug = p.share_url.split('/')[3]
+      su.save
+      p.update!(:share_url => g.share_url.gsub('ow.ly', 'knoda.co'))
+    end
   end
 end
