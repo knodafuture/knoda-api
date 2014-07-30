@@ -99,9 +99,9 @@ namespace :migrate_data do
     end
     Group.where("share_url ilike ?", "%ow.ly%").each do |g|
       su = ShortUrl.create(:long_url => "#{Rails.application.config.knoda_web_url}/groups/join?id=#{g.share_id}")
-      su.slug = p.share_url.split('/')[3]
+      su.slug = g.share_url.split('/')[3]
       su.save
-      p.update!(:share_url => g.share_url.gsub('ow.ly', 'knoda.co'))
+      g.update!(:share_url => g.share_url.gsub('ow.ly', 'knoda.co'))
     end
   end
 end
