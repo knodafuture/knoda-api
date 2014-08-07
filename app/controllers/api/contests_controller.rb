@@ -8,7 +8,7 @@ class Api::ContestsController < ApplicationController
       if params[:list].downcase == 'entered'
         @contests = Contest.entered_by_user(current_user.id)
       elsif params[:list].downcase == 'explore'
-        @contests = Contest.not_entered_by_user(current_user.id)
+        @contests = Contest.not_entered_by_user(current_user.id).order('created_at desc')
       end
     else
       @contests = Contest.all
