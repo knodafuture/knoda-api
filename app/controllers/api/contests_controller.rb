@@ -16,6 +16,10 @@ class Api::ContestsController < ApplicationController
     respond_with(@contests, each_serializer: ContestSerializer, root: false)
   end
 
+  def show
+    respond_with(@contest, serializer: ContestSerializer)
+  end
+
   def leaderboard
     if params[:stage]
       @leaders = Contest.stage_leaderboard(ContestStage.find(params[:stage]))
