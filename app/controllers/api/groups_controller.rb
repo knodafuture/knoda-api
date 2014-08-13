@@ -11,14 +11,14 @@ class Api::GroupsController < ApplicationController
     end
     if (params[:limit])
       @groups = @groups.limit(param_limit)
-    end    
+    end
     respond_with(@groups, each_serializer: GroupSerializer, root:false)
   end
 
   def predictions
     @predictions = Prediction.recent.latest.for_group(@group.id)
     @predictions = @predictions.id_lt(param_id_lt)
-    respond_with(@predictions.offset(param_offset).limit(param_limit), each_serializer: PredictionFeedSerializerV2, root: false)      
+    respond_with(@predictions.offset(param_offset).limit(param_limit), each_serializer: PredictionFeedSerializerV2, root: false)
   end
 
 
@@ -27,10 +27,11 @@ class Api::GroupsController < ApplicationController
     if @group.avatar.blank?
       av = (1 + rand(5))
       p = Rails.root.join('app', 'assets', 'images', 'avatars', "groups_avatar_#{av}@2x.png")
-      @group.avatar_from_path p          
+      @group.avatar_from_path p
       @group.save
-    end    
+    end
     current_user.memberships.where(:group_id => @group.id).first.update(role: 'OWNER')
+    Group.rebuildLeaderboards(@group)
     respond_with(@group, :location => "#{api_groups_url}/#{@group.id}.json")
   end
 
@@ -52,11 +53,11 @@ class Api::GroupsController < ApplicationController
         format.json { render json: @group.errors, status: :unprocessable_entity }
       end
     end
-  end  
+  end
 
   def show
     respond_with(@group, :location => "#{api_groups_url}/#{@group.id}.json")
-  end   
+  end
 
   def leaderboard
     if params[:board] == 'monthly'
@@ -65,7 +66,7 @@ class Api::GroupsController < ApplicationController
       @leaders = Group.allTimeLeaderboard(@group)
     else
       @leaders = Group.weeklyLeaderboard(@group)
-    end    
+    end
     respond_with(@leaders, :location => "#{api_groups_url}/#{@group.id}/leaderboard.json", root: false)
   end
 
@@ -82,6 +83,6 @@ class Api::GroupsController < ApplicationController
 
     def group_params
       params.permit(:name, :description, :avatar)
-    end    
+    end
 
-end  
+end
