@@ -39,7 +39,10 @@ class ApplicationController < ActionController::Base
     unless current_user
       respond_to do |format|
         format.html {authenticate_user!}
-        format.any  {render nothing: true, status: 401}
+        format.any  {
+          response.headers["WWW-Authentication"] = "false"
+          render nothing: true, status: 401
+        }
       end
     end
   end
