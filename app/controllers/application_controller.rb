@@ -40,7 +40,7 @@ class ApplicationController < ActionController::Base
       respond_to do |format|
         format.html {authenticate_user!}
         format.any  {
-          response.headers["WWW-Authentication"] = "false"
+          response.headers["WWW-Authenticate"] = "Basic realm=\"fake\""
           render nothing: true, status: 401
         }
       end
