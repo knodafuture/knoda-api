@@ -70,7 +70,7 @@ class Api::UsersController < ApplicationController
     end
 
     def user_update_params
-      return params.permit(:username, :email, :password)
+      return params.permit(:username, :email, :password, :phone)
     end
 
     def user_create_params

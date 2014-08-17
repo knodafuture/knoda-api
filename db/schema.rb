@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140728204554) do
+ActiveRecord::Schema.define(version: 20140817233932) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -119,6 +119,13 @@ ActiveRecord::Schema.define(version: 20140728204554) do
     t.datetime "avatar_updated_at"
   end
 
+  create_table "followings", force: true do |t|
+    t.integer "user_id"
+    t.integer "leader_id"
+  end
+
+  add_index "followings", ["user_id", "leader_id"], name: "index_followers_on_user_id_and_leader_id", unique: true, using: :btree
+
   create_table "groups", force: true do |t|
     t.string   "name",                default: "", null: false
     t.string   "description"
@@ -210,6 +217,11 @@ ActiveRecord::Schema.define(version: 20140728204554) do
     t.datetime "updated_at"
   end
 
+  create_table "short_urls", force: true do |t|
+    t.string "slug"
+    t.string "long_url"
+  end
+
   create_table "social_accounts", force: true do |t|
     t.integer  "user_id"
     t.string   "provider_name"
@@ -265,6 +277,7 @@ ActiveRecord::Schema.define(version: 20140728204554) do
     t.boolean  "verified_account",       default: false
     t.boolean  "guest_mode",             default: false
     t.string   "roles",                  default: [],                 array: true
+    t.text     "phone"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

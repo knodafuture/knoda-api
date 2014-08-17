@@ -85,6 +85,7 @@ Knoda::Application.routes.draw do
       end
     end
     resources :contact_matches
+    resources :followings
   end
 
   get 'users/password/edit' => 'mobile#pwreset'

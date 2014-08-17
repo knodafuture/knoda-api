@@ -6,8 +6,10 @@ class Api::ContactMatchesController < ApplicationController
     contacts = params['_json']
     User.uncached do
       contacts.each do |i|
-        u = User.order('random()').first
-        i[:knoda_info] = {:user_id => u.id, :username => u.username}
+        u = User.where('email in (?) OR phone in (?)', i[:emails], i[:phones]).first
+        if u
+          i[:knoda_info] = {:user_id => u.id, :username => u.username}
+        end
       end
     end
     render :json => contacts, :root => false
