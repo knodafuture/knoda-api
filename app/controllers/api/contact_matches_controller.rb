@@ -5,6 +5,8 @@ class Api::ContactMatchesController < ApplicationController
   def create
     if params[:facebook]
       render :json => current_user.facebook_friends_on_knoda, :root => false
+    elsif params[:twitter]
+      render :json => current_user.twitter_friends_on_knoda, :root => false
     else
       contacts = params['_json']
       User.uncached do

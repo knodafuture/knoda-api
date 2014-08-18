@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140817233932) do
+ActiveRecord::Schema.define(version: 20140818185652) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -120,8 +120,8 @@ ActiveRecord::Schema.define(version: 20140817233932) do
   end
 
   create_table "followings", force: true do |t|
-    t.integer "user_id"
-    t.integer "leader_id"
+    t.integer "user_id",   null: false
+    t.integer "leader_id", null: false
   end
 
   add_index "followings", ["user_id", "leader_id"], name: "index_followers_on_user_id_and_leader_id", unique: true, using: :btree
@@ -232,6 +232,8 @@ ActiveRecord::Schema.define(version: 20140817233932) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "social_accounts", ["provider_name", "provider_id"], name: "index_social_accounts_on_provider_name_and_provider_id", using: :btree
 
   create_table "topics", force: true do |t|
     t.string   "name"
