@@ -45,6 +45,8 @@ Knoda::Application.routes.draw do
     resources :users,         :only => [:show, :update, :create] do
       member do
         get 'predictions'
+        get 'leaders'
+        get 'followers'
       end
       collection do
         get 'autocomplete'

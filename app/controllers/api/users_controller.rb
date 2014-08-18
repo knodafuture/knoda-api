@@ -26,6 +26,14 @@ class Api::UsersController < ApplicationController
     end
   end
 
+  def leaders
+    respond_with(current_user.leaders, each_serializer: UserSerializer, root: false)
+  end
+
+  def followers
+    respond_with(current_user.followers, each_serializer: UserSerializer, root: false)
+  end
+
   def autocomplete
     @users = User.search(params[:query], fields: [{:username => :text_start}], limit: 10)
     render json: @users
