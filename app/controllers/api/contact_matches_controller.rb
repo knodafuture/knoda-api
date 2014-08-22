@@ -13,7 +13,7 @@ class Api::ContactMatchesController < ApplicationController
         contacts.each do |i|
           u = User.where('email in (?) OR phone in (?)', i[:emails], i[:phones]).first
           if u
-            i[:knoda_info] = {:user_id => u.id, :username => u.username}
+            i[:knoda_info] = {:user_id => u.id, :username => u.username, :avatar_image => u.avatar_image}
           end
         end
       end
