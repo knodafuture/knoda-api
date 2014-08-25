@@ -2,6 +2,7 @@ class UserSerializer < ActiveModel::Serializer
   attributes :id, :username, :email, :created_at, :avatar_image, :verified_account
   attributes :points, :won, :lost, :winning_percentage
   attributes :streak, :social_accounts, :total_predictions, :guest_mode
+  attributes :follower_count, :following_count, :following
   self.root = false
 
   def streak
@@ -41,4 +42,9 @@ class UserSerializer < ActiveModel::Serializer
   def include_badges?
     object.id == current_user.id
   end
+
+  def following
+    current_user.led_by?(self)
+  end
+
 end
