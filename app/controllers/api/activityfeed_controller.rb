@@ -4,20 +4,18 @@ class Api::ActivityfeedController < ApplicationController
 
   def index
     create_expired_activities()
+    @activities = current_user.activities
     if derived_version < 3
-      case (params[:list])
-        when 'unseen'
-          @activities = current_user.activities.where("activity_type != 'INVITATION'").unseen.order('created_at desc')
-        else
-          @activities = current_user.activities.where("activity_type != 'INVITATION'").order('created_at desc')
-      end
-    else
-      case (params[:list])
-        when 'unseen'
-          @activities = current_user.activities.unseen.order('created_at desc')
-        else
-          @activities = current_user.activities.order('created_at desc')
-      end
+      @activities = @activities.where("activity_type != 'INVITATION'")
+    end
+    if derived_version < 6
+      @activities = @activities.where("activity_type != 'FOLLOWING'")
+    end
+    case (params[:list])
+      when 'unseen'
+        @activities = @activities.unseen.order('created_at desc')
+      else
+        @activities = @activities.order('created_at desc')
     end
     @activities = @activities.id_lt(param_id_lt)
 
