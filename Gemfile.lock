@@ -1,6 +1,6 @@
 GIT
   remote: https://knoda-build:Xtra5efeKn0dafuture@github.com/knodafuture/knoda_core.git
-  revision: f7db2841094f59ba4736c1f2b01f0cce7af61209
+  revision: 6ea2a79e080decee2b9eecf227e8435116388691
   branch: develop
   specs:
     knoda_core (0.0.1)
@@ -105,7 +105,7 @@ GEM
       httparty
       multi_json (>= 1.3.4)
     grocer (0.5.0)
-    hashie (3.3.0)
+    hashie (3.3.1)
     hike (1.2.3)
     http (0.6.2)
       http_parser.rb (~> 0.6.0)
