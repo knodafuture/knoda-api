@@ -1,6 +1,6 @@
 class Api::UsersController < ApplicationController
   skip_before_filter :verify_authenticity_token
-  before_action :set_user, :only => [:show, :predictions, :update]
+  before_action :set_user, :only => [:show, :predictions, :update, :leaders, :followers]
   skip_before_filter :authenticate_user_please!, :only => [:show, :predictions, :create]
 
   respond_to :json
@@ -27,11 +27,11 @@ class Api::UsersController < ApplicationController
   end
 
   def leaders
-    respond_with(current_user.leaders, each_serializer: UserSerializer, root: false)
+    respond_with(@user.leaders, each_serializer: UserSerializer, root: false)
   end
 
   def followers
-    respond_with(current_user.followers, each_serializer: UserSerializer, root: false)
+    respond_with(@user.followers, each_serializer: UserSerializer, root: false)
   end
 
   def autocomplete
