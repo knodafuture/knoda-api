@@ -3,9 +3,14 @@ class ContestSerializer < ActiveModel::Serializer
   self.root = false
 
   def my_info
-    me = Contest.leaderboard(object).select { |u| u[:user_id] == current_user.id}
-    if me.length > 0
-      return {:rank => me[0][:rank]}
+    l = Contest.leaderboard(object)
+    if l.size > 0 and l[0][:won] > 0
+      me = l.select { |u| u[:user_id] == current_user.id}
+      if me.length > 0
+        return {:rank => me[0][:rank]}
+      else
+        return nil;
+      end
     else
       return nil;
     end

@@ -1,6 +1,6 @@
 GIT
   remote: https://knoda-build:Xtra5efeKn0dafuture@github.com/knodafuture/knoda_core.git
-  revision: 6ea2a79e080decee2b9eecf227e8435116388691
+  revision: f8f45c514776f4d3e1f8a822cb86bd450eea838c
   branch: develop
   specs:
     knoda_core (0.0.1)
@@ -144,7 +144,7 @@ GEM
     method_source (0.8.2)
     mime-types (1.25.1)
     mini_portile (0.6.0)
-    minitest (5.4.0)
+    minitest (5.4.1)
     multi_json (1.10.1)
     multi_xml (0.5.5)
     multipart-post (2.0.0)
