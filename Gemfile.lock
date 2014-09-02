@@ -1,6 +1,6 @@
 GIT
   remote: https://knoda-build:Xtra5efeKn0dafuture@github.com/knodafuture/knoda_core.git
-  revision: f8f45c514776f4d3e1f8a822cb86bd450eea838c
+  revision: 7f18b2dae23d4cb3802d9f97c5e1d3e631960dcc
   branch: develop
   specs:
     knoda_core (0.0.1)
@@ -134,7 +134,7 @@ GEM
     mandrill-api (1.0.52)
       excon (>= 0.16.0, < 1.0)
       json (>= 1.7.7, < 2.0)
-    mandrill_mailer (0.4.6)
+    mandrill_mailer (0.4.7)
       actionpack
       activesupport
       mandrill-api (~> 1.0.9)
@@ -246,7 +246,7 @@ GEM
       multi_json (~> 1.0)
       rack (~> 1.0)
       tilt (~> 1.1, != 1.3.0)
-    sprockets-rails (2.1.3)
+    sprockets-rails (2.1.4)
       actionpack (>= 3.0)
       activesupport (>= 3.0)
       sprockets (~> 2.8)
@@ -257,7 +257,7 @@ GEM
     treetop (1.4.15)
       polyglot
       polyglot (>= 0.3.1)
-    twilio-ruby (3.12.1)
+    twilio-ruby (3.12.2)
       builder (>= 2.1.2)
       jwt (~> 1.0.0)
       multi_json (>= 1.3.0)
