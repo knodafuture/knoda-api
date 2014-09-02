@@ -17,8 +17,6 @@ class Api::ActivityfeedController < ApplicationController
       else
         @activities = @activities.order('created_at desc')
     end
-    @activities = @activities.id_lt(param_id_lt)
-
     if params[:filter]
       case (params[:filter].downcase)
         when 'invites'
@@ -29,6 +27,8 @@ class Api::ActivityfeedController < ApplicationController
           @activities = @activities.where(:activity_type => 'EXPIRED')
       end
     end
+
+    @activities = @activities.id_lt(param_id_lt)
 
     if derived_version < 2
       respond_with(@activities.offset(param_offset).limit(param_limit),
