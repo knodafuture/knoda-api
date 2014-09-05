@@ -11,6 +11,11 @@ class Api::ContactMatchesController < ApplicationController
       contacts = params['_json']
       if contacts
         contacts.each do |i|
+          if i[:phones]
+            i[:phones].each do |p|
+              PhoneSanitizer.sanitize(p)
+            end
+          end
           u = User.where('email in (?) OR phone in (?)', i[:emails], i[:phones]).first
           if u
             i[:knoda_info] = {:user_id => u.id, :username => u.username, :avatar_image => u.avatar_image, :following => current_user.led_by?(u)}

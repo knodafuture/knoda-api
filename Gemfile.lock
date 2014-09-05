@@ -1,6 +1,6 @@
 GIT
   remote: https://knoda-build:Xtra5efeKn0dafuture@github.com/knodafuture/knoda_core.git
-  revision: a1998c014f0356f5118a59588d92f7d3e5086292
+  revision: ff8f105b16d570248b6b25b249754c2dafeedd6a
   branch: develop
   specs:
     knoda_core (0.0.1)
@@ -63,8 +63,8 @@ GEM
     bcrypt-ruby (3.0.1)
     buftok (0.2.0)
     builder (3.2.2)
-    celluloid (0.15.2)
-      timers (~> 1.1.0)
+    celluloid (0.16.0)
+      timers (~> 4.0.0)
     climate_control (0.0.3)
       activesupport (>= 3.0)
     cocaine (0.5.4)
@@ -107,6 +107,7 @@ GEM
     grocer (0.5.0)
     hashie (3.3.1)
     hike (1.2.3)
+    hitimes (1.2.2)
     http (0.6.2)
       http_parser.rb (~> 0.6.0)
     http_parser.rb (0.6.0)
@@ -253,7 +254,8 @@ GEM
     thor (0.19.1)
     thread_safe (0.3.4)
     tilt (1.4.1)
-    timers (1.1.0)
+    timers (4.0.0)
+      hitimes
     treetop (1.4.15)
       polyglot
       polyglot (>= 0.3.1)
