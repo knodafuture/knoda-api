@@ -27,11 +27,11 @@ class Api::UsersController < ApplicationController
   end
 
   def leaders
-    respond_with(@user.leaders, each_serializer: UserSerializer, root: false)
+    respond_with(@user.leaders.order(:username), each_serializer: UserSerializer, root: false)
   end
 
   def followers
-    respond_with(@user.followers, each_serializer: UserSerializer, root: false)
+    respond_with(@user.followers.order(:username), each_serializer: UserSerializer, root: false)
   end
 
   def autocomplete
