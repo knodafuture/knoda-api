@@ -1,5 +1,5 @@
 class UserSerializer < ActiveModel::Serializer
-  attributes :id, :username, :email, :created_at, :avatar_image, :verified_account
+  attributes :id, :username, :email, :phone, :created_at, :avatar_image, :verified_account
   attributes :points, :won, :lost, :winning_percentage
   attributes :streak, :social_accounts, :total_predictions, :guest_mode
   attributes :follower_count, :following_count, :following_id
@@ -49,6 +49,10 @@ class UserSerializer < ActiveModel::Serializer
     else
       return nil
     end
+  end
+
+  def include_phone?
+    object.id == current_user.id
   end
 
 end
