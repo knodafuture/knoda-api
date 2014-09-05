@@ -9,11 +9,15 @@ class Api::ContactMatchesController < ApplicationController
       render :json => current_user.twitter_friends_on_knoda, :root => false
     else
       contacts = params['_json']
-      contacts.each do |i|
-        u = User.where('email in (?) OR phone in (?)', i[:emails], i[:phones]).first
-        if u
-          i[:knoda_info] = {:user_id => u.id, :username => u.username, :avatar_image => u.avatar_image, :following => current_user.led_by?(u)}
+      if contacts
+        contacts.each do |i|
+          u = User.where('email in (?) OR phone in (?)', i[:emails], i[:phones]).first
+          if u
+            i[:knoda_info] = {:user_id => u.id, :username => u.username, :avatar_image => u.avatar_image, :following => current_user.led_by?(u)}
+          end
         end
+      else
+        contacts = []
       end
       render :json => contacts, :root => false
     end
