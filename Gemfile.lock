@@ -1,7 +1,7 @@
 GIT
   remote: https://knoda-build:Xtra5efeKn0dafuture@github.com/knodafuture/knoda_core.git
-  revision: f7d2bc303db8c799ce22757b60f392670c52cba2
-  branch: develop
+  revision: 8f64596634c2b5fc040d0d66c345713144de9896
+  branch: master
   specs:
     knoda_core (0.0.1)
       authority (= 2.10.0)
@@ -242,7 +242,7 @@ GEM
       simplecov-html (~> 0.7.1)
     simplecov-html (0.7.1)
     slop (3.6.0)
-    sprockets (2.12.1)
+    sprockets (2.12.2)
       hike (~> 1.2)
       multi_json (~> 1.0)
       rack (~> 1.0)
