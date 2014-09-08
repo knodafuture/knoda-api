@@ -104,4 +104,10 @@ namespace :migrate_data do
       g.update!(:share_url => g.share_url.gsub('ow.ly', 'knoda.co'))
     end
   end
+
+  task add_push_followers: :environment do
+    User.all.each do |u|
+      u.notification_settings.create!(:user => u, :setting => 'PUSH_FOLLOWINGS',  :display_name => 'Followers', :description => 'Notify me when another Knoda user starts following me.',:active => true)
+    end
+  end
 end

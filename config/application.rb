@@ -13,11 +13,12 @@ Bundler.require(:default, Rails.env)
 
 module Knoda
   class Application < Rails::Application
+    config.middleware.delete ActionDispatch::Session::CookieStore
   	config.middleware.use Rack::Deflater
     config.log_level = :warning
     config.knoda_web_url = ENV['KNODA_WEB_URL'] || 'http://www.knoda.com'
     ENV['ELASTICSEARCH_URL'] = ENV['SEARCHBOX_URL'] || 'http://localhost:9200'
-	  config.versioncake.supported_version_numbers = [1,2,3,4,5]
+	  config.versioncake.supported_version_numbers = [1,2,3,4,5,6]
 	  config.versioncake.extraction_strategy = [:query_parameter, :http_accept_parameter]
 	  config.versioncake.default_version = 1
 	  config.minimum_version = 1

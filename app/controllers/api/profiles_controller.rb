@@ -23,11 +23,11 @@ class Api::ProfilesController < ApplicationController
 
   private
     def user_params
-      params.require(:user).permit(:avatar, :notifications, :username, :email)
+      params.require(:user).permit(:avatar, :notifications, :username, :email, :phone)
     end
 
     def user_params_v2
-      params.permit(:avatar, :notifications, :username, :email)
+      params.permit(:avatar, :notifications, :username, :email, :phone)
     end
 
 end

@@ -1,6 +1,6 @@
 class Api::UsersController < ApplicationController
   skip_before_filter :verify_authenticity_token
-  before_action :set_user, :only => [:show, :predictions, :update]
+  before_action :set_user, :only => [:show, :predictions, :update, :leaders, :followers]
   skip_before_filter :authenticate_user_please!, :only => [:show, :predictions, :create]
 
   respond_to :json
@@ -24,6 +24,14 @@ class Api::UsersController < ApplicationController
         meta: pagination_meta(@predictions),
         each_serializer: serializer)
     end
+  end
+
+  def leaders
+    respond_with(@user.leaders.order(:username), each_serializer: UserSerializer, root: false)
+  end
+
+  def followers
+    respond_with(@user.followers.order(:username), each_serializer: UserSerializer, root: false)
   end
 
   def autocomplete
@@ -70,7 +78,7 @@ class Api::UsersController < ApplicationController
     end
 
     def user_update_params
-      return params.permit(:username, :email, :password)
+      return params.permit(:username, :email, :password, :phone)
     end
 
     def user_create_params

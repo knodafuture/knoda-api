@@ -45,6 +45,8 @@ Knoda::Application.routes.draw do
     resources :users,         :only => [:show, :update, :create] do
       member do
         get 'predictions'
+        get 'leaders'
+        get 'followers'
       end
       collection do
         get 'autocomplete'
@@ -84,6 +86,8 @@ Knoda::Application.routes.draw do
         get 'leaderboard'
       end
     end
+    resources :contact_matches
+    resources :followings
   end
 
   get 'users/password/edit' => 'mobile#pwreset'
