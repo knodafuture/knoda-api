@@ -37,7 +37,11 @@ class Api::PredictionsController < ApplicationController
       elsif params[:recent]
         @predictions = Prediction.includes(:challenges, :comments).recent.latest.visible_to_user(current_user_id)
       elsif params[:social]
-        @predictions = Prediction.includes(:challenges, :comments).recent.latest.visible_to_user(current_user_id).by_leaders(current_user_id)
+        if current_user
+          @predictions = Prediction.includes(:challenges, :comments).recent.latest.visible_to_user(current_user_id).by_leaders(current_user_id)
+        else
+          @predictions = Prediction.where("1 = 2")
+        end
       else
         @predictions = current_user.predictions.order('created_at desc')
       end
