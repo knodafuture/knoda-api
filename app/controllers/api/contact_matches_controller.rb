@@ -17,8 +17,10 @@ class Api::ContactMatchesController < ApplicationController
             end
           end
           u = User.where('email in (?) OR phone in (?)', i[:emails], i[:phones]).first
-          if u and u.id != current_user.id
-            i[:knoda_info] = {:user_id => u.id, :username => u.username, :avatar_image => u.avatar_image, :following => current_user.led_by?(u)}
+          if not current_user.led_by?(u)
+            if u and u.id != current_user.id
+              i[:knoda_info] = {:user_id => u.id, :username => u.username, :avatar_image => u.avatar_image, :following => current_user.led_by?(u)}
+            end
           end
         end
       else
