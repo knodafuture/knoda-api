@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140826170229) do
+ActiveRecord::Schema.define(version: 20140912151758) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -125,7 +125,9 @@ ActiveRecord::Schema.define(version: 20140826170229) do
     t.integer "leader_id", null: false
   end
 
+  add_index "followings", ["leader_id"], name: "index_followings_on_leader_id", using: :btree
   add_index "followings", ["user_id", "leader_id"], name: "index_followers_on_user_id_and_leader_id", unique: true, using: :btree
+  add_index "followings", ["user_id"], name: "index_followings_on_user_id", using: :btree
 
   create_table "groups", force: true do |t|
     t.string   "name",                default: "", null: false
@@ -228,8 +230,8 @@ ActiveRecord::Schema.define(version: 20140826170229) do
     t.string   "provider_name"
     t.string   "provider_id"
     t.string   "provider_account_name"
-    t.string   "access_token"
-    t.string   "access_token_secret"
+    t.text     "access_token"
+    t.text     "access_token_secret"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -280,7 +282,7 @@ ActiveRecord::Schema.define(version: 20140826170229) do
     t.boolean  "verified_account",       default: false
     t.boolean  "guest_mode",             default: false
     t.string   "roles",                  default: [],                 array: true
-    t.text     "phone"
+    t.string   "phone"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
