@@ -47,6 +47,7 @@ Knoda::Application.routes.draw do
         get 'predictions'
         get 'leaders'
         get 'followers'
+        get 'rivals'
       end
       collection do
         get 'autocomplete'

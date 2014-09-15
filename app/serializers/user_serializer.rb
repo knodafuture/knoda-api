@@ -3,6 +3,7 @@ class UserSerializer < ActiveModel::Serializer
   attributes :points, :won, :lost, :winning_percentage
   attributes :streak, :social_accounts, :total_predictions, :guest_mode
   attributes :follower_count, :following_count, :following_id
+  attributes :rivalry
   self.root = false
 
   def streak
@@ -43,6 +44,14 @@ class UserSerializer < ActiveModel::Serializer
     object.id == current_user.id
   end
 
+  def include_rivalry?
+    object.id != current_user.id
+  end
+
+  def include_social_accounts?
+    object.id == current_user.id
+  end
+
   def following_id
     if current_user.led_by?(object)
       return object.following(current_user).id
@@ -55,4 +64,13 @@ class UserSerializer < ActiveModel::Serializer
     object.id == current_user.id
   end
 
+  def rivalry
+    if object.rivalry
+      puts "RIVALRY: REUSE"
+      return object.rivalry
+    else
+      puts "RIVALRY: CREATE"
+      return object.vs(current_user)
+    end
+  end
 end

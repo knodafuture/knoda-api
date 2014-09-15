@@ -1,6 +1,6 @@
 class Api::UsersController < ApplicationController
   skip_before_filter :verify_authenticity_token
-  before_action :set_user, :only => [:show, :predictions, :update, :leaders, :followers]
+  before_action :set_user, :only => [:show, :predictions, :update, :leaders, :followers, :rivals]
   skip_before_filter :authenticate_user_please!, :only => [:show, :predictions, :create]
 
   respond_to :json
@@ -70,6 +70,10 @@ class Api::UsersController < ApplicationController
     end
     @user.save!
     return render :json => {:success => true, :auth_token => @user.authentication_token}, :status => 201
+  end
+
+  def rivals
+    respond_with(@user.rivals, each_serializer: UserSerializer, root: false)
   end
 
   private

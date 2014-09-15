@@ -110,4 +110,10 @@ namespace :migrate_data do
       u.notification_settings.create!(:user => u, :setting => 'PUSH_FOLLOWINGS',  :display_name => 'Followers', :description => 'Notify me when another Knoda user starts following me.',:active => true)
     end
   end
+
+  task init_rivals: :environment do
+    User.all.each do |u|
+      FindRivals.perform_async(self.user_id)
+    end
+  end
 end
