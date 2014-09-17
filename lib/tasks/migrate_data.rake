@@ -113,7 +113,7 @@ namespace :migrate_data do
 
   task init_rivals: :environment do
     User.all.each do |u|
-      FindRivals.perform_async(self.user_id)
+      FindRivals.perform_async(u.id)
     end
   end
 end
