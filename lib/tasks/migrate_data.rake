@@ -112,6 +112,9 @@ namespace :migrate_data do
   end
 
   task init_rivals: :environment do
+    Sidekiq.configure_client do |config|
+      config.redis = { size: 1, :namespace => 'sidekiq-knoda' }
+    end
     User.all.each do |u|
       FindRivals.perform_async(u.id)
     end
