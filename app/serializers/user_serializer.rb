@@ -21,7 +21,7 @@ class UserSerializer < ActiveModel::Serializer
   end
 
   def total_predictions
-    object.predictions.count
+    0
   end
 
   def alerts

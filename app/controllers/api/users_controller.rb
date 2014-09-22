@@ -73,7 +73,7 @@ class Api::UsersController < ApplicationController
   end
 
   def rivals
-    respond_with(@user.rivals, each_serializer: UserSerializer, root: false)
+    respond_with(@user.rivals, each_serializer: UserH2hSerializer, root: false)
   end
 
   private
