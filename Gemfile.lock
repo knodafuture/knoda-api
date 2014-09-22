@@ -1,7 +1,7 @@
 GIT
   remote: https://knoda-build:Xtra5efeKn0dafuture@github.com/knodafuture/knoda_core.git
   revision: 37d798fbfa31303b3a08f82595f1a72ae0dee991
-  branch: develop
+  branch: master
   specs:
     knoda_core (0.0.1)
       authority (= 2.10.0)
@@ -88,7 +88,7 @@ GEM
       multi_json
     equalizer (0.0.9)
     erubis (2.7.0)
-    excon (0.39.5)
+    excon (0.39.6)
     factory_girl (4.2.0)
       activesupport (>= 3.0.0)
     factory_girl_rails (4.2.1)
