@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '4.1.0'
+gem 'rails', '~> 4.1.0'
 gem 'pg', '0.17.1'
 
 gem 'jbuilder', '~> 1.2'
@@ -31,14 +31,16 @@ gem 'knoda_core', :git => "https://knoda-build:Xtra5efeKn0dafuture@github.com/kn
 #gem'knoda_core', :path => "../knoda_core"
 
 group :development, :test do
-  gem 'rspec-rails', '~> 2.12'
+  gem 'rspec-rails', '~> 2.14.1'
   gem 'factory_girl_rails', '4.2.1'
   gem 'faker', '1.1.2'
   gem 'pry-rails', '0.3.1'
 end
 
 group :test do
+  gem 'database_cleaner', '~> 1.3.0'
   gem 'simplecov', '0.7.1'
+  gem 'sqlite3'
 end
 
 group :production do
