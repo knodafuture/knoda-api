@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140912151758) do
+ActiveRecord::Schema.define(version: 20140924163744) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -248,6 +248,13 @@ ActiveRecord::Schema.define(version: 20140912151758) do
 
   add_index "topics", ["name"], name: "index_topics_on_name", unique: true, using: :btree
 
+  create_table "user_agreements", force: true do |t|
+    t.integer  "user_id"
+    t.string   "agreement_type"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "user_events", force: true do |t|
     t.integer  "user_id"
     t.string   "name",       null: false
@@ -283,6 +290,7 @@ ActiveRecord::Schema.define(version: 20140912151758) do
     t.boolean  "guest_mode",             default: false
     t.string   "roles",                  default: [],                 array: true
     t.string   "phone"
+    t.integer  "last_api_version"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
