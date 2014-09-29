@@ -4,13 +4,13 @@ POST /api/registration.json
 Parameters:
 	user[username]
 	Username 1..15 characters A-Z0-9_
-	
+
 	user[email]
 	User email address
-	
+
 	user[password]
 	Password
-	
+
 Success
 200 OK
 {"success":true,"authUNPROCESSABLE_token":"mEbnS48nG45PvVp9p57z"}
@@ -41,10 +41,10 @@ POST /api/session.json
 Parameters:
 	user[login]
 	User login (username or email address)
-	
+
 	user[password]
 	User password
-	
+
 Success
 200 OK
 {"success":true,"auth_token":"mEbnS48nG45PvVp9p57z"}
@@ -73,7 +73,7 @@ POST /api/password.json
 Parameters:
 	login
 	User email or username
-	
+
 Success
 204 NO CONTENT
 
@@ -86,10 +86,10 @@ PUT /api/password.json
 Parameters:
 	current_password
 	Current user password
-	
+
 	new_password
 	New user password
-	
+
 Success
 204 NO CONTENT
 
@@ -135,7 +135,7 @@ Assign apple device token with signed in user
 Parameters:
 	apple_device_token[token]
 	Device token
-	
+
 Success
 200 OK
 {"id":"id", "created_at":"created_at", "token":"token"}
@@ -147,32 +147,6 @@ Failed
 
 Possible errors:
 "token":["is_blank"]
-
-== Badges
-
-GET /api/badges.json
-Returns list of user badges
-
-Success
-200 OK
-{"badges":[{"id":7,"name":"gold_founding","created_at":"2013-07-30T09:56:36.788Z"},{"id":8,"name":"1_challenge","created_at":"2013-07-30T10:44:23.491Z"}]}
-
-Types of badges
-gold_founding
-silver_founding
-1_prediction
-10_predictions
-1_challenge
-10_correct_predictions
-10_incorrect_predictions
-
-GET /api/badges/recent.json
-Returns list of user recent badges (since last request)
-
-Success
-200 OK
-{"badges":[{"id":7,"name":"gold_founding","created_at":"2013-07-30T09:56:36.788Z"},{"id":8,"name":"1_challenge","created_at":"2013-07-30T10:44:23.491Z"}]}
-
 
 == Profile
 
@@ -187,18 +161,18 @@ PATCH /api/profile.json
 Update profile information
 
 Parameters:
-	user[notifications] 
+	user[notifications]
 	Enable or disable push notifications
-	
+
 	user[username]
 	New username
-	
+
 	user[email]
 	New email
-	
+
 	user[avatar]
 	New image for avatar
-	
+
 Success
 204 NO CONTENT
 
@@ -223,7 +197,7 @@ Where list_name:
 	own - get all user predictions
 	picks - get all user picks
 	won_picks - get all user won challenges
-	lost_picks - get all user lost challenges 
+	lost_picks - get all user lost challenges
 	expired - get expired predictions
 	completed - get completed challenges
 	notifications - get alerts (picks + expired)
@@ -239,7 +213,7 @@ POST /api/challenges/set_seen.json
 Mark challenges viewed (use with _unviewed option for challenges.json)
 
 Parameters:
-ids[]=id1&ids[]=id2 
+ids[]=id1&ids[]=id2
 Array of challenges IDs
 
 == Predictions
@@ -276,15 +250,15 @@ POST /api/predictions.json
 Creates a new prediction
 
 Parameters:
-	prediction[body] 
+	prediction[body]
 	Prediction text
-	
+
 	prediction[expires_at]
 	Prediction expiration date
-	
+
 	prediction[tag_list][]
 	list of tags (actually one tag)
-	
+
 Success
 204 NO CONTENT
 

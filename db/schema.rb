@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140924163744) do
+ActiveRecord::Schema.define(version: 20140929162657) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -54,16 +54,6 @@ ActiveRecord::Schema.define(version: 20140924163744) do
   end
 
   add_index "apple_device_tokens", ["user_id", "token"], name: "index_apple_device_tokens_on_user_id_and_token", unique: true, using: :btree
-
-  create_table "badges", force: true do |t|
-    t.integer  "user_id"
-    t.string   "name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.boolean  "seen",       default: false
-  end
-
-  add_index "badges", ["user_id"], name: "index_badges_on_user_id", using: :btree
 
   create_table "challenges", force: true do |t|
     t.integer  "user_id"

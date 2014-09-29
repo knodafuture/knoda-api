@@ -24,26 +24,6 @@ class UserSerializer < ActiveModel::Serializer
     0
   end
 
-  def alerts
-    object.alerts_count
-  end
-
-  def badges
-    object.badges.unseen.count
-  end
-
-  def include_notifications?
-    object.id == current_user.id
-  end
-
-  def include_alerts?
-    object.id == current_user.id
-  end
-
-  def include_badges?
-    object.id == current_user.id
-  end
-
   def include_rivalry?
     object.id != current_user.id
   end
@@ -66,10 +46,8 @@ class UserSerializer < ActiveModel::Serializer
 
   def rivalry
     if object.rivalry
-      puts "RIVALRY: REUSE"
       return object.rivalry
     else
-      puts "RIVALRY: CREATE"
       return object.vs(current_user)
     end
   end

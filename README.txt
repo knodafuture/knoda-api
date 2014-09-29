@@ -1,13 +1,5 @@
 # Some useful notes
 
-Badges:
-	predictions#create
-	predictions#agree
-	predictions#disagree
-	predictions#realize
-	predictions#unrealize
-	registrations#create
-
 
 ===============================================================================
 
@@ -59,4 +51,3 @@ attachment's path and are using Paperclip's default, you'll have to add
     has_attached_file :avatar,
       :path => ":rails_root/public/system/:attachment/:id/:style/:filename",
       :url => "/system/:attachment/:id/:style/:filename"
-
