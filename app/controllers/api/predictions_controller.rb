@@ -43,7 +43,11 @@ class Api::PredictionsController < ApplicationController
           @predictions = Prediction.where("1 = 2")
         end
       else
-        @predictions = current_user.predictions.order('created_at desc')
+        if current_user
+          @predictions = current_user.predictions.order('created_at desc')
+        else
+          @predictions = Prediction.where("1 = 2")
+        end
       end
       @predictions = @predictions.id_lt(param_id_lt)
 
