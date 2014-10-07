@@ -89,6 +89,11 @@ Knoda::Application.routes.draw do
     end
     resources :contact_matches
     resources :followings
+    resources :hashtags do
+      collection do
+        get 'autocomplete'
+      end
+    end
   end
 
   get 'users/password/edit' => 'mobile#pwreset'
