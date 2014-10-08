@@ -138,4 +138,10 @@ namespace :migrate_data do
       end
     end
   end
+
+  task add_push_mentions: :environment do
+    User.all.each do |u|
+      u.notification_settings.create!(:user => u, :setting => 'PUSH_MENTIONS',  :display_name => 'Mentions', :description => 'Notify me when another Knoda user mentions me in a prediction.',:active => true)
+    end
+  end
 end
