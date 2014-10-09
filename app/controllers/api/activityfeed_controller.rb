@@ -28,6 +28,8 @@ class Api::ActivityfeedController < ApplicationController
           @activities = @activities.where(:activity_type => 'COMMENT')
         when 'expired'
           @activities = @activities.where(:activity_type => 'EXPIRED')
+        when 'social'
+          @activities = @activities.where(:activity_type => ['PREDICTION_MENTION', 'COMMENT_MENTION', 'FOLLOWING'])
       end
     end
 
