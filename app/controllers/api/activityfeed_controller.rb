@@ -12,7 +12,7 @@ class Api::ActivityfeedController < ApplicationController
       @activities = @activities.where("activity_type != 'FOLLOWING'")
     end
     if derived_version < 7
-      @activities = @activities.where("activity_type != 'MENTION'")
+      @activities = @activities.where("activity_type != 'COMMENT_MENTION' AND activity_type != 'PREDICTION_MENTION'")
     end
     case (params[:list])
       when 'unseen'
