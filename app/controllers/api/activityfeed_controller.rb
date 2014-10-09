@@ -11,6 +11,9 @@ class Api::ActivityfeedController < ApplicationController
     if derived_version < 6
       @activities = @activities.where("activity_type != 'FOLLOWING'")
     end
+    if derived_version < 7
+      @activities = @activities.where("activity_type != 'MENTION'")
+    end
     case (params[:list])
       when 'unseen'
         @activities = @activities.unseen.order('created_at desc')
