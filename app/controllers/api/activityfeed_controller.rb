@@ -11,6 +11,9 @@ class Api::ActivityfeedController < ApplicationController
     if derived_version < 6
       @activities = @activities.where("activity_type != 'FOLLOWING'")
     end
+    if derived_version < 7
+      @activities = @activities.where("activity_type != 'COMMENT_MENTION' AND activity_type != 'PREDICTION_MENTION'")
+    end
     case (params[:list])
       when 'unseen'
         @activities = @activities.unseen.order('created_at desc')
@@ -25,6 +28,8 @@ class Api::ActivityfeedController < ApplicationController
           @activities = @activities.where(:activity_type => 'COMMENT')
         when 'expired'
           @activities = @activities.where(:activity_type => 'EXPIRED')
+        when 'social'
+          @activities = @activities.where(:activity_type => ['PREDICTION_MENTION', 'COMMENT_MENTION', 'FOLLOWING'])
       end
     end
 

@@ -78,7 +78,18 @@ class Api::UsersController < ApplicationController
 
   private
     def set_user
-      @user = User.find(params[:id])
+      if numeric?(params[:id])
+        @user = User.find(params[:id])
+        if not @user
+          @user = User.where(["lower(username) = :username", {:username => params[:id].downcase }]).first
+        end
+      else
+        if params[:id] == 'me'
+          @user = current_user
+        else
+          @user = User.where(["lower(username) = :username", {:username => params[:id].downcase }]).first
+        end
+      end
     end
 
     def user_update_params
@@ -87,5 +98,9 @@ class Api::UsersController < ApplicationController
 
     def user_create_params
       {}
+    end
+
+    def numeric?(object)
+      true if Float(object) rescue false
     end
 end

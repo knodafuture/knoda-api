@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140929162657) do
+ActiveRecord::Schema.define(version: 20141007130117) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -110,6 +110,15 @@ ActiveRecord::Schema.define(version: 20140929162657) do
     t.datetime "avatar_updated_at"
   end
 
+  create_table "embed_locations", force: true do |t|
+    t.integer  "prediction_id"
+    t.integer  "contest_id"
+    t.text     "url"
+    t.integer  "view_count",    default: 0
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "followings", force: true do |t|
     t.integer "user_id",   null: false
     t.integer "leader_id", null: false
@@ -134,6 +143,13 @@ ActiveRecord::Schema.define(version: 20140929162657) do
   end
 
   add_index "groups", ["share_id"], name: "index_groups_on_share_id", using: :btree
+
+  create_table "hashtags", force: true do |t|
+    t.text     "tag"
+    t.integer  "used",       default: 0
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "invitations", force: true do |t|
     t.integer  "user_id",           null: false

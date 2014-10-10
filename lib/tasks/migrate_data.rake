@@ -119,4 +119,29 @@ namespace :migrate_data do
       FindRivals.perform_async(u.id)
     end
   end
+
+  task init_hashtags: :environment do
+    Prediction.select(:body).all.each do |p|
+      tags = p.body.scan(/#(\w+)/).flatten
+      tags.each do |t|
+        ht = Hashtag.where(:tag => t).first_or_initialize
+        ht.used = ht.used + 1
+        ht.save
+      end
+    end
+    Comment.select(:text).all.each do |c|
+      tags = c.text.scan(/#(\w+)/).flatten
+      tags.each do |t|
+        ht = Hashtag.where(:tag => t).first_or_initialize
+        ht.used = ht.used + 1
+        ht.save
+      end
+    end
+  end
+
+  task add_push_mentions: :environment do
+    User.all.each do |u|
+      u.notification_settings.create!(:user => u, :setting => 'PUSH_MENTIONS',  :display_name => 'Mentions', :description => 'Notify me when another Knoda user mentions me in a prediction.',:active => true)
+    end
+  end
 end
