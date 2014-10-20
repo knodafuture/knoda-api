@@ -9,6 +9,7 @@ class PredictionSerializerV2 < ActiveModel::Serializer
   attributes :contest_id, :contest_name
   attributes :shareable_image
   attributes :expired_text, :predicted_text
+  attributes :embed_locations
   self.root = false
 
   def settled
@@ -49,5 +50,11 @@ class PredictionSerializerV2 < ActiveModel::Serializer
 
   def contest_id
     return object.contest_id
+  end
+
+  def embed_locations
+    locations = object.embed_locations.collect { |el| {:url => el.url, :domain => el.domain } }
+    blacklist = ['translate.googleusercontent.com', nil]
+    locations.reject { |el| blacklist.include? el[:domain]}
   end
 end
